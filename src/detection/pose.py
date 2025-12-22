@@ -78,6 +78,25 @@ class PoseDetector:
             self._log_counter = 0
         self._log_counter += 1
 
+        # Motion filter - track position and reject static objects (like treadmill)
+        if not hasattr(self, '_position_history'):
+            self._position_history = []
+
+        self._position_history.append((nose.x, nose.y))
+        if len(self._position_history) > 30:  # ~2 sec window
+            self._position_history.pop(0)
+
+        if len(self._position_history) >= 30:
+            y_vals = [p[1] for p in self._position_history]
+            y_range = max(y_vals) - min(y_vals)
+
+            # Reject if no significant vertical movement (static object)
+            if y_range < 0.01:  # Less than 1% movement = static
+                self.last_rejection_reason = f"Static (y_range={y_range:.3f})"
+                if self._log_counter % 30 == 0:
+                    print(f"[POSE] Rejected static: y_range={y_range:.3f}", flush=True)
+                return None
+
         if self._log_counter % 30 == 0:
             print(f"[POSE] Detected: nose=({nose.x:.2f}, {nose.y:.2f}), vis={nose.visibility:.2f}", flush=True)
 

@@ -29,10 +29,10 @@ class JumpDetector:
 
     def __init__(
         self,
-        min_amplitude: float = 0.02,  # Minimum 2% of frame height - filters static object jitter
+        min_amplitude: float = 0.0025,  # Minimum 0.25% of frame height
         max_x_drift: float = 0.15,  # Max horizontal movement (15% of frame width)
         max_jump_interval: float = 2.0,  # Max seconds between jumps before reset
-        min_jump_gap: float = 0.05,  # Minimum seconds between jumps (max 20/sec)
+        min_jump_gap: float = 0.25,  # Minimum 0.25s between jumps (max 4/sec, real is ~2.4/sec)
     ):
         self.min_amplitude = min_amplitude
         self.max_x_drift = max_x_drift
@@ -67,7 +67,7 @@ class JumpDetector:
 
         # Warmup tracking - require consistent pose detection before counting
         self.consecutive_detections = 0
-        self.warmup_frames = 60  # ~2 seconds of consistent detection needed
+        self.warmup_frames = 30  # ~2 seconds at 15fps
         self.is_warmed_up = False
         self.last_detection_time: Optional[float] = None
         self.max_detection_gap = 0.5  # Reset warmup if no detection for 0.5s
@@ -200,19 +200,20 @@ class JumpDetector:
         # Check amplitude in valid range (rejects both noise and wild fluctuations)
         amplitude = self.local_min_y - self.local_max_y
         if amplitude < self.min_amplitude:
-            logger.debug(f"Rejected: amp={amplitude:.4f} < {self.min_amplitude}")
+            print(f"[JUMP] Rejected: amp={amplitude:.4f} < {self.min_amplitude}", flush=True)
             return False
         if amplitude > self.max_amplitude:
-            logger.debug(f"Rejected: amp={amplitude:.4f} > {self.max_amplitude}")
+            print(f"[JUMP] Rejected: amp={amplitude:.4f} > {self.max_amplitude}", flush=True)
             return False
 
         # Check minimum time gap since last jump (prevents noise/jitter)
         if self.last_jump_time is not None:
             time_since_last = now - self.last_jump_time
             if time_since_last < self.min_jump_gap:
-                logger.debug(f"Rejected: gap={time_since_last:.3f}s < {self.min_jump_gap}")
+                print(f"[JUMP] Rejected: gap={time_since_last:.3f}s < {self.min_jump_gap}", flush=True)
                 return False
 
+        print(f"[JUMP] Valid! amp={amplitude:.4f}", flush=True)
         return True
 
     def _reset_jump_state(self) -> None:
