@@ -30,11 +30,11 @@ class JumpDetector:
 
     def __init__(
         self,
-        min_amplitude: float = 0.015,  # Minimum 1.5% of frame height (was 0.25%)
-        max_x_drift: float = 0.08,  # Max 8% horizontal movement (stricter)
-        max_jump_interval: float = 1.0,  # Max 1 second between jumps
-        min_jump_gap: float = 0.25,  # Minimum 0.25s between jumps (max 4/sec)
-        rhythm_tolerance: float = 0.4,  # 40% tolerance on jump interval consistency
+        min_amplitude: float = 0.04,  # Minimum 4% of person's body height
+        max_x_drift: float = 0.15,  # Max 15% horizontal movement (allow moving around)
+        max_jump_interval: float = 1.5,  # Max 1.5 seconds between jumps (slower pace OK)
+        min_jump_gap: float = 0.15,  # Minimum 0.15s between jumps (max ~6/sec)
+        rhythm_tolerance: float = 0.6,  # 60% tolerance on jump interval consistency
         confirmation_jumps: int = 3,  # Need 3 consistent oscillations to confirm rhythm
     ):
         self.min_amplitude = min_amplitude
@@ -70,8 +70,11 @@ class JumpDetector:
         self.last_peak_y: Optional[float] = None
         self.is_stationary = False
 
-        # Amplitude limits
-        self.max_amplitude = 0.08  # Max 8% of frame height
+        # Amplitude limits (relative to person's bbox height)
+        self.max_amplitude = 0.15  # Max 15% of person height
+
+        # Track person's bbox height for amplitude normalization
+        self.last_bbox_height: float = 0.0
 
         # Detection gap tracking (no warmup - pose detector handles that)
         self.last_detection_time: Optional[float] = None
@@ -95,6 +98,10 @@ class JumpDetector:
         curr_x = body_position.x
         curr_y = body_position.y
         now = time.time()
+
+        # Store bbox height for amplitude normalization
+        if body_position.bbox_height > 0:
+            self.last_bbox_height = body_position.bbox_height
 
         # Check for detection gaps - reset state if camera lost track
         if self.last_detection_time is not None:
@@ -182,8 +189,12 @@ class JumpDetector:
         if self.local_min_y is None or self.local_max_y is None:
             return None
 
-        # Check amplitude
-        amplitude = self.local_min_y - self.local_max_y
+        # Check amplitude (normalized to person's bbox height for distance-independence)
+        raw_amplitude = self.local_min_y - self.local_max_y
+        if self.last_bbox_height > 0:
+            amplitude = raw_amplitude / self.last_bbox_height
+        else:
+            amplitude = raw_amplitude  # Fallback to frame-relative if no bbox
         if amplitude < self.min_amplitude:
             print(f"[JUMP] Rejected: amp={amplitude:.4f} < {self.min_amplitude}", flush=True)
             return None
@@ -253,9 +264,9 @@ class JumpDetector:
         # Check if intervals are consistent
         avg_interval = sum(intervals) / len(intervals)
 
-        # Rope skipping should be 2-4 jumps per second (0.25s - 0.5s interval)
-        if avg_interval < 0.2 or avg_interval > 0.6:
-            print(f"[JUMP] Rhythm check failed: avg_interval={avg_interval:.3f}s outside 0.2-0.6s range", flush=True)
+        # Rope skipping typically 1-5 jumps per second (0.2s - 1.0s interval)
+        if avg_interval < 0.15 or avg_interval > 1.0:
+            print(f"[JUMP] Rhythm check failed: avg_interval={avg_interval:.3f}s outside 0.15-1.0s range", flush=True)
             return False
 
         # Check consistency - all intervals should be within tolerance of average

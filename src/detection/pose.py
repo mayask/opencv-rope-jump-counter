@@ -17,6 +17,7 @@ class BodyPosition:
     y: float  # Normalized Y position (0=top, 1=bottom)
     confidence: float
     landmark_name: str
+    bbox_height: float = 0.0  # Bounding box height as fraction of frame (for amplitude normalization)
 
 
 class PoseDetector:
@@ -126,13 +127,16 @@ class PoseDetector:
         if scale != 1.0:
             kpts = kpts / scale
 
-        # Store for debug visualization
+        # Store for debug visualization and calculate bbox height
         self.last_keypoints = kpts
+        bbox_height_norm = 0.0
         if boxes.xyxy is not None and len(boxes.xyxy) > best_idx:
             bbox = boxes.xyxy[best_idx].cpu().numpy()
             if scale != 1.0:
                 bbox = bbox / scale
             self.last_bbox = bbox
+            # Calculate bbox height as fraction of frame height
+            bbox_height_norm = (bbox[3] - bbox[1]) / orig_h
 
         # Get nose position
         nose_x, nose_y = kpts[self.NOSE]
@@ -184,6 +188,7 @@ class PoseDetector:
             y=norm_y,
             confidence=nose_conf,
             landmark_name="nose",
+            bbox_height=bbox_height_norm,
         )
 
     def close(self) -> None:
