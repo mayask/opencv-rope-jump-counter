@@ -1,0 +1,31 @@
+# Rope Skipping Counter Configuration
+
+# RTSP Stream Configuration
+stream:
+  rtsp_url: "${RTSP_URL}"  # Override with env var
+  target_fps: 15
+  reconnect_delay: 5
+
+# Detection Configuration
+detection:
+  model_complexity: 0  # 0=lite (fastest), 1=full, 2=heavy
+  min_detection_confidence: 0.5
+  min_tracking_confidence: 0.5
+  jump_threshold_ratio: 0.12  # 12% of baseline = jump
+  min_jump_frames: 3  # Debouncing
+
+# Session Configuration
+session:
+  start_threshold: 5  # Jumps before session officially starts
+  stop_timeout: 30    # Seconds of inactivity to end session
+
+# Webhook Configuration
+webhook:
+  url: "${WEBHOOK_URL}"  # Override with env var
+  milestone_interval: 100  # Send webhook every N skips
+  max_retries: 3
+
+# API Configuration
+api:
+  host: "0.0.0.0"
+  port: 8080
