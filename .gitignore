@@ -9,4 +9,3 @@ venv/
 .mypy_cache/
 
 *.mp4
-!demo.mp4
