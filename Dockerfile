@@ -1,6 +1,6 @@
 FROM python:3.11-slim-bookworm
 
-# Install system dependencies for OpenCV and MediaPipe
+# Install system dependencies for OpenCV and YOLO
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libgl1-mesa-glx \
     libglib2.0-0 \
@@ -17,8 +17,8 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Pre-download all MediaPipe pose models (must be done as root before user switch)
-RUN python -c "import mediapipe as mp; mp.solutions.pose.Pose(model_complexity=0); mp.solutions.pose.Pose(model_complexity=1); mp.solutions.pose.Pose(model_complexity=2)"
+# Pre-download YOLOv8 pose model (must be done as root before user switch)
+RUN python -c "from ultralytics import YOLO; YOLO('yolov8n-pose.pt')"
 
 # Copy application code
 COPY src/ ./src/

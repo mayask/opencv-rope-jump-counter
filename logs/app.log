@@ -917,3 +917,911 @@
 2025-12-22 12:22:11,134 - uvicorn.access - INFO - 127.0.0.1:55994 - "GET /health HTTP/1.1" 200
 2025-12-22 12:22:11,134 - uvicorn.access - INFO - 127.0.0.1:55994 - "GET /health HTTP/1.1" 200
 2025-12-22 12:22:11,134 - uvicorn.access - INFO - 127.0.0.1:55994 - "GET /health HTTP/1.1" 200
+2025-12-22 12:22:41,402 - uvicorn.access - INFO - 127.0.0.1:53996 - "GET /health HTTP/1.1" 200
+2025-12-22 12:22:41,402 - uvicorn.access - INFO - 127.0.0.1:53996 - "GET /health HTTP/1.1" 200
+2025-12-22 12:22:41,402 - uvicorn.access - INFO - 127.0.0.1:53996 - "GET /health HTTP/1.1" 200
+2025-12-22 12:22:53,309 - src.detection.jump - INFO - Pose detection gap 43.75s - resetting warmup
+2025-12-22 12:22:55,624 - uvicorn.error - INFO - Shutting down
+2025-12-22 12:22:55,624 - uvicorn.error - INFO - Shutting down
+2025-12-22 12:22:55,624 - uvicorn.error - INFO - Shutting down
+2025-12-22 12:22:55,724 - uvicorn.error - INFO - Waiting for connections to close. (CTRL+C to force quit)
+2025-12-22 12:22:55,724 - uvicorn.error - INFO - Waiting for connections to close. (CTRL+C to force quit)
+2025-12-22 12:22:55,724 - uvicorn.error - INFO - Waiting for connections to close. (CTRL+C to force quit)
+2025-12-22 12:23:03,692 - src.processor.video - INFO - [DEBUG] frame=2900, y=0.693, jumps=8
+2025-12-22 12:23:06,744 - __main__ - INFO - Starting Rope Skipping Counter on 0.0.0.0:8080
+2025-12-22 12:23:06,744 - __main__ - INFO - RTSP URL: rtsps://192.168.1.1:7441/Zh57VpTojynQVGvw?enableSrtp
+2025-12-22 12:23:06,744 - __main__ - INFO - Webhook URL: http://192.168.1.131:8123/api/webhook/-yXN-y16djNI4k9TIvPQ3d8vL
+2025-12-22 12:23:06,744 - __main__ - INFO - Milestone interval: 100
+2025-12-22 12:23:07,075 - matplotlib - DEBUG - matplotlib data path: /usr/local/lib/python3.11/site-packages/matplotlib/mpl-data
+2025-12-22 12:23:07,081 - matplotlib - DEBUG - CONFIGDIR=/home/appuser/.config/matplotlib
+2025-12-22 12:23:07,082 - matplotlib - DEBUG - interactive is False
+2025-12-22 12:23:07,082 - matplotlib - DEBUG - platform is linux
+2025-12-22 12:23:07,103 - matplotlib - DEBUG - CACHEDIR=/home/appuser/.cache/matplotlib
+2025-12-22 12:23:07,103 - matplotlib.font_manager - DEBUG - font search path [PosixPath('/usr/local/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/ttf'), PosixPath('/usr/local/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/afm'), PosixPath('/usr/local/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/pdfcorefonts')]
+2025-12-22 12:23:07,218 - matplotlib.font_manager - INFO - generated new fontManager
+2025-12-22 12:23:07,754 - uvicorn.error - INFO - Started server process [1]
+2025-12-22 12:23:07,754 - uvicorn.error - INFO - Started server process [1]
+2025-12-22 12:23:07,754 - uvicorn.error - INFO - Started server process [1]
+2025-12-22 12:23:07,756 - uvicorn.error - INFO - Waiting for application startup.
+2025-12-22 12:23:07,756 - uvicorn.error - INFO - Waiting for application startup.
+2025-12-22 12:23:07,756 - uvicorn.error - INFO - Waiting for application startup.
+2025-12-22 12:23:07,868 - src.detection.pose - INFO - Initialized PoseDetector: model=2, tracking=nose, segmentation=enabled
+2025-12-22 12:23:07,868 - src.detection.jump - INFO - Initialized JumpDetector: min_amplitude=0.0025, max_amplitude=0.1, max_x_drift=0.15
+2025-12-22 12:23:07,868 - src.session.manager - INFO - Initialized SessionManager: start_threshold=5, stop_timeout=30s, milestone=100
+2025-12-22 12:23:07,868 - src.notifications.webhook - INFO - Initialized WebhookSender: url=http://192.168.1.131:8123/api/webhook/-yXN-y16djNI4k9TIvPQ3d8vL
+2025-12-22 12:23:07,869 - src.stream.capture - INFO - Connecting to rtsps://192.168.1.1:7441/Zh57VpTojynQVGvw?enableSrtp...
+2025-12-22 12:23:07,869 - src.stream.capture - INFO - Started RTSP capture for rtsps://192.168.1.1:7441/Zh57VpTojynQVGvw?enableSrtp
+2025-12-22 12:23:07,870 - src.processor.video - INFO - VideoProcessor started
+2025-12-22 12:23:07,870 - src.api.app - INFO - Application started
+2025-12-22 12:23:07,870 - uvicorn.error - INFO - Application startup complete.
+2025-12-22 12:23:07,870 - uvicorn.error - INFO - Application startup complete.
+2025-12-22 12:23:07,870 - uvicorn.error - INFO - Application startup complete.
+2025-12-22 12:23:07,872 - uvicorn.error - INFO - Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+2025-12-22 12:23:07,872 - uvicorn.error - INFO - Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+2025-12-22 12:23:07,872 - uvicorn.error - INFO - Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+2025-12-22 12:23:08,908 - src.stream.capture - INFO - Successfully connected to RTSP stream
+2025-12-22 12:23:11,588 - uvicorn.access - INFO - 127.0.0.1:48570 - "GET /health HTTP/1.1" 200
+2025-12-22 12:23:11,588 - uvicorn.access - INFO - 127.0.0.1:48570 - "GET /health HTTP/1.1" 200
+2025-12-22 12:23:11,588 - uvicorn.access - INFO - 127.0.0.1:48570 - "GET /health HTTP/1.1" 200
+2025-12-22 12:23:16,274 - uvicorn.access - INFO - 172.18.0.1:42472 - "GET /debug/stream HTTP/1.1" 200
+2025-12-22 12:23:16,274 - uvicorn.access - INFO - 172.18.0.1:42472 - "GET /debug/stream HTTP/1.1" 200
+2025-12-22 12:23:16,274 - uvicorn.access - INFO - 172.18.0.1:42472 - "GET /debug/stream HTTP/1.1" 200
+2025-12-22 12:23:37,801 - src.processor.video - INFO - [DEBUG] frame=850, y=0.695, jumps=0
+2025-12-22 12:23:41,807 - uvicorn.access - INFO - 127.0.0.1:53024 - "GET /health HTTP/1.1" 200
+2025-12-22 12:23:41,807 - uvicorn.access - INFO - 127.0.0.1:53024 - "GET /health HTTP/1.1" 200
+2025-12-22 12:23:41,807 - uvicorn.access - INFO - 127.0.0.1:53024 - "GET /health HTTP/1.1" 200
+2025-12-22 12:23:42,940 - uvicorn.access - INFO - 172.18.0.1:50626 - "GET /debug/stream HTTP/1.1" 200
+2025-12-22 12:23:42,940 - uvicorn.access - INFO - 172.18.0.1:50626 - "GET /debug/stream HTTP/1.1" 200
+2025-12-22 12:23:42,940 - uvicorn.access - INFO - 172.18.0.1:50626 - "GET /debug/stream HTTP/1.1" 200
+2025-12-22 12:23:44,618 - src.processor.video - INFO - [DEBUG] frame=1000, y=0.652, jumps=0
+2025-12-22 12:23:45,199 - src.detection.jump - INFO - Warmup complete after 30 frames
+2025-12-22 12:23:45,712 - src.detection.jump - INFO - Jump #1! amp=0.0041, stationary=True
+2025-12-22 12:23:46,015 - src.detection.jump - INFO - Jump #2! amp=0.0150, stationary=True
+2025-12-22 12:23:46,777 - src.detection.jump - INFO - Jump #3! amp=0.0183, stationary=True
+2025-12-22 12:23:47,068 - src.detection.jump - INFO - Jump #4! amp=0.0059, stationary=True
+2025-12-22 12:23:47,338 - src.detection.jump - INFO - Jump #5! amp=0.0406, stationary=True
+2025-12-22 12:23:47,338 - src.session.manager - INFO - Session started with 5 jumps
+2025-12-22 12:23:47,658 - src.detection.jump - INFO - Jump #6! amp=0.0111, stationary=True
+2025-12-22 12:23:54,319 - src.detection.jump - INFO - Pose detection gap 6.52s - resetting warmup
+2025-12-22 12:23:55,765 - src.processor.video - INFO - [DEBUG] frame=1250, y=0.678, jumps=6
+2025-12-22 12:23:56,611 - src.detection.jump - INFO - Warmup complete after 30 frames
+2025-12-22 12:23:57,127 - src.detection.jump - INFO - Jump #7! amp=0.0452, stationary=True
+2025-12-22 12:23:57,829 - src.detection.jump - INFO - Jump #8! amp=0.0101, stationary=True
+2025-12-22 12:23:58,275 - src.detection.jump - INFO - Jump #9! amp=0.0046, stationary=True
+2025-12-22 12:23:58,638 - src.detection.jump - INFO - Jump #10! amp=0.0267, stationary=True
+2025-12-22 12:23:59,108 - src.processor.video - INFO - [DEBUG] frame=1300, y=0.692, jumps=10
+2025-12-22 12:23:59,636 - src.detection.jump - INFO - Pose detection gap 0.53s - resetting warmup
+2025-12-22 12:24:08,716 - src.processor.video - INFO - [DEBUG] frame=1550, y=0.641, jumps=10
+2025-12-22 12:24:10,254 - src.detection.jump - INFO - Warmup complete after 30 frames
+2025-12-22 12:24:10,337 - src.detection.jump - INFO - Jump #11! amp=0.0591, stationary=True
+2025-12-22 12:24:12,202 - uvicorn.access - INFO - 127.0.0.1:37830 - "GET /health HTTP/1.1" 200
+2025-12-22 12:24:12,202 - uvicorn.access - INFO - 127.0.0.1:37830 - "GET /health HTTP/1.1" 200
+2025-12-22 12:24:12,202 - uvicorn.access - INFO - 127.0.0.1:37830 - "GET /health HTTP/1.1" 200
+2025-12-22 12:24:15,737 - src.detection.jump - INFO - Pose detection gap 4.68s - resetting warmup
+2025-12-22 12:24:24,893 - src.detection.jump - INFO - Warmup complete after 30 frames
+2025-12-22 12:24:25,225 - src.detection.jump - INFO - Jump #12! amp=0.0055, stationary=True
+2025-12-22 12:24:25,913 - src.processor.video - INFO - [DEBUG] frame=1850, y=0.688, jumps=12
+2025-12-22 12:24:26,241 - src.detection.jump - INFO - Jump #13! amp=0.0309, stationary=True
+2025-12-22 12:24:26,690 - src.detection.jump - INFO - Jump #14! amp=0.0040, stationary=True
+2025-12-22 12:24:27,012 - src.detection.jump - INFO - Jump #15! amp=0.0051, stationary=True
+2025-12-22 12:24:27,345 - src.detection.jump - INFO - Jump #16! amp=0.0216, stationary=True
+2025-12-22 12:24:28,308 - src.detection.jump - INFO - Jump #17! amp=0.0247, stationary=True
+2025-12-22 12:24:29,136 - src.processor.video - INFO - [DEBUG] frame=1900, y=0.704, jumps=17
+2025-12-22 12:24:29,319 - uvicorn.access - INFO - 172.18.0.1:33242 - "GET /debug/stream HTTP/1.1" 200
+2025-12-22 12:24:29,319 - uvicorn.access - INFO - 172.18.0.1:33242 - "GET /debug/stream HTTP/1.1" 200
+2025-12-22 12:24:29,319 - uvicorn.access - INFO - 172.18.0.1:33242 - "GET /debug/stream HTTP/1.1" 200
+2025-12-22 12:24:32,100 - src.detection.jump - INFO - Pose detection gap 1.55s - resetting warmup
+2025-12-22 12:24:33,130 - uvicorn.error - INFO - Shutting down
+2025-12-22 12:24:33,130 - uvicorn.error - INFO - Shutting down
+2025-12-22 12:24:33,130 - uvicorn.error - INFO - Shutting down
+2025-12-22 12:24:33,230 - uvicorn.error - INFO - Waiting for connections to close. (CTRL+C to force quit)
+2025-12-22 12:24:33,230 - uvicorn.error - INFO - Waiting for connections to close. (CTRL+C to force quit)
+2025-12-22 12:24:33,230 - uvicorn.error - INFO - Waiting for connections to close. (CTRL+C to force quit)
+2025-12-22 12:24:33,368 - src.processor.video - INFO - [DEBUG] frame=1950, y=0.697, jumps=17
+2025-12-22 12:24:34,436 - src.detection.jump - INFO - Warmup complete after 30 frames
+2025-12-22 12:24:41,666 - src.detection.jump - INFO - Pose detection gap 6.15s - resetting warmup
+2025-12-22 12:24:44,219 - __main__ - INFO - Starting Rope Skipping Counter on 0.0.0.0:8080
+2025-12-22 12:24:44,219 - __main__ - INFO - RTSP URL: rtsps://192.168.1.1:7441/Zh57VpTojynQVGvw?enableSrtp
+2025-12-22 12:24:44,219 - __main__ - INFO - Webhook URL: http://192.168.1.131:8123/api/webhook/-yXN-y16djNI4k9TIvPQ3d8vL
+2025-12-22 12:24:44,219 - __main__ - INFO - Milestone interval: 100
+2025-12-22 12:24:44,498 - matplotlib - DEBUG - matplotlib data path: /usr/local/lib/python3.11/site-packages/matplotlib/mpl-data
+2025-12-22 12:24:44,505 - matplotlib - DEBUG - CONFIGDIR=/home/appuser/.config/matplotlib
+2025-12-22 12:24:44,506 - matplotlib - DEBUG - interactive is False
+2025-12-22 12:24:44,506 - matplotlib - DEBUG - platform is linux
+2025-12-22 12:24:44,527 - matplotlib - DEBUG - CACHEDIR=/home/appuser/.cache/matplotlib
+2025-12-22 12:24:44,527 - matplotlib.font_manager - DEBUG - font search path [PosixPath('/usr/local/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/ttf'), PosixPath('/usr/local/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/afm'), PosixPath('/usr/local/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/pdfcorefonts')]
+2025-12-22 12:24:44,643 - matplotlib.font_manager - INFO - generated new fontManager
+2025-12-22 12:24:45,183 - uvicorn.error - INFO - Started server process [1]
+2025-12-22 12:24:45,183 - uvicorn.error - INFO - Started server process [1]
+2025-12-22 12:24:45,183 - uvicorn.error - INFO - Started server process [1]
+2025-12-22 12:24:45,184 - uvicorn.error - INFO - Waiting for application startup.
+2025-12-22 12:24:45,184 - uvicorn.error - INFO - Waiting for application startup.
+2025-12-22 12:24:45,184 - uvicorn.error - INFO - Waiting for application startup.
+2025-12-22 12:24:45,295 - src.detection.pose - INFO - Initialized PoseDetector: model=2, tracking=nose, segmentation=enabled
+2025-12-22 12:24:45,296 - src.detection.jump - INFO - Initialized JumpDetector: min_amplitude=0.0025, max_amplitude=0.1, max_x_drift=0.15
+2025-12-22 12:24:45,296 - src.session.manager - INFO - Initialized SessionManager: start_threshold=5, stop_timeout=30s, milestone=100
+2025-12-22 12:24:45,296 - src.notifications.webhook - INFO - Initialized WebhookSender: url=http://192.168.1.131:8123/api/webhook/-yXN-y16djNI4k9TIvPQ3d8vL
+2025-12-22 12:24:45,297 - src.stream.capture - INFO - Connecting to rtsps://192.168.1.1:7441/Zh57VpTojynQVGvw?enableSrtp...
+2025-12-22 12:24:45,297 - src.stream.capture - INFO - Started RTSP capture for rtsps://192.168.1.1:7441/Zh57VpTojynQVGvw?enableSrtp
+2025-12-22 12:24:45,298 - src.processor.video - INFO - VideoProcessor started
+2025-12-22 12:24:45,298 - src.api.app - INFO - Application started
+2025-12-22 12:24:45,298 - uvicorn.error - INFO - Application startup complete.
+2025-12-22 12:24:45,298 - uvicorn.error - INFO - Application startup complete.
+2025-12-22 12:24:45,298 - uvicorn.error - INFO - Application startup complete.
+2025-12-22 12:24:45,300 - uvicorn.error - INFO - Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+2025-12-22 12:24:45,300 - uvicorn.error - INFO - Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+2025-12-22 12:24:45,300 - uvicorn.error - INFO - Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+2025-12-22 12:24:46,326 - src.stream.capture - INFO - Successfully connected to RTSP stream
+2025-12-22 12:24:49,046 - uvicorn.access - INFO - 127.0.0.1:35858 - "GET /health HTTP/1.1" 200
+2025-12-22 12:24:49,046 - uvicorn.access - INFO - 127.0.0.1:35858 - "GET /health HTTP/1.1" 200
+2025-12-22 12:24:49,046 - uvicorn.access - INFO - 127.0.0.1:35858 - "GET /health HTTP/1.1" 200
+2025-12-22 12:24:52,507 - uvicorn.access - INFO - 172.18.0.1:39504 - "GET /debug/stream HTTP/1.1" 200
+2025-12-22 12:24:52,507 - uvicorn.access - INFO - 172.18.0.1:39504 - "GET /debug/stream HTTP/1.1" 200
+2025-12-22 12:24:52,507 - uvicorn.access - INFO - 172.18.0.1:39504 - "GET /debug/stream HTTP/1.1" 200
+2025-12-22 12:25:02,639 - src.processor.video - INFO - [DEBUG] frame=450, y=0.703, jumps=0
+2025-12-22 12:25:03,042 - src.detection.jump - INFO - Warmup complete after 30 frames
+2025-12-22 12:25:03,341 - src.detection.jump - INFO - Jump #1! amp=0.0530, stationary=True
+2025-12-22 12:25:04,004 - src.detection.jump - INFO - Jump #2! amp=0.0095, stationary=True
+2025-12-22 12:25:04,454 - src.detection.jump - INFO - Jump #3! amp=0.0440, stationary=True
+2025-12-22 12:25:04,749 - src.detection.jump - INFO - Jump #4! amp=0.0028, stationary=True
+2025-12-22 12:25:06,355 - src.detection.jump - INFO - Jump #5! amp=0.0316, stationary=True
+2025-12-22 12:25:06,392 - src.session.manager - INFO - Session started with 5 jumps
+2025-12-22 12:25:06,988 - src.processor.video - INFO - [DEBUG] frame=500, y=0.669, jumps=5
+2025-12-22 12:25:06,988 - src.detection.jump - INFO - Jump #6! amp=0.0044, stationary=True
+2025-12-22 12:25:11,834 - uvicorn.access - INFO - 172.18.0.1:53788 - "GET /status HTTP/1.1" 200
+2025-12-22 12:25:11,834 - uvicorn.access - INFO - 172.18.0.1:53788 - "GET /status HTTP/1.1" 200
+2025-12-22 12:25:11,834 - uvicorn.access - INFO - 172.18.0.1:53788 - "GET /status HTTP/1.1" 200
+2025-12-22 12:25:19,302 - uvicorn.access - INFO - 127.0.0.1:35892 - "GET /health HTTP/1.1" 200
+2025-12-22 12:25:19,302 - uvicorn.access - INFO - 127.0.0.1:35892 - "GET /health HTTP/1.1" 200
+2025-12-22 12:25:19,302 - uvicorn.access - INFO - 127.0.0.1:35892 - "GET /health HTTP/1.1" 200
+2025-12-22 12:25:22,054 - src.processor.video - INFO - [DEBUG] frame=950, y=0.663, jumps=6
+2025-12-22 12:25:22,054 - src.detection.jump - INFO - Pose detection gap 15.07s - resetting warmup
+2025-12-22 12:25:24,335 - src.detection.jump - INFO - Warmup complete after 30 frames
+2025-12-22 12:25:24,984 - src.detection.jump - INFO - Jump #7! amp=0.0109, stationary=True
+2025-12-22 12:25:25,679 - src.detection.jump - INFO - Jump #8! amp=0.0410, stationary=True
+2025-12-22 12:25:25,962 - src.processor.video - INFO - [DEBUG] frame=1000, y=0.643, jumps=8
+2025-12-22 12:25:25,962 - src.detection.jump - INFO - Jump #9! amp=0.0106, stationary=True
+2025-12-22 12:25:30,691 - src.detection.jump - INFO - Pose detection gap 4.57s - resetting warmup
+2025-12-22 12:25:37,299 - src.processor.video - INFO - [DEBUG] frame=1300, y=0.641, jumps=9
+2025-12-22 12:25:37,330 - uvicorn.error - INFO - Shutting down
+2025-12-22 12:25:37,330 - uvicorn.error - INFO - Shutting down
+2025-12-22 12:25:37,330 - uvicorn.error - INFO - Shutting down
+2025-12-22 12:25:37,434 - uvicorn.error - INFO - Waiting for connections to close. (CTRL+C to force quit)
+2025-12-22 12:25:37,434 - uvicorn.error - INFO - Waiting for connections to close. (CTRL+C to force quit)
+2025-12-22 12:25:37,434 - uvicorn.error - INFO - Waiting for connections to close. (CTRL+C to force quit)
+2025-12-22 12:25:38,346 - src.detection.jump - INFO - Warmup complete after 30 frames
+2025-12-22 12:25:38,637 - src.detection.jump - INFO - Jump #10! amp=0.0028, stationary=True
+2025-12-22 12:25:39,239 - src.detection.jump - INFO - Jump #11! amp=0.0221, stationary=True
+2025-12-22 12:25:40,304 - src.detection.jump - INFO - Jump #12! amp=0.0039, stationary=True
+2025-12-22 12:25:40,772 - src.detection.jump - INFO - Jump #13! amp=0.0211, stationary=True
+2025-12-22 12:25:41,088 - src.detection.jump - INFO - Jump #14! amp=0.0063, stationary=True
+2025-12-22 12:25:41,164 - src.processor.video - INFO - [DEBUG] frame=1350, y=0.665, jumps=14
+2025-12-22 12:25:41,566 - src.detection.jump - INFO - Jump #15! amp=0.0027, stationary=True
+2025-12-22 12:25:42,320 - src.detection.jump - INFO - Jump #16! amp=0.0182, stationary=True
+2025-12-22 12:25:43,541 - src.detection.jump - INFO - Jump #17! amp=0.0227, stationary=True
+2025-12-22 12:25:44,774 - src.detection.jump - INFO - Jump #18! amp=0.0090, stationary=True
+2025-12-22 12:25:44,987 - src.processor.video - INFO - [DEBUG] frame=1400, y=0.660, jumps=18
+2025-12-22 12:25:45,076 - src.detection.jump - INFO - Jump #19! amp=0.0145, stationary=True
+2025-12-22 12:25:45,585 - src.detection.jump - INFO - Jump #20! amp=0.0196, stationary=True
+2025-12-22 12:25:46,327 - src.detection.jump - INFO - Jump #21! amp=0.0066, stationary=True
+2025-12-22 12:25:48,341 - __main__ - INFO - Starting Rope Skipping Counter on 0.0.0.0:8080
+2025-12-22 12:25:48,341 - __main__ - INFO - RTSP URL: rtsps://192.168.1.1:7441/Zh57VpTojynQVGvw?enableSrtp
+2025-12-22 12:25:48,341 - __main__ - INFO - Webhook URL: http://192.168.1.131:8123/api/webhook/-yXN-y16djNI4k9TIvPQ3d8vL
+2025-12-22 12:25:48,341 - __main__ - INFO - Milestone interval: 100
+2025-12-22 12:25:48,615 - matplotlib - DEBUG - matplotlib data path: /usr/local/lib/python3.11/site-packages/matplotlib/mpl-data
+2025-12-22 12:25:48,621 - matplotlib - DEBUG - CONFIGDIR=/home/appuser/.config/matplotlib
+2025-12-22 12:25:48,622 - matplotlib - DEBUG - interactive is False
+2025-12-22 12:25:48,622 - matplotlib - DEBUG - platform is linux
+2025-12-22 12:25:48,645 - matplotlib - DEBUG - CACHEDIR=/home/appuser/.cache/matplotlib
+2025-12-22 12:25:48,645 - matplotlib.font_manager - DEBUG - font search path [PosixPath('/usr/local/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/ttf'), PosixPath('/usr/local/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/afm'), PosixPath('/usr/local/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/pdfcorefonts')]
+2025-12-22 12:25:48,760 - matplotlib.font_manager - INFO - generated new fontManager
+2025-12-22 12:25:49,304 - uvicorn.error - INFO - Started server process [1]
+2025-12-22 12:25:49,304 - uvicorn.error - INFO - Started server process [1]
+2025-12-22 12:25:49,304 - uvicorn.error - INFO - Started server process [1]
+2025-12-22 12:25:49,304 - uvicorn.error - INFO - Waiting for application startup.
+2025-12-22 12:25:49,304 - uvicorn.error - INFO - Waiting for application startup.
+2025-12-22 12:25:49,304 - uvicorn.error - INFO - Waiting for application startup.
+2025-12-22 12:25:49,413 - src.detection.pose - INFO - Initialized PoseDetector: model=2, tracking=nose, segmentation=enabled
+2025-12-22 12:25:49,413 - src.detection.jump - INFO - Initialized JumpDetector: min_amplitude=0.0025, max_amplitude=0.1, max_x_drift=0.15
+2025-12-22 12:25:49,413 - src.session.manager - INFO - Initialized SessionManager: start_threshold=5, stop_timeout=30s, milestone=100
+2025-12-22 12:25:49,413 - src.notifications.webhook - INFO - Initialized WebhookSender: url=http://192.168.1.131:8123/api/webhook/-yXN-y16djNI4k9TIvPQ3d8vL
+2025-12-22 12:25:49,414 - src.stream.capture - INFO - Connecting to rtsps://192.168.1.1:7441/Zh57VpTojynQVGvw?enableSrtp...
+2025-12-22 12:25:49,414 - src.stream.capture - INFO - Started RTSP capture for rtsps://192.168.1.1:7441/Zh57VpTojynQVGvw?enableSrtp
+2025-12-22 12:25:49,415 - src.processor.video - INFO - VideoProcessor started
+2025-12-22 12:25:49,415 - src.api.app - INFO - Application started
+2025-12-22 12:25:49,416 - uvicorn.error - INFO - Application startup complete.
+2025-12-22 12:25:49,416 - uvicorn.error - INFO - Application startup complete.
+2025-12-22 12:25:49,416 - uvicorn.error - INFO - Application startup complete.
+2025-12-22 12:25:49,418 - uvicorn.error - INFO - Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+2025-12-22 12:25:49,418 - uvicorn.error - INFO - Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+2025-12-22 12:25:49,418 - uvicorn.error - INFO - Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+2025-12-22 12:25:50,552 - src.stream.capture - INFO - Successfully connected to RTSP stream
+2025-12-22 12:25:53,293 - uvicorn.access - INFO - 127.0.0.1:42436 - "GET /health HTTP/1.1" 200
+2025-12-22 12:25:53,293 - uvicorn.access - INFO - 127.0.0.1:42436 - "GET /health HTTP/1.1" 200
+2025-12-22 12:25:53,293 - uvicorn.access - INFO - 127.0.0.1:42436 - "GET /health HTTP/1.1" 200
+2025-12-22 12:25:59,700 - src.detection.jump - INFO - Warmup complete after 30 frames
+2025-12-22 12:25:59,830 - src.processor.video - INFO - [DEBUG] frame=200, y=0.649, jumps=0
+2025-12-22 12:25:59,894 - src.detection.jump - INFO - Jump #1! amp=0.0181, stationary=False
+2025-12-22 12:26:00,298 - src.detection.jump - INFO - Jump #2! amp=0.0026, stationary=True
+2025-12-22 12:26:00,332 - uvicorn.access - INFO - 172.18.0.1:60264 - "GET /debug/stream HTTP/1.1" 200
+2025-12-22 12:26:00,332 - uvicorn.access - INFO - 172.18.0.1:60264 - "GET /debug/stream HTTP/1.1" 200
+2025-12-22 12:26:00,332 - uvicorn.access - INFO - 172.18.0.1:60264 - "GET /debug/stream HTTP/1.1" 200
+2025-12-22 12:26:00,752 - src.detection.jump - INFO - Jump #3! amp=0.0088, stationary=True
+2025-12-22 12:26:03,537 - src.processor.video - INFO - [DEBUG] frame=250, y=0.695, jumps=3
+2025-12-22 12:26:05,825 - src.detection.jump - INFO - Pose detection gap 1.91s - resetting warmup
+2025-12-22 12:26:06,319 - uvicorn.access - INFO - 172.18.0.1:60272 - "GET /debug/stream HTTP/1.1" 200
+2025-12-22 12:26:06,319 - uvicorn.access - INFO - 172.18.0.1:60272 - "GET /debug/stream HTTP/1.1" 200
+2025-12-22 12:26:06,319 - uvicorn.access - INFO - 172.18.0.1:60272 - "GET /debug/stream HTTP/1.1" 200
+2025-12-22 12:26:06,823 - src.processor.video - INFO - [DEBUG] frame=300, y=0.693, jumps=3
+2025-12-22 12:26:07,967 - src.detection.jump - INFO - Warmup complete after 30 frames
+2025-12-22 12:26:08,036 - src.detection.jump - INFO - Jump #4! amp=0.0075, stationary=True
+2025-12-22 12:26:10,651 - src.processor.video - INFO - [DEBUG] frame=350, y=0.690, jumps=4
+2025-12-22 12:26:10,736 - src.detection.jump - INFO - Jump #5! amp=0.0046, stationary=True
+2025-12-22 12:26:10,736 - src.session.manager - INFO - Session started with 5 jumps
+2025-12-22 12:26:14,974 - src.detection.jump - INFO - Pose detection gap 3.59s - resetting warmup
+2025-12-22 12:26:17,089 - src.detection.jump - INFO - Warmup complete after 30 frames
+2025-12-22 12:26:17,656 - src.detection.jump - INFO - Jump #6! amp=0.0511, stationary=True
+2025-12-22 12:26:18,081 - src.detection.jump - INFO - Jump #7! amp=0.0140, stationary=True
+2025-12-22 12:26:18,152 - src.processor.video - INFO - [DEBUG] frame=450, y=0.677, jumps=7
+2025-12-22 12:26:18,918 - src.detection.jump - INFO - Jump #8! amp=0.0091, stationary=True
+2025-12-22 12:26:19,294 - src.detection.jump - INFO - Jump #9! amp=0.0026, stationary=True
+2025-12-22 12:26:19,687 - src.detection.jump - INFO - Jump #10! amp=0.0123, stationary=True
+2025-12-22 12:26:20,133 - src.detection.jump - INFO - Jump #11! amp=0.0088, stationary=True
+2025-12-22 12:26:21,030 - uvicorn.access - INFO - 172.18.0.1:39850 - "GET /debug/stream HTTP/1.1" 200
+2025-12-22 12:26:21,030 - uvicorn.access - INFO - 172.18.0.1:39850 - "GET /debug/stream HTTP/1.1" 200
+2025-12-22 12:26:21,030 - uvicorn.access - INFO - 172.18.0.1:39850 - "GET /debug/stream HTTP/1.1" 200
+2025-12-22 12:26:21,316 - src.detection.jump - INFO - Jump #12! amp=0.0252, stationary=True
+2025-12-22 12:26:21,847 - src.processor.video - INFO - [DEBUG] frame=500, y=0.699, jumps=12
+2025-12-22 12:26:23,658 - uvicorn.access - INFO - 127.0.0.1:57662 - "GET /health HTTP/1.1" 200
+2025-12-22 12:26:23,658 - uvicorn.access - INFO - 127.0.0.1:57662 - "GET /health HTTP/1.1" 200
+2025-12-22 12:26:23,658 - uvicorn.access - INFO - 127.0.0.1:57662 - "GET /health HTTP/1.1" 200
+2025-12-22 12:26:23,837 - src.detection.jump - INFO - Jump #13! amp=0.0192, stationary=True
+2025-12-22 12:26:25,088 - src.detection.jump - INFO - Jump #14! amp=0.0200, stationary=True
+2025-12-22 12:26:26,463 - src.processor.video - INFO - [DEBUG] frame=550, y=0.700, jumps=14
+2025-12-22 12:26:26,986 - src.detection.jump - INFO - Jump #15! amp=0.0036, stationary=True
+2025-12-22 12:26:27,667 - src.detection.jump - INFO - Jump #16! amp=0.0054, stationary=True
+2025-12-22 12:26:34,585 - src.detection.jump - INFO - Pose detection gap 5.71s - resetting warmup
+2025-12-22 12:26:36,890 - src.detection.jump - INFO - Warmup complete after 30 frames
+2025-12-22 12:26:36,967 - src.detection.jump - INFO - Jump #17! amp=0.0071, stationary=True
+2025-12-22 12:26:38,087 - src.detection.jump - INFO - Jump #18! amp=0.0322, stationary=True
+2025-12-22 12:26:38,166 - src.processor.video - INFO - [DEBUG] frame=700, y=0.694, jumps=18
+2025-12-22 12:26:38,551 - src.detection.jump - INFO - Jump #19! amp=0.0035, stationary=True
+2025-12-22 12:26:40,216 - src.detection.jump - INFO - Jump #20! amp=0.0029, stationary=True
+2025-12-22 12:26:44,536 - src.detection.jump - INFO - Pose detection gap 3.04s - resetting warmup
+2025-12-22 12:26:45,887 - src.processor.video - INFO - [DEBUG] frame=800, y=0.681, jumps=20
+2025-12-22 12:26:46,815 - src.detection.jump - INFO - Warmup complete after 30 frames
+2025-12-22 12:26:46,893 - src.detection.jump - INFO - Jump #21! amp=0.0261, stationary=True
+2025-12-22 12:26:47,863 - src.detection.jump - INFO - Jump #22! amp=0.0185, stationary=True
+2025-12-22 12:26:48,591 - src.detection.jump - INFO - Jump #23! amp=0.0042, stationary=True
+2025-12-22 12:26:49,203 - src.detection.jump - INFO - Jump #24! amp=0.0061, stationary=True
+2025-12-22 12:26:49,797 - src.processor.video - INFO - [DEBUG] frame=850, y=0.701, jumps=24
+2025-12-22 12:26:50,106 - src.detection.jump - INFO - Jump #25! amp=0.0235, stationary=True
+2025-12-22 12:26:51,368 - src.detection.jump - INFO - Jump #26! amp=0.0030, stationary=True
+2025-12-22 12:26:53,920 - uvicorn.access - INFO - 127.0.0.1:44314 - "GET /health HTTP/1.1" 200
+2025-12-22 12:26:53,920 - uvicorn.access - INFO - 127.0.0.1:44314 - "GET /health HTTP/1.1" 200
+2025-12-22 12:26:53,920 - uvicorn.access - INFO - 127.0.0.1:44314 - "GET /health HTTP/1.1" 200
+2025-12-22 12:26:54,456 - src.detection.jump - INFO - Pose detection gap 0.78s - resetting warmup
+2025-12-22 12:26:56,728 - src.detection.jump - INFO - Warmup complete after 30 frames
+2025-12-22 12:26:57,619 - src.detection.jump - INFO - Jump #27! amp=0.0046, stationary=True
+2025-12-22 12:26:57,909 - src.processor.video - INFO - [DEBUG] frame=950, y=0.695, jumps=27
+2025-12-22 12:26:58,148 - src.detection.jump - INFO - Jump #28! amp=0.0036, stationary=True
+2025-12-22 12:26:58,723 - src.detection.jump - INFO - Jump #29! amp=0.0374, stationary=True
+2025-12-22 12:26:58,981 - uvicorn.error - INFO - Shutting down
+2025-12-22 12:26:58,981 - uvicorn.error - INFO - Shutting down
+2025-12-22 12:26:58,981 - uvicorn.error - INFO - Shutting down
+2025-12-22 12:26:59,083 - uvicorn.error - INFO - Waiting for connections to close. (CTRL+C to force quit)
+2025-12-22 12:26:59,083 - uvicorn.error - INFO - Waiting for connections to close. (CTRL+C to force quit)
+2025-12-22 12:26:59,083 - uvicorn.error - INFO - Waiting for connections to close. (CTRL+C to force quit)
+2025-12-22 12:26:59,588 - src.detection.jump - INFO - Jump #30! amp=0.0371, stationary=True
+2025-12-22 12:27:00,150 - src.detection.jump - INFO - Jump #31! amp=0.0441, stationary=True
+2025-12-22 12:27:00,939 - src.detection.jump - INFO - Jump #32! amp=0.0249, stationary=True
+2025-12-22 12:27:01,409 - src.detection.jump - INFO - Jump #33! amp=0.0252, stationary=True
+2025-12-22 12:27:01,992 - src.detection.jump - INFO - Jump #34! amp=0.0172, stationary=True
+2025-12-22 12:27:02,236 - src.processor.video - INFO - [DEBUG] frame=1000, y=0.649, jumps=34
+2025-12-22 12:27:02,605 - src.detection.jump - INFO - Jump #35! amp=0.0026, stationary=True
+2025-12-22 12:27:03,095 - uvicorn.error - INFO - Waiting for background tasks to complete. (CTRL+C to force quit)
+2025-12-22 12:27:03,095 - uvicorn.error - INFO - Waiting for background tasks to complete. (CTRL+C to force quit)
+2025-12-22 12:27:03,095 - uvicorn.error - INFO - Waiting for background tasks to complete. (CTRL+C to force quit)
+2025-12-22 12:27:03,196 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-12-22 12:27:03,196 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-12-22 12:27:03,196 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-12-22 12:27:03,235 - src.stream.capture - INFO - Stopped RTSP capture
+2025-12-22 12:27:03,237 - src.detection.jump - INFO - Jump #36! amp=0.0362, stationary=True
+2025-12-22 12:27:03,418 - src.processor.video - INFO - VideoProcessor stopped
+2025-12-22 12:27:03,421 - src.api.app - INFO - Application stopped
+2025-12-22 12:27:03,423 - uvicorn.error - INFO - Application shutdown complete.
+2025-12-22 12:27:03,423 - uvicorn.error - INFO - Application shutdown complete.
+2025-12-22 12:27:03,423 - uvicorn.error - INFO - Application shutdown complete.
+2025-12-22 12:27:03,427 - uvicorn.error - INFO - Finished server process [1]
+2025-12-22 12:27:03,427 - uvicorn.error - INFO - Finished server process [1]
+2025-12-22 12:27:03,427 - uvicorn.error - INFO - Finished server process [1]
+2025-12-22 12:27:06,812 - __main__ - INFO - Starting Rope Skipping Counter on 0.0.0.0:8080
+2025-12-22 12:27:06,812 - __main__ - INFO - RTSP URL: rtsps://192.168.1.1:7441/Zh57VpTojynQVGvw?enableSrtp
+2025-12-22 12:27:06,812 - __main__ - INFO - Webhook URL: http://192.168.1.131:8123/api/webhook/-yXN-y16djNI4k9TIvPQ3d8vL
+2025-12-22 12:27:06,813 - __main__ - INFO - Milestone interval: 100
+2025-12-22 12:27:07,099 - matplotlib - DEBUG - matplotlib data path: /usr/local/lib/python3.11/site-packages/matplotlib/mpl-data
+2025-12-22 12:27:07,105 - matplotlib - DEBUG - CONFIGDIR=/home/appuser/.config/matplotlib
+2025-12-22 12:27:07,106 - matplotlib - DEBUG - interactive is False
+2025-12-22 12:27:07,106 - matplotlib - DEBUG - platform is linux
+2025-12-22 12:27:07,128 - matplotlib - DEBUG - CACHEDIR=/home/appuser/.cache/matplotlib
+2025-12-22 12:27:07,128 - matplotlib.font_manager - DEBUG - font search path [PosixPath('/usr/local/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/ttf'), PosixPath('/usr/local/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/afm'), PosixPath('/usr/local/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/pdfcorefonts')]
+2025-12-22 12:27:07,242 - matplotlib.font_manager - INFO - generated new fontManager
+2025-12-22 12:27:07,785 - uvicorn.error - INFO - Started server process [1]
+2025-12-22 12:27:07,785 - uvicorn.error - INFO - Started server process [1]
+2025-12-22 12:27:07,785 - uvicorn.error - INFO - Started server process [1]
+2025-12-22 12:27:07,786 - uvicorn.error - INFO - Waiting for application startup.
+2025-12-22 12:27:07,786 - uvicorn.error - INFO - Waiting for application startup.
+2025-12-22 12:27:07,786 - uvicorn.error - INFO - Waiting for application startup.
+2025-12-22 12:27:07,897 - src.detection.pose - INFO - Initialized PoseDetector: model=2, tracking=nose, segmentation=enabled
+2025-12-22 12:27:07,897 - src.detection.jump - INFO - Initialized JumpDetector: min_amplitude=0.0025, max_amplitude=0.1, max_x_drift=0.15
+2025-12-22 12:27:07,897 - src.session.manager - INFO - Initialized SessionManager: start_threshold=5, stop_timeout=30s, milestone=100
+2025-12-22 12:27:07,898 - src.notifications.webhook - INFO - Initialized WebhookSender: url=http://192.168.1.131:8123/api/webhook/-yXN-y16djNI4k9TIvPQ3d8vL
+2025-12-22 12:27:07,898 - src.stream.capture - INFO - Connecting to rtsps://192.168.1.1:7441/Zh57VpTojynQVGvw?enableSrtp...
+2025-12-22 12:27:07,898 - src.stream.capture - INFO - Started RTSP capture for rtsps://192.168.1.1:7441/Zh57VpTojynQVGvw?enableSrtp
+2025-12-22 12:27:07,900 - src.processor.video - INFO - VideoProcessor started
+2025-12-22 12:27:07,900 - src.api.app - INFO - Application started
+2025-12-22 12:27:07,900 - uvicorn.error - INFO - Application startup complete.
+2025-12-22 12:27:07,900 - uvicorn.error - INFO - Application startup complete.
+2025-12-22 12:27:07,900 - uvicorn.error - INFO - Application startup complete.
+2025-12-22 12:27:07,903 - uvicorn.error - INFO - Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+2025-12-22 12:27:07,903 - uvicorn.error - INFO - Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+2025-12-22 12:27:07,903 - uvicorn.error - INFO - Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+2025-12-22 12:27:08,934 - src.stream.capture - INFO - Successfully connected to RTSP stream
+2025-12-22 12:27:11,651 - uvicorn.access - INFO - 127.0.0.1:48112 - "GET /health HTTP/1.1" 200
+2025-12-22 12:27:11,651 - uvicorn.access - INFO - 127.0.0.1:48112 - "GET /health HTTP/1.1" 200
+2025-12-22 12:27:11,651 - uvicorn.access - INFO - 127.0.0.1:48112 - "GET /health HTTP/1.1" 200
+2025-12-22 12:27:26,024 - uvicorn.access - INFO - 172.18.0.1:59906 - "GET /debug/stream HTTP/1.1" 200
+2025-12-22 12:27:26,024 - uvicorn.access - INFO - 172.18.0.1:59906 - "GET /debug/stream HTTP/1.1" 200
+2025-12-22 12:27:26,024 - uvicorn.access - INFO - 172.18.0.1:59906 - "GET /debug/stream HTTP/1.1" 200
+2025-12-22 12:27:38,596 - src.processor.video - INFO - [DEBUG] frame=800, y=0.650, jumps=0
+2025-12-22 12:27:38,766 - src.detection.jump - INFO - Warmup complete after 30 frames
+2025-12-22 12:27:39,810 - src.detection.jump - INFO - Jump #1! amp=0.0047, stationary=True
+2025-12-22 12:27:41,585 - src.detection.jump - INFO - Jump #2! amp=0.0031, stationary=True
+2025-12-22 12:27:42,047 - uvicorn.access - INFO - 127.0.0.1:55474 - "GET /health HTTP/1.1" 200
+2025-12-22 12:27:42,047 - uvicorn.access - INFO - 127.0.0.1:55474 - "GET /health HTTP/1.1" 200
+2025-12-22 12:27:42,047 - uvicorn.access - INFO - 127.0.0.1:55474 - "GET /health HTTP/1.1" 200
+2025-12-22 12:27:42,168 - src.detection.jump - INFO - Jump #3! amp=0.0076, stationary=True
+2025-12-22 12:27:42,626 - src.detection.jump - INFO - Jump #4! amp=0.0234, stationary=True
+2025-12-22 12:27:42,701 - src.processor.video - INFO - [DEBUG] frame=850, y=0.688, jumps=4
+2025-12-22 12:27:43,075 - src.detection.jump - INFO - Jump #5! amp=0.0051, stationary=True
+2025-12-22 12:27:43,076 - src.session.manager - INFO - Session started with 5 jumps
+2025-12-22 12:27:43,916 - src.detection.jump - INFO - Jump #6! amp=0.0040, stationary=True
+2025-12-22 12:27:45,453 - src.detection.jump - INFO - Jump #7! amp=0.0033, stationary=True
+2025-12-22 12:28:12,283 - uvicorn.access - INFO - 127.0.0.1:43016 - "GET /health HTTP/1.1" 200
+2025-12-22 12:28:12,283 - uvicorn.access - INFO - 127.0.0.1:43016 - "GET /health HTTP/1.1" 200
+2025-12-22 12:28:12,283 - uvicorn.access - INFO - 127.0.0.1:43016 - "GET /health HTTP/1.1" 200
+2025-12-22 12:28:15,497 - src.detection.jump - INFO - Pose detection gap 29.46s - resetting warmup
+2025-12-22 12:28:15,998 - src.session.manager - INFO - Session ended (timeout): 7 jumps, duration=32.9s
+2025-12-22 12:28:17,950 - src.detection.jump - INFO - Warmup complete after 30 frames
+2025-12-22 12:28:18,025 - src.detection.jump - INFO - Jump #8! amp=0.0026, stationary=True
+2025-12-22 12:28:18,277 - src.detection.jump - INFO - Jump #9! amp=0.0249, stationary=True
+2025-12-22 12:28:18,609 - src.detection.jump - INFO - Jump #10! amp=0.0545, stationary=True
+2025-12-22 12:28:18,775 - src.processor.video - INFO - [DEBUG] frame=1700, y=0.671, jumps=10
+2025-12-22 12:28:19,231 - src.detection.jump - INFO - Jump #11! amp=0.0222, stationary=True
+2025-12-22 12:28:20,297 - src.detection.jump - INFO - Jump #12! amp=0.0101, stationary=True
+2025-12-22 12:28:20,297 - src.session.manager - INFO - Session started with 5 jumps
+2025-12-22 12:28:20,654 - src.detection.jump - INFO - Jump #13! amp=0.0181, stationary=True
+2025-12-22 12:28:21,831 - src.detection.jump - INFO - Jump #14! amp=0.0087, stationary=True
+2025-12-22 12:28:23,051 - src.processor.video - INFO - [DEBUG] frame=1750, y=0.703, jumps=14
+2025-12-22 12:28:24,537 - src.detection.jump - INFO - Jump #15! amp=0.0028, stationary=True
+2025-12-22 12:28:31,788 - src.detection.jump - INFO - Pose detection gap 7.17s - resetting warmup
+2025-12-22 12:28:34,074 - src.detection.jump - INFO - Warmup complete after 30 frames
+2025-12-22 12:28:34,897 - src.detection.jump - INFO - Jump #16! amp=0.0235, stationary=True
+2025-12-22 12:28:35,444 - src.processor.video - INFO - [DEBUG] frame=1900, y=0.698, jumps=16
+2025-12-22 12:28:36,744 - src.detection.jump - INFO - Jump #17! amp=0.0077, stationary=True
+2025-12-22 12:28:37,160 - src.detection.jump - INFO - Jump #18! amp=0.0036, stationary=True
+2025-12-22 12:28:37,194 - uvicorn.error - INFO - Shutting down
+2025-12-22 12:28:37,194 - uvicorn.error - INFO - Shutting down
+2025-12-22 12:28:37,194 - uvicorn.error - INFO - Shutting down
+2025-12-22 12:28:37,302 - uvicorn.error - INFO - Waiting for connections to close. (CTRL+C to force quit)
+2025-12-22 12:28:37,302 - uvicorn.error - INFO - Waiting for connections to close. (CTRL+C to force quit)
+2025-12-22 12:28:37,302 - uvicorn.error - INFO - Waiting for connections to close. (CTRL+C to force quit)
+2025-12-22 12:28:37,528 - src.detection.jump - INFO - Jump #19! amp=0.0075, stationary=True
+2025-12-22 12:28:37,824 - src.detection.jump - INFO - Jump #20! amp=0.0103, stationary=True
+2025-12-22 12:28:41,662 - src.detection.jump - INFO - Pose detection gap 3.43s - resetting warmup
+2025-12-22 12:28:46,022 - src.detection.jump - INFO - Warmup complete after 30 frames
+2025-12-22 12:28:46,713 - src.detection.jump - INFO - Jump #21! amp=0.0297, stationary=True
+2025-12-22 12:28:47,003 - src.detection.jump - INFO - Jump #22! amp=0.0101, stationary=True
+2025-12-22 12:28:48,212 - __main__ - INFO - Starting Rope Skipping Counter on 0.0.0.0:8080
+2025-12-22 12:28:48,212 - __main__ - INFO - RTSP URL: rtsps://192.168.1.1:7441/Zh57VpTojynQVGvw?enableSrtp
+2025-12-22 12:28:48,212 - __main__ - INFO - Webhook URL: http://192.168.1.131:8123/api/webhook/-yXN-y16djNI4k9TIvPQ3d8vL
+2025-12-22 12:28:48,212 - __main__ - INFO - Milestone interval: 100
+2025-12-22 12:28:48,506 - matplotlib - DEBUG - matplotlib data path: /usr/local/lib/python3.11/site-packages/matplotlib/mpl-data
+2025-12-22 12:28:48,512 - matplotlib - DEBUG - CONFIGDIR=/home/appuser/.config/matplotlib
+2025-12-22 12:28:48,513 - matplotlib - DEBUG - interactive is False
+2025-12-22 12:28:48,513 - matplotlib - DEBUG - platform is linux
+2025-12-22 12:28:48,535 - matplotlib - DEBUG - CACHEDIR=/home/appuser/.cache/matplotlib
+2025-12-22 12:28:48,535 - matplotlib.font_manager - DEBUG - font search path [PosixPath('/usr/local/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/ttf'), PosixPath('/usr/local/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/afm'), PosixPath('/usr/local/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/pdfcorefonts')]
+2025-12-22 12:28:48,649 - matplotlib.font_manager - INFO - generated new fontManager
+2025-12-22 12:28:49,188 - uvicorn.error - INFO - Started server process [1]
+2025-12-22 12:28:49,188 - uvicorn.error - INFO - Started server process [1]
+2025-12-22 12:28:49,188 - uvicorn.error - INFO - Started server process [1]
+2025-12-22 12:28:49,190 - uvicorn.error - INFO - Waiting for application startup.
+2025-12-22 12:28:49,190 - uvicorn.error - INFO - Waiting for application startup.
+2025-12-22 12:28:49,190 - uvicorn.error - INFO - Waiting for application startup.
+2025-12-22 12:28:49,299 - src.detection.pose - INFO - Initialized PoseDetector: model=2, tracking=nose, segmentation=enabled
+2025-12-22 12:28:49,299 - src.detection.jump - INFO - Initialized JumpDetector: min_amplitude=0.0025, max_amplitude=0.1, max_x_drift=0.15
+2025-12-22 12:28:49,299 - src.session.manager - INFO - Initialized SessionManager: start_threshold=5, stop_timeout=30s, milestone=100
+2025-12-22 12:28:49,299 - src.notifications.webhook - INFO - Initialized WebhookSender: url=http://192.168.1.131:8123/api/webhook/-yXN-y16djNI4k9TIvPQ3d8vL
+2025-12-22 12:28:49,300 - src.stream.capture - INFO - Connecting to rtsps://192.168.1.1:7441/Zh57VpTojynQVGvw?enableSrtp...
+2025-12-22 12:28:49,300 - src.stream.capture - INFO - Started RTSP capture for rtsps://192.168.1.1:7441/Zh57VpTojynQVGvw?enableSrtp
+2025-12-22 12:28:49,301 - src.processor.video - INFO - VideoProcessor started
+2025-12-22 12:28:49,301 - src.api.app - INFO - Application started
+2025-12-22 12:28:49,301 - uvicorn.error - INFO - Application startup complete.
+2025-12-22 12:28:49,301 - uvicorn.error - INFO - Application startup complete.
+2025-12-22 12:28:49,301 - uvicorn.error - INFO - Application startup complete.
+2025-12-22 12:28:49,303 - uvicorn.error - INFO - Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+2025-12-22 12:28:49,303 - uvicorn.error - INFO - Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+2025-12-22 12:28:49,303 - uvicorn.error - INFO - Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+2025-12-22 12:28:50,312 - src.stream.capture - INFO - Successfully connected to RTSP stream
+2025-12-22 12:28:53,168 - uvicorn.access - INFO - 127.0.0.1:34270 - "GET /health HTTP/1.1" 200
+2025-12-22 12:28:53,168 - uvicorn.access - INFO - 127.0.0.1:34270 - "GET /health HTTP/1.1" 200
+2025-12-22 12:28:53,168 - uvicorn.access - INFO - 127.0.0.1:34270 - "GET /health HTTP/1.1" 200
+2025-12-22 12:28:58,568 - uvicorn.access - INFO - 172.18.0.1:36282 - "GET /debug/stream HTTP/1.1" 200
+2025-12-22 12:28:58,568 - uvicorn.access - INFO - 172.18.0.1:36282 - "GET /debug/stream HTTP/1.1" 200
+2025-12-22 12:28:58,568 - uvicorn.access - INFO - 172.18.0.1:36282 - "GET /debug/stream HTTP/1.1" 200
+2025-12-22 12:29:23,421 - uvicorn.access - INFO - 127.0.0.1:43690 - "GET /health HTTP/1.1" 200
+2025-12-22 12:29:23,421 - uvicorn.access - INFO - 127.0.0.1:43690 - "GET /health HTTP/1.1" 200
+2025-12-22 12:29:23,421 - uvicorn.access - INFO - 127.0.0.1:43690 - "GET /health HTTP/1.1" 200
+2025-12-22 12:29:38,171 - uvicorn.access - INFO - 172.18.0.1:58800 - "GET /debug/stream HTTP/1.1" 200
+2025-12-22 12:29:38,171 - uvicorn.access - INFO - 172.18.0.1:58800 - "GET /debug/stream HTTP/1.1" 200
+2025-12-22 12:29:38,171 - uvicorn.access - INFO - 172.18.0.1:58800 - "GET /debug/stream HTTP/1.1" 200
+2025-12-22 12:29:49,170 - uvicorn.error - INFO - Shutting down
+2025-12-22 12:29:49,170 - uvicorn.error - INFO - Shutting down
+2025-12-22 12:29:49,170 - uvicorn.error - INFO - Shutting down
+2025-12-22 12:29:49,271 - uvicorn.error - INFO - Waiting for connections to close. (CTRL+C to force quit)
+2025-12-22 12:29:49,271 - uvicorn.error - INFO - Waiting for connections to close. (CTRL+C to force quit)
+2025-12-22 12:29:49,271 - uvicorn.error - INFO - Waiting for connections to close. (CTRL+C to force quit)
+2025-12-22 12:30:01,009 - __main__ - INFO - Starting Rope Skipping Counter on 0.0.0.0:8080
+2025-12-22 12:30:01,010 - __main__ - INFO - RTSP URL: rtsps://192.168.1.1:7441/Zh57VpTojynQVGvw?enableSrtp
+2025-12-22 12:30:01,010 - __main__ - INFO - Webhook URL: http://192.168.1.131:8123/api/webhook/-yXN-y16djNI4k9TIvPQ3d8vL
+2025-12-22 12:30:01,010 - __main__ - INFO - Milestone interval: 100
+2025-12-22 12:30:01,396 - matplotlib - DEBUG - matplotlib data path: /usr/local/lib/python3.11/site-packages/matplotlib/mpl-data
+2025-12-22 12:30:01,403 - matplotlib - DEBUG - CONFIGDIR=/home/appuser/.config/matplotlib
+2025-12-22 12:30:01,404 - matplotlib - DEBUG - interactive is False
+2025-12-22 12:30:01,404 - matplotlib - DEBUG - platform is linux
+2025-12-22 12:30:01,434 - matplotlib - DEBUG - CACHEDIR=/home/appuser/.cache/matplotlib
+2025-12-22 12:30:01,434 - matplotlib.font_manager - DEBUG - font search path [PosixPath('/usr/local/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/ttf'), PosixPath('/usr/local/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/afm'), PosixPath('/usr/local/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/pdfcorefonts')]
+2025-12-22 12:30:01,563 - matplotlib.font_manager - INFO - generated new fontManager
+2025-12-22 12:30:02,162 - uvicorn.error - INFO - Started server process [1]
+2025-12-22 12:30:02,162 - uvicorn.error - INFO - Started server process [1]
+2025-12-22 12:30:02,162 - uvicorn.error - INFO - Started server process [1]
+2025-12-22 12:30:02,163 - uvicorn.error - INFO - Waiting for application startup.
+2025-12-22 12:30:02,163 - uvicorn.error - INFO - Waiting for application startup.
+2025-12-22 12:30:02,163 - uvicorn.error - INFO - Waiting for application startup.
+2025-12-22 12:30:02,295 - src.detection.pose - INFO - Initialized PoseDetector: model=2, tracking=nose, segmentation=enabled
+2025-12-22 12:30:02,295 - src.detection.jump - INFO - Initialized JumpDetector: min_amplitude=0.0025, max_amplitude=0.1, max_x_drift=0.15
+2025-12-22 12:30:02,296 - src.session.manager - INFO - Initialized SessionManager: start_threshold=5, stop_timeout=30s, milestone=100
+2025-12-22 12:30:02,296 - src.notifications.webhook - INFO - Initialized WebhookSender: url=http://192.168.1.131:8123/api/webhook/-yXN-y16djNI4k9TIvPQ3d8vL
+2025-12-22 12:30:02,297 - src.stream.capture - INFO - Connecting to rtsps://192.168.1.1:7441/Zh57VpTojynQVGvw?enableSrtp...
+2025-12-22 12:30:02,297 - src.stream.capture - INFO - Started RTSP capture for rtsps://192.168.1.1:7441/Zh57VpTojynQVGvw?enableSrtp
+2025-12-22 12:30:02,298 - src.processor.video - INFO - VideoProcessor started
+2025-12-22 12:30:02,298 - src.api.app - INFO - Application started
+2025-12-22 12:30:02,298 - uvicorn.error - INFO - Application startup complete.
+2025-12-22 12:30:02,298 - uvicorn.error - INFO - Application startup complete.
+2025-12-22 12:30:02,298 - uvicorn.error - INFO - Application startup complete.
+2025-12-22 12:30:02,301 - uvicorn.error - INFO - Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+2025-12-22 12:30:02,301 - uvicorn.error - INFO - Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+2025-12-22 12:30:02,301 - uvicorn.error - INFO - Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+2025-12-22 12:30:03,339 - src.stream.capture - INFO - Successfully connected to RTSP stream
+2025-12-22 12:30:05,852 - uvicorn.access - INFO - 127.0.0.1:39060 - "GET /health HTTP/1.1" 200
+2025-12-22 12:30:05,852 - uvicorn.access - INFO - 127.0.0.1:39060 - "GET /health HTTP/1.1" 200
+2025-12-22 12:30:05,852 - uvicorn.access - INFO - 127.0.0.1:39060 - "GET /health HTTP/1.1" 200
+2025-12-22 12:30:36,085 - uvicorn.access - INFO - 127.0.0.1:55300 - "GET /health HTTP/1.1" 200
+2025-12-22 12:30:36,085 - uvicorn.access - INFO - 127.0.0.1:55300 - "GET /health HTTP/1.1" 200
+2025-12-22 12:30:36,085 - uvicorn.access - INFO - 127.0.0.1:55300 - "GET /health HTTP/1.1" 200
+2025-12-22 12:31:06,315 - uvicorn.access - INFO - 127.0.0.1:56616 - "GET /health HTTP/1.1" 200
+2025-12-22 12:31:06,315 - uvicorn.access - INFO - 127.0.0.1:56616 - "GET /health HTTP/1.1" 200
+2025-12-22 12:31:06,315 - uvicorn.access - INFO - 127.0.0.1:56616 - "GET /health HTTP/1.1" 200
+2025-12-22 12:31:36,558 - uvicorn.access - INFO - 127.0.0.1:50670 - "GET /health HTTP/1.1" 200
+2025-12-22 12:31:36,558 - uvicorn.access - INFO - 127.0.0.1:50670 - "GET /health HTTP/1.1" 200
+2025-12-22 12:31:36,558 - uvicorn.access - INFO - 127.0.0.1:50670 - "GET /health HTTP/1.1" 200
+2025-12-22 12:32:06,778 - uvicorn.access - INFO - 127.0.0.1:40436 - "GET /health HTTP/1.1" 200
+2025-12-22 12:32:06,778 - uvicorn.access - INFO - 127.0.0.1:40436 - "GET /health HTTP/1.1" 200
+2025-12-22 12:32:06,778 - uvicorn.access - INFO - 127.0.0.1:40436 - "GET /health HTTP/1.1" 200
+2025-12-22 12:32:37,018 - uvicorn.access - INFO - 127.0.0.1:55662 - "GET /health HTTP/1.1" 200
+2025-12-22 12:32:37,018 - uvicorn.access - INFO - 127.0.0.1:55662 - "GET /health HTTP/1.1" 200
+2025-12-22 12:32:37,018 - uvicorn.access - INFO - 127.0.0.1:55662 - "GET /health HTTP/1.1" 200
+2025-12-22 12:33:07,284 - uvicorn.access - INFO - 127.0.0.1:35848 - "GET /health HTTP/1.1" 200
+2025-12-22 12:33:07,284 - uvicorn.access - INFO - 127.0.0.1:35848 - "GET /health HTTP/1.1" 200
+2025-12-22 12:33:07,284 - uvicorn.access - INFO - 127.0.0.1:35848 - "GET /health HTTP/1.1" 200
+2025-12-22 12:33:37,551 - uvicorn.access - INFO - 127.0.0.1:38762 - "GET /health HTTP/1.1" 200
+2025-12-22 12:33:37,551 - uvicorn.access - INFO - 127.0.0.1:38762 - "GET /health HTTP/1.1" 200
+2025-12-22 12:33:37,551 - uvicorn.access - INFO - 127.0.0.1:38762 - "GET /health HTTP/1.1" 200
+2025-12-22 12:34:07,795 - uvicorn.access - INFO - 127.0.0.1:52710 - "GET /health HTTP/1.1" 200
+2025-12-22 12:34:07,795 - uvicorn.access - INFO - 127.0.0.1:52710 - "GET /health HTTP/1.1" 200
+2025-12-22 12:34:07,795 - uvicorn.access - INFO - 127.0.0.1:52710 - "GET /health HTTP/1.1" 200
+2025-12-22 12:34:38,064 - uvicorn.access - INFO - 127.0.0.1:53496 - "GET /health HTTP/1.1" 200
+2025-12-22 12:34:38,064 - uvicorn.access - INFO - 127.0.0.1:53496 - "GET /health HTTP/1.1" 200
+2025-12-22 12:34:38,064 - uvicorn.access - INFO - 127.0.0.1:53496 - "GET /health HTTP/1.1" 200
+2025-12-22 12:35:08,324 - uvicorn.access - INFO - 127.0.0.1:39014 - "GET /health HTTP/1.1" 200
+2025-12-22 12:35:08,324 - uvicorn.access - INFO - 127.0.0.1:39014 - "GET /health HTTP/1.1" 200
+2025-12-22 12:35:08,324 - uvicorn.access - INFO - 127.0.0.1:39014 - "GET /health HTTP/1.1" 200
+2025-12-22 12:35:18,140 - uvicorn.error - INFO - Shutting down
+2025-12-22 12:35:18,140 - uvicorn.error - INFO - Shutting down
+2025-12-22 12:35:18,140 - uvicorn.error - INFO - Shutting down
+2025-12-22 12:35:18,241 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-12-22 12:35:18,241 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-12-22 12:35:18,241 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-12-22 12:35:18,248 - src.stream.capture - INFO - Stopped RTSP capture
+2025-12-22 12:35:18,273 - src.processor.video - INFO - VideoProcessor stopped
+2025-12-22 12:35:18,273 - src.api.app - INFO - Application stopped
+2025-12-22 12:35:18,274 - uvicorn.error - INFO - Application shutdown complete.
+2025-12-22 12:35:18,274 - uvicorn.error - INFO - Application shutdown complete.
+2025-12-22 12:35:18,274 - uvicorn.error - INFO - Application shutdown complete.
+2025-12-22 12:35:18,274 - uvicorn.error - INFO - Finished server process [1]
+2025-12-22 12:35:18,274 - uvicorn.error - INFO - Finished server process [1]
+2025-12-22 12:35:18,274 - uvicorn.error - INFO - Finished server process [1]
+2025-12-22 12:35:42,471 - __main__ - INFO - Starting Rope Skipping Counter on 0.0.0.0:8080
+2025-12-22 12:35:42,472 - __main__ - INFO - RTSP URL: rtsps://192.168.1.1:7441/Zh57VpTojynQVGvw?enableSrtp
+2025-12-22 12:35:42,472 - __main__ - INFO - Webhook URL: http://192.168.1.131:8123/api/webhook/-yXN-y16djNI4k9TIvPQ3d8vL
+2025-12-22 12:35:42,472 - __main__ - INFO - Milestone interval: 100
+2025-12-22 12:35:42,803 - matplotlib - DEBUG - matplotlib data path: /usr/local/lib/python3.11/site-packages/matplotlib/mpl-data
+2025-12-22 12:35:42,809 - matplotlib - DEBUG - CONFIGDIR=/home/appuser/.config/matplotlib
+2025-12-22 12:35:42,810 - matplotlib - DEBUG - interactive is False
+2025-12-22 12:35:42,810 - matplotlib - DEBUG - platform is linux
+2025-12-22 12:35:42,834 - matplotlib - DEBUG - CACHEDIR=/home/appuser/.cache/matplotlib
+2025-12-22 12:35:42,834 - matplotlib.font_manager - DEBUG - font search path [PosixPath('/usr/local/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/ttf'), PosixPath('/usr/local/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/afm'), PosixPath('/usr/local/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/pdfcorefonts')]
+2025-12-22 12:35:42,952 - matplotlib.font_manager - INFO - generated new fontManager
+2025-12-22 12:35:43,519 - uvicorn.error - INFO - Started server process [1]
+2025-12-22 12:35:43,519 - uvicorn.error - INFO - Started server process [1]
+2025-12-22 12:35:43,519 - uvicorn.error - INFO - Started server process [1]
+2025-12-22 12:35:43,519 - uvicorn.error - INFO - Waiting for application startup.
+2025-12-22 12:35:43,519 - uvicorn.error - INFO - Waiting for application startup.
+2025-12-22 12:35:43,519 - uvicorn.error - INFO - Waiting for application startup.
+2025-12-22 12:35:43,635 - src.detection.pose - INFO - Initialized PoseDetector: model=2, tracking=nose, segmentation=enabled
+2025-12-22 12:35:43,635 - src.detection.jump - INFO - Initialized JumpDetector: min_amplitude=0.0025, max_amplitude=0.1, max_x_drift=0.15
+2025-12-22 12:35:43,635 - src.session.manager - INFO - Initialized SessionManager: start_threshold=5, stop_timeout=30s, milestone=100
+2025-12-22 12:35:43,635 - src.notifications.webhook - INFO - Initialized WebhookSender: url=http://192.168.1.131:8123/api/webhook/-yXN-y16djNI4k9TIvPQ3d8vL
+2025-12-22 12:35:43,636 - src.stream.capture - INFO - Connecting to rtsps://192.168.1.1:7441/Zh57VpTojynQVGvw?enableSrtp...
+2025-12-22 12:35:43,636 - src.stream.capture - INFO - Started RTSP capture for rtsps://192.168.1.1:7441/Zh57VpTojynQVGvw?enableSrtp
+2025-12-22 12:35:43,637 - src.processor.video - INFO - VideoProcessor started
+2025-12-22 12:35:43,637 - src.api.app - INFO - Application started
+2025-12-22 12:35:43,638 - uvicorn.error - INFO - Application startup complete.
+2025-12-22 12:35:43,638 - uvicorn.error - INFO - Application startup complete.
+2025-12-22 12:35:43,638 - uvicorn.error - INFO - Application startup complete.
+2025-12-22 12:35:43,640 - uvicorn.error - INFO - Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+2025-12-22 12:35:43,640 - uvicorn.error - INFO - Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+2025-12-22 12:35:43,640 - uvicorn.error - INFO - Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+2025-12-22 12:35:44,673 - src.stream.capture - INFO - Successfully connected to RTSP stream
+2025-12-22 12:35:47,339 - uvicorn.access - INFO - 127.0.0.1:40286 - "GET /health HTTP/1.1" 200
+2025-12-22 12:35:47,339 - uvicorn.access - INFO - 127.0.0.1:40286 - "GET /health HTTP/1.1" 200
+2025-12-22 12:35:47,339 - uvicorn.access - INFO - 127.0.0.1:40286 - "GET /health HTTP/1.1" 200
+2025-12-22 12:35:48,116 - uvicorn.access - INFO - 172.18.0.1:49292 - "GET /debug/stream HTTP/1.1" 200
+2025-12-22 12:35:48,116 - uvicorn.access - INFO - 172.18.0.1:49292 - "GET /debug/stream HTTP/1.1" 200
+2025-12-22 12:35:48,116 - uvicorn.access - INFO - 172.18.0.1:49292 - "GET /debug/stream HTTP/1.1" 200
+2025-12-22 12:35:59,822 - src.processor.video - INFO - [DEBUG] frame=350, y=0.684, jumps=0
+2025-12-22 12:35:59,982 - src.detection.jump - INFO - Warmup complete after 30 frames
+2025-12-22 12:36:00,445 - src.detection.jump - INFO - Jump #1! amp=0.0060, stationary=True
+2025-12-22 12:36:00,880 - src.detection.jump - INFO - Jump #2! amp=0.0152, stationary=True
+2025-12-22 12:36:01,131 - src.detection.jump - INFO - Jump #3! amp=0.0186, stationary=True
+2025-12-22 12:36:01,468 - src.detection.jump - INFO - Jump #4! amp=0.0195, stationary=True
+2025-12-22 12:36:07,234 - uvicorn.access - INFO - 172.18.0.1:35240 - "GET /debug/stream HTTP/1.1" 200
+2025-12-22 12:36:07,234 - uvicorn.access - INFO - 172.18.0.1:35240 - "GET /debug/stream HTTP/1.1" 200
+2025-12-22 12:36:07,234 - uvicorn.access - INFO - 172.18.0.1:35240 - "GET /debug/stream HTTP/1.1" 200
+2025-12-22 12:36:17,597 - uvicorn.access - INFO - 127.0.0.1:45878 - "GET /health HTTP/1.1" 200
+2025-12-22 12:36:17,597 - uvicorn.access - INFO - 127.0.0.1:45878 - "GET /health HTTP/1.1" 200
+2025-12-22 12:36:17,597 - uvicorn.access - INFO - 127.0.0.1:45878 - "GET /health HTTP/1.1" 200
+2025-12-22 12:36:22,550 - uvicorn.access - INFO - 172.18.0.1:43364 - "GET /debug/stream HTTP/1.1" 200
+2025-12-22 12:36:22,550 - uvicorn.access - INFO - 172.18.0.1:43364 - "GET /debug/stream HTTP/1.1" 200
+2025-12-22 12:36:22,550 - uvicorn.access - INFO - 172.18.0.1:43364 - "GET /debug/stream HTTP/1.1" 200
+2025-12-22 12:36:47,846 - uvicorn.access - INFO - 127.0.0.1:55458 - "GET /health HTTP/1.1" 200
+2025-12-22 12:36:47,846 - uvicorn.access - INFO - 127.0.0.1:55458 - "GET /health HTTP/1.1" 200
+2025-12-22 12:36:47,846 - uvicorn.access - INFO - 127.0.0.1:55458 - "GET /health HTTP/1.1" 200
+2025-12-22 12:37:18,103 - uvicorn.access - INFO - 127.0.0.1:57270 - "GET /health HTTP/1.1" 200
+2025-12-22 12:37:18,103 - uvicorn.access - INFO - 127.0.0.1:57270 - "GET /health HTTP/1.1" 200
+2025-12-22 12:37:18,103 - uvicorn.access - INFO - 127.0.0.1:57270 - "GET /health HTTP/1.1" 200
+2025-12-22 12:37:46,125 - uvicorn.error - INFO - Shutting down
+2025-12-22 12:37:46,125 - uvicorn.error - INFO - Shutting down
+2025-12-22 12:37:46,125 - uvicorn.error - INFO - Shutting down
+2025-12-22 12:37:46,225 - uvicorn.error - INFO - Waiting for connections to close. (CTRL+C to force quit)
+2025-12-22 12:37:46,225 - uvicorn.error - INFO - Waiting for connections to close. (CTRL+C to force quit)
+2025-12-22 12:37:46,225 - uvicorn.error - INFO - Waiting for connections to close. (CTRL+C to force quit)
+2025-12-22 12:37:57,395 - __main__ - INFO - Starting Rope Skipping Counter on 0.0.0.0:8080
+2025-12-22 12:37:57,396 - __main__ - INFO - RTSP URL: rtsps://192.168.1.1:7441/Zh57VpTojynQVGvw?enableSrtp
+2025-12-22 12:37:57,396 - __main__ - INFO - Webhook URL: http://192.168.1.131:8123/api/webhook/-yXN-y16djNI4k9TIvPQ3d8vL
+2025-12-22 12:37:57,396 - __main__ - INFO - Milestone interval: 100
+2025-12-22 12:37:57,770 - matplotlib - DEBUG - matplotlib data path: /usr/local/lib/python3.11/site-packages/matplotlib/mpl-data
+2025-12-22 12:37:57,778 - matplotlib - DEBUG - CONFIGDIR=/home/appuser/.config/matplotlib
+2025-12-22 12:37:57,779 - matplotlib - DEBUG - interactive is False
+2025-12-22 12:37:57,779 - matplotlib - DEBUG - platform is linux
+2025-12-22 12:37:57,807 - matplotlib - DEBUG - CACHEDIR=/home/appuser/.cache/matplotlib
+2025-12-22 12:37:57,808 - matplotlib.font_manager - DEBUG - font search path [PosixPath('/usr/local/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/ttf'), PosixPath('/usr/local/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/afm'), PosixPath('/usr/local/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/pdfcorefonts')]
+2025-12-22 12:37:57,948 - matplotlib.font_manager - INFO - generated new fontManager
+2025-12-22 12:37:58,557 - uvicorn.error - INFO - Started server process [1]
+2025-12-22 12:37:58,557 - uvicorn.error - INFO - Started server process [1]
+2025-12-22 12:37:58,557 - uvicorn.error - INFO - Started server process [1]
+2025-12-22 12:37:58,558 - uvicorn.error - INFO - Waiting for application startup.
+2025-12-22 12:37:58,558 - uvicorn.error - INFO - Waiting for application startup.
+2025-12-22 12:37:58,558 - uvicorn.error - INFO - Waiting for application startup.
+2025-12-22 12:37:58,680 - src.detection.pose - INFO - Initialized PoseDetector: model=2, tracking=nose, segmentation=enabled
+2025-12-22 12:37:58,680 - src.detection.jump - INFO - Initialized JumpDetector: min_amplitude=0.0025, max_amplitude=0.1, max_x_drift=0.15
+2025-12-22 12:37:58,680 - src.session.manager - INFO - Initialized SessionManager: start_threshold=5, stop_timeout=30s, milestone=100
+2025-12-22 12:37:58,680 - src.notifications.webhook - INFO - Initialized WebhookSender: url=http://192.168.1.131:8123/api/webhook/-yXN-y16djNI4k9TIvPQ3d8vL
+2025-12-22 12:37:58,681 - src.stream.capture - INFO - Connecting to rtsps://192.168.1.1:7441/Zh57VpTojynQVGvw?enableSrtp...
+2025-12-22 12:37:58,681 - src.stream.capture - INFO - Started RTSP capture for rtsps://192.168.1.1:7441/Zh57VpTojynQVGvw?enableSrtp
+2025-12-22 12:37:58,682 - src.processor.video - INFO - VideoProcessor started
+2025-12-22 12:37:58,683 - src.api.app - INFO - Application started
+2025-12-22 12:37:58,683 - uvicorn.error - INFO - Application startup complete.
+2025-12-22 12:37:58,683 - uvicorn.error - INFO - Application startup complete.
+2025-12-22 12:37:58,683 - uvicorn.error - INFO - Application startup complete.
+2025-12-22 12:37:58,685 - uvicorn.error - INFO - Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+2025-12-22 12:37:58,685 - uvicorn.error - INFO - Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+2025-12-22 12:37:58,685 - uvicorn.error - INFO - Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+2025-12-22 12:37:59,751 - src.stream.capture - INFO - Successfully connected to RTSP stream
+2025-12-22 12:38:02,206 - uvicorn.access - INFO - 127.0.0.1:51190 - "GET /health HTTP/1.1" 200
+2025-12-22 12:38:02,206 - uvicorn.access - INFO - 127.0.0.1:51190 - "GET /health HTTP/1.1" 200
+2025-12-22 12:38:02,206 - uvicorn.access - INFO - 127.0.0.1:51190 - "GET /health HTTP/1.1" 200
+2025-12-22 12:38:07,653 - uvicorn.access - INFO - 172.18.0.1:42914 - "GET /debug/stream HTTP/1.1" 200
+2025-12-22 12:38:07,653 - uvicorn.access - INFO - 172.18.0.1:42914 - "GET /debug/stream HTTP/1.1" 200
+2025-12-22 12:38:07,653 - uvicorn.access - INFO - 172.18.0.1:42914 - "GET /debug/stream HTTP/1.1" 200
+2025-12-22 12:38:20,973 - uvicorn.access - INFO - 172.18.0.1:45450 - "GET /debug/stream HTTP/1.1" 200
+2025-12-22 12:38:20,973 - uvicorn.access - INFO - 172.18.0.1:45450 - "GET /debug/stream HTTP/1.1" 200
+2025-12-22 12:38:20,973 - uvicorn.access - INFO - 172.18.0.1:45450 - "GET /debug/stream HTTP/1.1" 200
+2025-12-22 12:38:26,734 - uvicorn.access - INFO - 172.18.0.1:45466 - "GET /debug/stream HTTP/1.1" 200
+2025-12-22 12:38:26,734 - uvicorn.access - INFO - 172.18.0.1:45466 - "GET /debug/stream HTTP/1.1" 200
+2025-12-22 12:38:26,734 - uvicorn.access - INFO - 172.18.0.1:45466 - "GET /debug/stream HTTP/1.1" 200
+2025-12-22 12:38:32,453 - uvicorn.access - INFO - 127.0.0.1:58294 - "GET /health HTTP/1.1" 200
+2025-12-22 12:38:32,453 - uvicorn.access - INFO - 127.0.0.1:58294 - "GET /health HTTP/1.1" 200
+2025-12-22 12:38:32,453 - uvicorn.access - INFO - 127.0.0.1:58294 - "GET /health HTTP/1.1" 200
+2025-12-22 12:38:59,343 - uvicorn.error - INFO - Shutting down
+2025-12-22 12:38:59,343 - uvicorn.error - INFO - Shutting down
+2025-12-22 12:38:59,343 - uvicorn.error - INFO - Shutting down
+2025-12-22 12:38:59,443 - uvicorn.error - INFO - Waiting for connections to close. (CTRL+C to force quit)
+2025-12-22 12:38:59,443 - uvicorn.error - INFO - Waiting for connections to close. (CTRL+C to force quit)
+2025-12-22 12:38:59,443 - uvicorn.error - INFO - Waiting for connections to close. (CTRL+C to force quit)
+2025-12-22 12:39:10,984 - __main__ - INFO - Starting Rope Skipping Counter on 0.0.0.0:8080
+2025-12-22 12:39:10,984 - __main__ - INFO - RTSP URL: rtsps://192.168.1.1:7441/Zh57VpTojynQVGvw?enableSrtp
+2025-12-22 12:39:10,984 - __main__ - INFO - Webhook URL: http://192.168.1.131:8123/api/webhook/-yXN-y16djNI4k9TIvPQ3d8vL
+2025-12-22 12:39:10,984 - __main__ - INFO - Milestone interval: 100
+2025-12-22 12:39:11,299 - matplotlib - DEBUG - matplotlib data path: /usr/local/lib/python3.11/site-packages/matplotlib/mpl-data
+2025-12-22 12:39:11,306 - matplotlib - DEBUG - CONFIGDIR=/home/appuser/.config/matplotlib
+2025-12-22 12:39:11,307 - matplotlib - DEBUG - interactive is False
+2025-12-22 12:39:11,308 - matplotlib - DEBUG - platform is linux
+2025-12-22 12:39:11,333 - matplotlib - DEBUG - CACHEDIR=/home/appuser/.cache/matplotlib
+2025-12-22 12:39:11,333 - matplotlib.font_manager - DEBUG - font search path [PosixPath('/usr/local/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/ttf'), PosixPath('/usr/local/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/afm'), PosixPath('/usr/local/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/pdfcorefonts')]
+2025-12-22 12:39:11,453 - matplotlib.font_manager - INFO - generated new fontManager
+2025-12-22 12:39:12,047 - uvicorn.error - INFO - Started server process [1]
+2025-12-22 12:39:12,047 - uvicorn.error - INFO - Started server process [1]
+2025-12-22 12:39:12,047 - uvicorn.error - INFO - Started server process [1]
+2025-12-22 12:39:12,048 - uvicorn.error - INFO - Waiting for application startup.
+2025-12-22 12:39:12,048 - uvicorn.error - INFO - Waiting for application startup.
+2025-12-22 12:39:12,048 - uvicorn.error - INFO - Waiting for application startup.
+2025-12-22 12:39:12,162 - src.detection.pose - INFO - Initialized PoseDetector: model=2, tracking=nose, segmentation=enabled
+2025-12-22 12:39:12,162 - src.detection.jump - INFO - Initialized JumpDetector: min_amplitude=0.0025, max_amplitude=0.1, max_x_drift=0.15
+2025-12-22 12:39:12,162 - src.session.manager - INFO - Initialized SessionManager: start_threshold=5, stop_timeout=30s, milestone=100
+2025-12-22 12:39:12,162 - src.notifications.webhook - INFO - Initialized WebhookSender: url=http://192.168.1.131:8123/api/webhook/-yXN-y16djNI4k9TIvPQ3d8vL
+2025-12-22 12:39:12,163 - src.stream.capture - INFO - Connecting to rtsps://192.168.1.1:7441/Zh57VpTojynQVGvw?enableSrtp...
+2025-12-22 12:39:12,163 - src.stream.capture - INFO - Started RTSP capture for rtsps://192.168.1.1:7441/Zh57VpTojynQVGvw?enableSrtp
+2025-12-22 12:39:12,164 - src.processor.video - INFO - VideoProcessor started
+2025-12-22 12:39:12,164 - src.api.app - INFO - Application started
+2025-12-22 12:39:12,165 - uvicorn.error - INFO - Application startup complete.
+2025-12-22 12:39:12,165 - uvicorn.error - INFO - Application startup complete.
+2025-12-22 12:39:12,165 - uvicorn.error - INFO - Application startup complete.
+2025-12-22 12:39:12,166 - uvicorn.error - INFO - Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+2025-12-22 12:39:12,166 - uvicorn.error - INFO - Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+2025-12-22 12:39:12,166 - uvicorn.error - INFO - Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+2025-12-22 12:39:13,179 - src.stream.capture - INFO - Successfully connected to RTSP stream
+2025-12-22 12:39:15,846 - uvicorn.access - INFO - 127.0.0.1:54756 - "GET /health HTTP/1.1" 200
+2025-12-22 12:39:15,846 - uvicorn.access - INFO - 127.0.0.1:54756 - "GET /health HTTP/1.1" 200
+2025-12-22 12:39:15,846 - uvicorn.access - INFO - 127.0.0.1:54756 - "GET /health HTTP/1.1" 200
+2025-12-22 12:39:46,129 - uvicorn.access - INFO - 127.0.0.1:49800 - "GET /health HTTP/1.1" 200
+2025-12-22 12:39:46,129 - uvicorn.access - INFO - 127.0.0.1:49800 - "GET /health HTTP/1.1" 200
+2025-12-22 12:39:46,129 - uvicorn.access - INFO - 127.0.0.1:49800 - "GET /health HTTP/1.1" 200
+2025-12-22 12:40:16,401 - uvicorn.access - INFO - 127.0.0.1:40200 - "GET /health HTTP/1.1" 200
+2025-12-22 12:40:16,401 - uvicorn.access - INFO - 127.0.0.1:40200 - "GET /health HTTP/1.1" 200
+2025-12-22 12:40:16,401 - uvicorn.access - INFO - 127.0.0.1:40200 - "GET /health HTTP/1.1" 200
+2025-12-22 12:40:46,652 - uvicorn.access - INFO - 127.0.0.1:40972 - "GET /health HTTP/1.1" 200
+2025-12-22 12:40:46,652 - uvicorn.access - INFO - 127.0.0.1:40972 - "GET /health HTTP/1.1" 200
+2025-12-22 12:40:46,652 - uvicorn.access - INFO - 127.0.0.1:40972 - "GET /health HTTP/1.1" 200
+2025-12-22 12:41:16,927 - uvicorn.access - INFO - 127.0.0.1:46820 - "GET /health HTTP/1.1" 200
+2025-12-22 12:41:16,927 - uvicorn.access - INFO - 127.0.0.1:46820 - "GET /health HTTP/1.1" 200
+2025-12-22 12:41:16,927 - uvicorn.access - INFO - 127.0.0.1:46820 - "GET /health HTTP/1.1" 200
+2025-12-22 12:41:47,210 - uvicorn.access - INFO - 127.0.0.1:40086 - "GET /health HTTP/1.1" 200
+2025-12-22 12:41:47,210 - uvicorn.access - INFO - 127.0.0.1:40086 - "GET /health HTTP/1.1" 200
+2025-12-22 12:41:47,210 - uvicorn.access - INFO - 127.0.0.1:40086 - "GET /health HTTP/1.1" 200
+2025-12-22 12:42:17,494 - uvicorn.access - INFO - 127.0.0.1:56058 - "GET /health HTTP/1.1" 200
+2025-12-22 12:42:17,494 - uvicorn.access - INFO - 127.0.0.1:56058 - "GET /health HTTP/1.1" 200
+2025-12-22 12:42:17,494 - uvicorn.access - INFO - 127.0.0.1:56058 - "GET /health HTTP/1.1" 200
+2025-12-22 12:42:47,761 - uvicorn.access - INFO - 127.0.0.1:51746 - "GET /health HTTP/1.1" 200
+2025-12-22 12:42:47,761 - uvicorn.access - INFO - 127.0.0.1:51746 - "GET /health HTTP/1.1" 200
+2025-12-22 12:42:47,761 - uvicorn.access - INFO - 127.0.0.1:51746 - "GET /health HTTP/1.1" 200
+2025-12-22 12:43:18,056 - uvicorn.access - INFO - 127.0.0.1:43708 - "GET /health HTTP/1.1" 200
+2025-12-22 12:43:18,056 - uvicorn.access - INFO - 127.0.0.1:43708 - "GET /health HTTP/1.1" 200
+2025-12-22 12:43:18,056 - uvicorn.access - INFO - 127.0.0.1:43708 - "GET /health HTTP/1.1" 200
+2025-12-22 12:43:48,340 - uvicorn.access - INFO - 127.0.0.1:32794 - "GET /health HTTP/1.1" 200
+2025-12-22 12:43:48,340 - uvicorn.access - INFO - 127.0.0.1:32794 - "GET /health HTTP/1.1" 200
+2025-12-22 12:43:48,340 - uvicorn.access - INFO - 127.0.0.1:32794 - "GET /health HTTP/1.1" 200
+2025-12-22 12:44:18,599 - uvicorn.access - INFO - 127.0.0.1:40700 - "GET /health HTTP/1.1" 200
+2025-12-22 12:44:18,599 - uvicorn.access - INFO - 127.0.0.1:40700 - "GET /health HTTP/1.1" 200
+2025-12-22 12:44:18,599 - uvicorn.access - INFO - 127.0.0.1:40700 - "GET /health HTTP/1.1" 200
+2025-12-22 12:44:48,858 - uvicorn.access - INFO - 127.0.0.1:55098 - "GET /health HTTP/1.1" 200
+2025-12-22 12:44:48,858 - uvicorn.access - INFO - 127.0.0.1:55098 - "GET /health HTTP/1.1" 200
+2025-12-22 12:44:48,858 - uvicorn.access - INFO - 127.0.0.1:55098 - "GET /health HTTP/1.1" 200
+2025-12-22 12:45:06,344 - src.processor.video - INFO - [DEBUG] frame=10500, y=0.389, jumps=0
+2025-12-22 12:45:08,412 - src.detection.jump - INFO - Warmup complete after 30 frames
+2025-12-22 12:45:09,107 - src.detection.jump - INFO - Jump #1! amp=0.0131, stationary=True
+2025-12-22 12:45:09,737 - src.detection.jump - INFO - Jump #2! amp=0.0164, stationary=True
+2025-12-22 12:45:10,083 - src.detection.jump - INFO - Jump #3! amp=0.0046, stationary=True
+2025-12-22 12:45:10,597 - src.detection.jump - INFO - Jump #4! amp=0.0063, stationary=True
+2025-12-22 12:45:10,762 - src.processor.video - INFO - [DEBUG] frame=10550, y=0.132, jumps=4
+2025-12-22 12:45:19,140 - uvicorn.access - INFO - 127.0.0.1:38350 - "GET /health HTTP/1.1" 200
+2025-12-22 12:45:19,140 - uvicorn.access - INFO - 127.0.0.1:38350 - "GET /health HTTP/1.1" 200
+2025-12-22 12:45:19,140 - uvicorn.access - INFO - 127.0.0.1:38350 - "GET /health HTTP/1.1" 200
+2025-12-22 12:45:49,440 - uvicorn.access - INFO - 127.0.0.1:60604 - "GET /health HTTP/1.1" 200
+2025-12-22 12:45:49,440 - uvicorn.access - INFO - 127.0.0.1:60604 - "GET /health HTTP/1.1" 200
+2025-12-22 12:45:49,440 - uvicorn.access - INFO - 127.0.0.1:60604 - "GET /health HTTP/1.1" 200
+2025-12-22 12:46:13,167 - uvicorn.error - INFO - Shutting down
+2025-12-22 12:46:13,167 - uvicorn.error - INFO - Shutting down
+2025-12-22 12:46:13,167 - uvicorn.error - INFO - Shutting down
+2025-12-22 12:46:13,270 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-12-22 12:46:13,270 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-12-22 12:46:13,270 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-12-22 12:46:13,290 - src.stream.capture - INFO - Stopped RTSP capture
+2025-12-22 12:46:13,320 - src.processor.video - INFO - VideoProcessor stopped
+2025-12-22 12:46:13,321 - src.api.app - INFO - Application stopped
+2025-12-22 12:46:13,321 - uvicorn.error - INFO - Application shutdown complete.
+2025-12-22 12:46:13,321 - uvicorn.error - INFO - Application shutdown complete.
+2025-12-22 12:46:13,321 - uvicorn.error - INFO - Application shutdown complete.
+2025-12-22 12:46:13,321 - uvicorn.error - INFO - Finished server process [1]
+2025-12-22 12:46:13,321 - uvicorn.error - INFO - Finished server process [1]
+2025-12-22 12:46:13,321 - uvicorn.error - INFO - Finished server process [1]
+2025-12-22 12:52:14,132 - __main__ - INFO - Starting Rope Skipping Counter on 0.0.0.0:8080
+2025-12-22 12:52:14,132 - __main__ - INFO - RTSP URL: rtsps://192.168.1.1:7441/Zh57VpTojynQVGvw?enableSrtp
+2025-12-22 12:52:14,132 - __main__ - INFO - Webhook URL: http://192.168.1.131:8123/api/webhook/-yXN-y16djNI4k9TIvPQ3d8vL
+2025-12-22 12:52:14,132 - __main__ - INFO - Milestone interval: 100
+2025-12-22 12:52:14,657 - uvicorn.error - INFO - Started server process [1]
+2025-12-22 12:52:14,657 - uvicorn.error - INFO - Started server process [1]
+2025-12-22 12:52:14,657 - uvicorn.error - INFO - Started server process [1]
+2025-12-22 12:52:14,657 - uvicorn.error - INFO - Waiting for application startup.
+2025-12-22 12:52:14,657 - uvicorn.error - INFO - Waiting for application startup.
+2025-12-22 12:52:14,657 - uvicorn.error - INFO - Waiting for application startup.
+2025-12-22 12:52:17,683 - src.detection.pose - INFO - Loading YOLO pose model: yolov8m-pose.pt
+2025-12-22 12:52:18,120 - src.detection.pose - INFO - Initialized PoseDetector: model=yolov8m-pose.pt, min_conf=0.5, tracking=nose
+2025-12-22 12:52:18,120 - src.detection.jump - INFO - Initialized JumpDetector: min_amplitude=0.0025, max_amplitude=0.1, max_x_drift=0.15
+2025-12-22 12:52:18,121 - src.session.manager - INFO - Initialized SessionManager: start_threshold=5, stop_timeout=30s, milestone=100
+2025-12-22 12:52:18,121 - src.notifications.webhook - INFO - Initialized WebhookSender: url=http://192.168.1.131:8123/api/webhook/-yXN-y16djNI4k9TIvPQ3d8vL
+2025-12-22 12:52:18,121 - src.stream.capture - INFO - Connecting to rtsps://192.168.1.1:7441/Zh57VpTojynQVGvw?enableSrtp...
+2025-12-22 12:52:18,122 - src.stream.capture - INFO - Started RTSP capture for rtsps://192.168.1.1:7441/Zh57VpTojynQVGvw?enableSrtp
+2025-12-22 12:52:18,123 - src.processor.video - INFO - VideoProcessor started
+2025-12-22 12:52:18,123 - src.api.app - INFO - Application started
+2025-12-22 12:52:18,123 - uvicorn.error - INFO - Application startup complete.
+2025-12-22 12:52:18,123 - uvicorn.error - INFO - Application startup complete.
+2025-12-22 12:52:18,123 - uvicorn.error - INFO - Application startup complete.
+2025-12-22 12:52:18,124 - uvicorn.error - INFO - Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+2025-12-22 12:52:18,124 - uvicorn.error - INFO - Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+2025-12-22 12:52:18,124 - uvicorn.error - INFO - Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+2025-12-22 12:52:18,957 - uvicorn.access - INFO - 127.0.0.1:33412 - "GET /health HTTP/1.1" 200
+2025-12-22 12:52:18,957 - uvicorn.access - INFO - 127.0.0.1:33412 - "GET /health HTTP/1.1" 200
+2025-12-22 12:52:18,957 - uvicorn.access - INFO - 127.0.0.1:33412 - "GET /health HTTP/1.1" 200
+2025-12-22 12:52:19,149 - src.stream.capture - INFO - Successfully connected to RTSP stream
+2025-12-22 12:52:38,261 - uvicorn.access - INFO - 172.18.0.1:37786 - "GET /count HTTP/1.1" 200
+2025-12-22 12:52:38,261 - uvicorn.access - INFO - 172.18.0.1:37786 - "GET /count HTTP/1.1" 200
+2025-12-22 12:52:38,261 - uvicorn.access - INFO - 172.18.0.1:37786 - "GET /count HTTP/1.1" 200
+2025-12-22 12:52:49,559 - uvicorn.access - INFO - 127.0.0.1:59174 - "GET /health HTTP/1.1" 200
+2025-12-22 12:52:49,559 - uvicorn.access - INFO - 127.0.0.1:59174 - "GET /health HTTP/1.1" 200
+2025-12-22 12:52:49,559 - uvicorn.access - INFO - 127.0.0.1:59174 - "GET /health HTTP/1.1" 200
+2025-12-22 12:52:54,861 - uvicorn.access - INFO - 172.18.0.1:42406 - "GET /debug/stream HTTP/1.1" 200
+2025-12-22 12:52:54,861 - uvicorn.access - INFO - 172.18.0.1:42406 - "GET /debug/stream HTTP/1.1" 200
+2025-12-22 12:52:54,861 - uvicorn.access - INFO - 172.18.0.1:42406 - "GET /debug/stream HTTP/1.1" 200
+2025-12-22 12:53:20,093 - uvicorn.access - INFO - 127.0.0.1:39618 - "GET /health HTTP/1.1" 200
+2025-12-22 12:53:20,093 - uvicorn.access - INFO - 127.0.0.1:39618 - "GET /health HTTP/1.1" 200
+2025-12-22 12:53:20,093 - uvicorn.access - INFO - 127.0.0.1:39618 - "GET /health HTTP/1.1" 200
+2025-12-22 12:53:35,022 - uvicorn.access - INFO - 172.18.0.1:53388 - "GET /debug/stream HTTP/1.1" 200
+2025-12-22 12:53:35,022 - uvicorn.access - INFO - 172.18.0.1:53388 - "GET /debug/stream HTTP/1.1" 200
+2025-12-22 12:53:35,022 - uvicorn.access - INFO - 172.18.0.1:53388 - "GET /debug/stream HTTP/1.1" 200
+2025-12-22 12:53:50,701 - uvicorn.access - INFO - 127.0.0.1:42388 - "GET /health HTTP/1.1" 200
+2025-12-22 12:53:50,701 - uvicorn.access - INFO - 127.0.0.1:42388 - "GET /health HTTP/1.1" 200
+2025-12-22 12:53:50,701 - uvicorn.access - INFO - 127.0.0.1:42388 - "GET /health HTTP/1.1" 200
+2025-12-22 12:54:06,326 - uvicorn.error - INFO - Shutting down
+2025-12-22 12:54:06,326 - uvicorn.error - INFO - Shutting down
+2025-12-22 12:54:06,326 - uvicorn.error - INFO - Shutting down
+2025-12-22 12:54:06,427 - uvicorn.error - INFO - Waiting for connections to close. (CTRL+C to force quit)
+2025-12-22 12:54:06,427 - uvicorn.error - INFO - Waiting for connections to close. (CTRL+C to force quit)
+2025-12-22 12:54:06,427 - uvicorn.error - INFO - Waiting for connections to close. (CTRL+C to force quit)
+2025-12-22 12:54:18,665 - __main__ - INFO - Starting Rope Skipping Counter on 0.0.0.0:8080
+2025-12-22 12:54:18,668 - __main__ - INFO - RTSP URL: rtsps://192.168.1.1:7441/Zh57VpTojynQVGvw?enableSrtp
+2025-12-22 12:54:18,668 - __main__ - INFO - Webhook URL: http://192.168.1.131:8123/api/webhook/-yXN-y16djNI4k9TIvPQ3d8vL
+2025-12-22 12:54:18,668 - __main__ - INFO - Milestone interval: 100
+2025-12-22 12:54:19,163 - uvicorn.error - INFO - Started server process [1]
+2025-12-22 12:54:19,163 - uvicorn.error - INFO - Started server process [1]
+2025-12-22 12:54:19,163 - uvicorn.error - INFO - Started server process [1]
+2025-12-22 12:54:19,163 - uvicorn.error - INFO - Waiting for application startup.
+2025-12-22 12:54:19,163 - uvicorn.error - INFO - Waiting for application startup.
+2025-12-22 12:54:19,163 - uvicorn.error - INFO - Waiting for application startup.
+2025-12-22 12:54:21,731 - src.detection.pose - INFO - Loading YOLO pose model: yolov8m-pose.pt
+2025-12-22 12:54:22,014 - src.detection.pose - INFO - Initialized PoseDetector: model=yolov8m-pose.pt, min_conf=0.5, tracking=nose
+2025-12-22 12:54:22,014 - src.detection.jump - INFO - Initialized JumpDetector: min_amplitude=0.0025, max_amplitude=0.1, max_x_drift=0.15
+2025-12-22 12:54:22,015 - src.session.manager - INFO - Initialized SessionManager: start_threshold=5, stop_timeout=30s, milestone=100
+2025-12-22 12:54:22,015 - src.notifications.webhook - INFO - Initialized WebhookSender: url=http://192.168.1.131:8123/api/webhook/-yXN-y16djNI4k9TIvPQ3d8vL
+2025-12-22 12:54:22,015 - src.stream.capture - INFO - Connecting to rtsps://192.168.1.1:7441/Zh57VpTojynQVGvw?enableSrtp...
+2025-12-22 12:54:22,015 - src.stream.capture - INFO - Started RTSP capture for rtsps://192.168.1.1:7441/Zh57VpTojynQVGvw?enableSrtp
+2025-12-22 12:54:22,017 - src.processor.video - INFO - VideoProcessor started
+2025-12-22 12:54:22,017 - src.api.app - INFO - Application started
+2025-12-22 12:54:22,017 - uvicorn.error - INFO - Application startup complete.
+2025-12-22 12:54:22,017 - uvicorn.error - INFO - Application startup complete.
+2025-12-22 12:54:22,017 - uvicorn.error - INFO - Application startup complete.
+2025-12-22 12:54:22,018 - uvicorn.error - INFO - Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+2025-12-22 12:54:22,018 - uvicorn.error - INFO - Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+2025-12-22 12:54:22,018 - uvicorn.error - INFO - Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+2025-12-22 12:54:23,034 - src.stream.capture - INFO - Successfully connected to RTSP stream
+2025-12-22 12:54:23,806 - uvicorn.access - INFO - 127.0.0.1:47256 - "GET /health HTTP/1.1" 200
+2025-12-22 12:54:23,806 - uvicorn.access - INFO - 127.0.0.1:47256 - "GET /health HTTP/1.1" 200
+2025-12-22 12:54:23,806 - uvicorn.access - INFO - 127.0.0.1:47256 - "GET /health HTTP/1.1" 200
+2025-12-22 12:54:54,441 - uvicorn.access - INFO - 127.0.0.1:46848 - "GET /health HTTP/1.1" 200
+2025-12-22 12:54:54,441 - uvicorn.access - INFO - 127.0.0.1:46848 - "GET /health HTTP/1.1" 200
+2025-12-22 12:54:54,441 - uvicorn.access - INFO - 127.0.0.1:46848 - "GET /health HTTP/1.1" 200
+2025-12-22 12:55:25,153 - uvicorn.access - INFO - 127.0.0.1:50038 - "GET /health HTTP/1.1" 200
+2025-12-22 12:55:25,153 - uvicorn.access - INFO - 127.0.0.1:50038 - "GET /health HTTP/1.1" 200
+2025-12-22 12:55:25,153 - uvicorn.access - INFO - 127.0.0.1:50038 - "GET /health HTTP/1.1" 200
+2025-12-22 12:55:56,073 - uvicorn.access - INFO - 127.0.0.1:43394 - "GET /health HTTP/1.1" 200
+2025-12-22 12:55:56,073 - uvicorn.access - INFO - 127.0.0.1:43394 - "GET /health HTTP/1.1" 200
+2025-12-22 12:55:56,073 - uvicorn.access - INFO - 127.0.0.1:43394 - "GET /health HTTP/1.1" 200
+2025-12-22 12:56:26,881 - uvicorn.access - INFO - 127.0.0.1:47470 - "GET /health HTTP/1.1" 200
+2025-12-22 12:56:26,881 - uvicorn.access - INFO - 127.0.0.1:47470 - "GET /health HTTP/1.1" 200
+2025-12-22 12:56:26,881 - uvicorn.access - INFO - 127.0.0.1:47470 - "GET /health HTTP/1.1" 200
+2025-12-22 12:56:57,525 - uvicorn.access - INFO - 127.0.0.1:53564 - "GET /health HTTP/1.1" 200
+2025-12-22 12:56:57,525 - uvicorn.access - INFO - 127.0.0.1:53564 - "GET /health HTTP/1.1" 200
+2025-12-22 12:56:57,525 - uvicorn.access - INFO - 127.0.0.1:53564 - "GET /health HTTP/1.1" 200
+2025-12-22 12:57:28,261 - uvicorn.access - INFO - 127.0.0.1:47896 - "GET /health HTTP/1.1" 200
+2025-12-22 12:57:28,261 - uvicorn.access - INFO - 127.0.0.1:47896 - "GET /health HTTP/1.1" 200
+2025-12-22 12:57:28,261 - uvicorn.access - INFO - 127.0.0.1:47896 - "GET /health HTTP/1.1" 200
+2025-12-22 12:57:58,783 - uvicorn.access - INFO - 127.0.0.1:41454 - "GET /health HTTP/1.1" 200
+2025-12-22 12:57:58,783 - uvicorn.access - INFO - 127.0.0.1:41454 - "GET /health HTTP/1.1" 200
+2025-12-22 12:57:58,783 - uvicorn.access - INFO - 127.0.0.1:41454 - "GET /health HTTP/1.1" 200
+2025-12-22 12:58:29,610 - uvicorn.access - INFO - 127.0.0.1:51020 - "GET /health HTTP/1.1" 200
+2025-12-22 12:58:29,610 - uvicorn.access - INFO - 127.0.0.1:51020 - "GET /health HTTP/1.1" 200
+2025-12-22 12:58:29,610 - uvicorn.access - INFO - 127.0.0.1:51020 - "GET /health HTTP/1.1" 200
+2025-12-22 12:59:00,252 - uvicorn.access - INFO - 127.0.0.1:56164 - "GET /health HTTP/1.1" 200
+2025-12-22 12:59:00,252 - uvicorn.access - INFO - 127.0.0.1:56164 - "GET /health HTTP/1.1" 200
+2025-12-22 12:59:00,252 - uvicorn.access - INFO - 127.0.0.1:56164 - "GET /health HTTP/1.1" 200
+2025-12-22 12:59:12,345 - uvicorn.error - INFO - Shutting down
+2025-12-22 12:59:12,345 - uvicorn.error - INFO - Shutting down
+2025-12-22 12:59:12,345 - uvicorn.error - INFO - Shutting down
+2025-12-22 12:59:12,447 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-12-22 12:59:12,447 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-12-22 12:59:12,447 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-12-22 12:59:12,457 - src.stream.capture - INFO - Stopped RTSP capture
+2025-12-22 12:59:13,341 - src.processor.video - INFO - VideoProcessor stopped
+2025-12-22 12:59:13,341 - src.api.app - INFO - Application stopped
+2025-12-22 12:59:13,341 - uvicorn.error - INFO - Application shutdown complete.
+2025-12-22 12:59:13,341 - uvicorn.error - INFO - Application shutdown complete.
+2025-12-22 12:59:13,341 - uvicorn.error - INFO - Application shutdown complete.
+2025-12-22 12:59:13,342 - uvicorn.error - INFO - Finished server process [1]
+2025-12-22 12:59:13,342 - uvicorn.error - INFO - Finished server process [1]
+2025-12-22 12:59:13,342 - uvicorn.error - INFO - Finished server process [1]
+2025-12-22 12:59:32,252 - __main__ - INFO - Starting Rope Skipping Counter on 0.0.0.0:8080
+2025-12-22 12:59:32,252 - __main__ - INFO - RTSP URL: rtsps://192.168.1.1:7441/Zh57VpTojynQVGvw?enableSrtp
+2025-12-22 12:59:32,252 - __main__ - INFO - Webhook URL: http://192.168.1.131:8123/api/webhook/-yXN-y16djNI4k9TIvPQ3d8vL
+2025-12-22 12:59:32,252 - __main__ - INFO - Milestone interval: 100
+2025-12-22 12:59:32,822 - uvicorn.error - INFO - Started server process [1]
+2025-12-22 12:59:32,822 - uvicorn.error - INFO - Started server process [1]
+2025-12-22 12:59:32,822 - uvicorn.error - INFO - Started server process [1]
+2025-12-22 12:59:32,823 - uvicorn.error - INFO - Waiting for application startup.
+2025-12-22 12:59:32,823 - uvicorn.error - INFO - Waiting for application startup.
+2025-12-22 12:59:32,823 - uvicorn.error - INFO - Waiting for application startup.
+2025-12-22 12:59:35,328 - src.detection.pose - INFO - Loading YOLO pose model: yolov8m-pose.pt
+2025-12-22 12:59:35,500 - src.detection.pose - INFO - Initialized PoseDetector: model=yolov8m-pose.pt, min_conf=0.5, tracking=nose
+2025-12-22 12:59:35,500 - src.detection.jump - INFO - Initialized JumpDetector: min_amplitude=0.0025, max_amplitude=0.1, max_x_drift=0.15
+2025-12-22 12:59:35,500 - src.session.manager - INFO - Initialized SessionManager: start_threshold=5, stop_timeout=30s, milestone=100
+2025-12-22 12:59:35,500 - src.notifications.webhook - INFO - Initialized WebhookSender: url=http://192.168.1.131:8123/api/webhook/-yXN-y16djNI4k9TIvPQ3d8vL
+2025-12-22 12:59:35,500 - src.stream.capture - INFO - Connecting to rtsps://192.168.1.1:7441/Zh57VpTojynQVGvw?enableSrtp...
+2025-12-22 12:59:35,501 - src.stream.capture - INFO - Started RTSP capture for rtsps://192.168.1.1:7441/Zh57VpTojynQVGvw?enableSrtp
+2025-12-22 12:59:35,502 - src.processor.video - INFO - VideoProcessor started
+2025-12-22 12:59:35,502 - src.api.app - INFO - Application started
+2025-12-22 12:59:35,502 - uvicorn.error - INFO - Application startup complete.
+2025-12-22 12:59:35,502 - uvicorn.error - INFO - Application startup complete.
+2025-12-22 12:59:35,502 - uvicorn.error - INFO - Application startup complete.
+2025-12-22 12:59:35,503 - uvicorn.error - INFO - Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+2025-12-22 12:59:35,503 - uvicorn.error - INFO - Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+2025-12-22 12:59:35,503 - uvicorn.error - INFO - Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+2025-12-22 12:59:36,530 - src.stream.capture - INFO - Successfully connected to RTSP stream
+2025-12-22 12:59:37,506 - uvicorn.access - INFO - 127.0.0.1:42378 - "GET /health HTTP/1.1" 200
+2025-12-22 12:59:37,506 - uvicorn.access - INFO - 127.0.0.1:42378 - "GET /health HTTP/1.1" 200
+2025-12-22 12:59:37,506 - uvicorn.access - INFO - 127.0.0.1:42378 - "GET /health HTTP/1.1" 200
+2025-12-22 13:00:08,249 - uvicorn.access - INFO - 127.0.0.1:44246 - "GET /health HTTP/1.1" 200
+2025-12-22 13:00:08,249 - uvicorn.access - INFO - 127.0.0.1:44246 - "GET /health HTTP/1.1" 200
+2025-12-22 13:00:08,249 - uvicorn.access - INFO - 127.0.0.1:44246 - "GET /health HTTP/1.1" 200
+2025-12-22 13:00:38,772 - uvicorn.access - INFO - 127.0.0.1:55058 - "GET /health HTTP/1.1" 200
+2025-12-22 13:00:38,772 - uvicorn.access - INFO - 127.0.0.1:55058 - "GET /health HTTP/1.1" 200
+2025-12-22 13:00:38,772 - uvicorn.access - INFO - 127.0.0.1:55058 - "GET /health HTTP/1.1" 200

@@ -6,7 +6,6 @@ from datetime import datetime
 from typing import TYPE_CHECKING
 
 import cv2
-import mediapipe as mp
 import numpy as np
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse, StreamingResponse
@@ -198,14 +197,38 @@ async def get_snapshot():
     )
 
 
-# MediaPipe drawing utilities
-mp_pose = mp.solutions.pose
-mp_drawing = mp.solutions.drawing_utils
-mp_drawing_styles = mp.solutions.drawing_styles
+# YOLO pose skeleton connections (pairs of keypoint indices)
+YOLO_SKELETON = [
+    (0, 1), (0, 2), (1, 3), (2, 4),  # Face
+    (5, 6),  # Shoulders
+    (5, 7), (7, 9),  # Left arm
+    (6, 8), (8, 10),  # Right arm
+    (5, 11), (6, 12),  # Torso
+    (11, 12),  # Hips
+    (11, 13), (13, 15),  # Left leg
+    (12, 14), (14, 16),  # Right leg
+]
+
+
+def draw_yolo_skeleton(frame: np.ndarray, keypoints: np.ndarray, color: tuple = (0, 255, 0)) -> None:
+    """Draw YOLO pose skeleton on frame."""
+    h, w = frame.shape[:2]
+
+    # Draw keypoints
+    for i, (x, y) in enumerate(keypoints):
+        if x > 0 and y > 0:  # Only draw visible keypoints
+            cv2.circle(frame, (int(x), int(y)), 4, color, -1)
+
+    # Draw skeleton connections
+    for i, j in YOLO_SKELETON:
+        x1, y1 = keypoints[i]
+        x2, y2 = keypoints[j]
+        if x1 > 0 and y1 > 0 and x2 > 0 and y2 > 0:
+            cv2.line(frame, (int(x1), int(y1)), (int(x2), int(y2)), color, 2)
 
 
 def generate_debug_frames():
-    """Generate MJPEG frames with pose overlay from main processor."""
+    """Generate MJPEG frames with YOLO pose overlay from main processor."""
     processor = get_processor()
     import time
     last_frame_id = 0
@@ -223,37 +246,34 @@ def generate_debug_frames():
         last_frame_id = processor.frames_processed
 
         frame = processor.last_frame.copy()
-        results = processor.pose_detector.last_results
+        h, w = frame.shape[:2]
 
         # Debug: show frame dimensions
-        h, w = frame.shape[:2]
         cv2.putText(frame, f"Frame: {w}x{h}", (w - 200, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
 
-        # Overlay segmentation mask if available (shows what MediaPipe thinks is "person")
-        if results and results.segmentation_mask is not None:
-            mask = results.segmentation_mask
-            # Resize mask to match frame dimensions if needed
-            if mask.shape[:2] != frame.shape[:2]:
-                mask = cv2.resize(mask, (frame.shape[1], frame.shape[0]))
-            # Create colored overlay where person is detected
-            mask_3ch = np.stack([mask, mask, mask], axis=-1)
-            # Blue tint for segmentation
-            overlay = (mask_3ch * np.array([100, 50, 0])).astype(np.uint8)
-            frame = cv2.addWeighted(frame, 1.0, overlay, 0.5, 0)
+        # Get YOLO detection info
+        keypoints = processor.pose_detector.last_keypoints
+        bbox = processor.pose_detector.last_bbox
+        rejection = processor.pose_detector.last_rejection_reason
 
-        # Always draw skeleton if pose detected (no filtering)
-        if results and results.pose_landmarks:
-            nose = results.pose_landmarks.landmark[0]
-            mp_drawing.draw_landmarks(
-                frame,
-                results.pose_landmarks,
-                mp_pose.POSE_CONNECTIONS,
-                landmark_drawing_spec=mp_drawing.DrawingSpec(color=(0, 255, 0), thickness=2, circle_radius=3),
-                connection_drawing_spec=mp_drawing.DrawingSpec(color=(0, 255, 0), thickness=2),
-            )
-            cv2.putText(frame, f"POSE: nose=({nose.x:.2f}, {nose.y:.2f})", (10, 80), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 2)
+        if keypoints is not None:
+            nose_x, nose_y = keypoints[0]
+            if rejection:
+                # Pose detected but rejected - show in red
+                cv2.putText(frame, f"REJECTED: {rejection}", (10, 80), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 255), 2)
+                draw_yolo_skeleton(frame, keypoints, color=(0, 0, 255))
+            else:
+                # Valid pose - draw green skeleton
+                draw_yolo_skeleton(frame, keypoints, color=(0, 255, 0))
+                cv2.putText(frame, f"VALID POSE: nose=({nose_x/w:.2f}, {nose_y/h:.2f})", (10, 80), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 2)
+
+            # Draw bounding box if available
+            if bbox is not None:
+                x1, y1, x2, y2 = bbox
+                color = (0, 0, 255) if rejection else (0, 255, 0)
+                cv2.rectangle(frame, (int(x1), int(y1)), (int(x2), int(y2)), color, 2)
         else:
-            cv2.putText(frame, "NO POSE DETECTED", (10, 80), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (128, 128, 128), 2)
+            cv2.putText(frame, f"NO PERSON: {rejection or 'waiting'}", (10, 80), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (128, 128, 128), 2)
 
         # Add jump count
         jump_count = processor.jump_detector.session_jumps

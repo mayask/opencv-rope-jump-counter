@@ -3,8 +3,8 @@ from dataclasses import dataclass
 from typing import Optional
 
 import cv2
-import mediapipe as mp
 import numpy as np
+from ultralytics import YOLO
 
 logger = logging.getLogger(__name__)
 
@@ -20,104 +20,157 @@ class BodyPosition:
 
 
 class PoseDetector:
-    """MediaPipe pose estimation wrapper for jump detection."""
+    """YOLOv8-pose wrapper for jump detection.
 
+    Uses YOLO's human detection + pose estimation which is much better
+    at distinguishing real humans from objects like treadmills.
+    """
+
+    # YOLO pose keypoint indices
     NOSE = 0
+    LEFT_EYE = 1
+    RIGHT_EYE = 2
+    LEFT_EAR = 3
+    RIGHT_EAR = 4
+    LEFT_SHOULDER = 5
+    RIGHT_SHOULDER = 6
+    LEFT_ELBOW = 7
+    RIGHT_ELBOW = 8
+    LEFT_WRIST = 9
+    RIGHT_WRIST = 10
+    LEFT_HIP = 11
+    RIGHT_HIP = 12
+    LEFT_KNEE = 13
+    RIGHT_KNEE = 14
+    LEFT_ANKLE = 15
+    RIGHT_ANKLE = 16
 
     def __init__(
         self,
-        model_complexity: int = 1,
+        model_complexity: int = 1,  # Ignored, kept for API compatibility
         min_detection_confidence: float = 0.5,
-        min_tracking_confidence: float = 0.5,
+        min_tracking_confidence: float = 0.5,  # Ignored, kept for API compatibility
         track_point: str = "nose",
     ):
-        self.mp_pose = mp.solutions.pose
-        # Enable segmentation to verify actual human pixels exist
-        self.pose = self.mp_pose.Pose(
-            static_image_mode=False,
-            model_complexity=model_complexity,
-            enable_segmentation=True,  # Get segmentation mask
-            min_detection_confidence=min_detection_confidence,
-            min_tracking_confidence=min_tracking_confidence,
-        )
+        # Load YOLOv8 pose model (downloads automatically on first run)
+        # Using yolov8n-pose for speed (15+ FPS), yolov8m-pose for better accuracy
+        model_name = "yolov8n-pose.pt"
+        logger.info(f"Loading YOLO pose model: {model_name}")
+        self.model = YOLO(model_name)
+
+        self.min_confidence = min_detection_confidence
         self.track_point = track_point
 
         # For debug visualization
         self.last_results = None
         self.last_rejection_reason = None
-        self.last_segmentation_ratio = 0.0
+        self.last_keypoints = None
+        self.last_bbox = None
 
         # Motion tracking - detect static objects
-        self.position_history: list[tuple[float, float]] = []
-        self.motion_window = 30  # ~1 second of frames
-        self.min_motion = 0.02  # Require 2% movement to be "alive"
-        self.is_moving = False
+        self._position_history: list[tuple[float, float]] = []
+        self._has_seen_movement = False
+        self._log_counter = 0
 
         logger.info(
-            f"Initialized PoseDetector: model={model_complexity}, tracking={track_point}, segmentation=enabled"
+            f"Initialized PoseDetector: model={model_name}, min_conf={min_detection_confidence}, tracking={track_point}"
         )
 
     def process_frame(self, frame: np.ndarray) -> Optional[BodyPosition]:
         """Process a frame and extract body position."""
-        rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        results = self.pose.process(rgb_frame)
+        h, w = frame.shape[:2]
+
+        # Run YOLO inference
+        results = self.model(frame, verbose=False, conf=self.min_confidence)
 
         # Store for debug
         self.last_results = results
         self.last_rejection_reason = None
-        self.last_segmentation_ratio = 0.0
-
-        if not results.pose_landmarks:
-            self.last_rejection_reason = "No pose detected"
-            return None
-
-        nose = results.pose_landmarks.landmark[self.NOSE]
-
-        # Log every 30 frames
-        if not hasattr(self, '_log_counter'):
-            self._log_counter = 0
+        self.last_keypoints = None
+        self.last_bbox = None
         self._log_counter += 1
 
-        # Motion filter - track position and reject static objects (like treadmill)
-        if not hasattr(self, '_position_history'):
-            self._position_history = []
+        # Check if any person detected
+        if len(results) == 0 or results[0].keypoints is None:
+            self.last_rejection_reason = "No person detected"
+            return None
 
-        self._position_history.append((nose.x, nose.y))
-        if len(self._position_history) > 30:  # ~2 sec window
+        keypoints = results[0].keypoints
+        boxes = results[0].boxes
+
+        if keypoints.xy is None or len(keypoints.xy) == 0:
+            self.last_rejection_reason = "No keypoints"
+            return None
+
+        # Get the most confident person detection
+        if boxes.conf is not None and len(boxes.conf) > 0:
+            best_idx = boxes.conf.argmax().item()
+            person_conf = boxes.conf[best_idx].item()
+        else:
+            best_idx = 0
+            person_conf = 0.5
+
+        # Get keypoints for best detection
+        kpts = keypoints.xy[best_idx].cpu().numpy()  # Shape: (17, 2)
+        kpts_conf = keypoints.conf[best_idx].cpu().numpy() if keypoints.conf is not None else None
+
+        # Store for debug visualization
+        self.last_keypoints = kpts
+        if boxes.xyxy is not None and len(boxes.xyxy) > best_idx:
+            self.last_bbox = boxes.xyxy[best_idx].cpu().numpy()
+
+        # Get nose position
+        nose_x, nose_y = kpts[self.NOSE]
+        nose_conf = kpts_conf[self.NOSE] if kpts_conf is not None else person_conf
+
+        # Check if nose was detected (coordinates are 0,0 if not visible)
+        if nose_x == 0 and nose_y == 0:
+            self.last_rejection_reason = "Nose not visible"
+            return None
+
+        # Normalize coordinates
+        norm_x = nose_x / w
+        norm_y = nose_y / h
+
+        # Motion filter - reject static objects
+        self._position_history.append((norm_x, norm_y))
+        if len(self._position_history) > 30:
             self._position_history.pop(0)
 
-        if len(self._position_history) >= 30:
-            y_vals = [p[1] for p in self._position_history]
-            y_range = max(y_vals) - min(y_vals)
+        # Need at least 15 frames to check movement
+        if len(self._position_history) < 15:
+            self.last_rejection_reason = f"Warming up ({len(self._position_history)}/15)"
+            return None
 
-            # Reject if no significant vertical movement (static object)
-            if y_range < 0.01:  # Less than 1% movement = static
-                self.last_rejection_reason = f"Static (y_range={y_range:.3f})"
-                if self._log_counter % 30 == 0:
-                    print(f"[POSE] Rejected static: y_range={y_range:.3f}", flush=True)
-                return None
+        y_vals = [p[1] for p in self._position_history]
+        y_range = max(y_vals) - min(y_vals)
+
+        # Must see significant movement (0.02 = 2%) to be considered a real person
+        if y_range >= 0.02:
+            self._has_seen_movement = True
+
+        # Reject if we've never seen movement - static object
+        if not self._has_seen_movement:
+            self.last_rejection_reason = f"No movement yet (y_range={y_range:.3f})"
+            if self._log_counter % 30 == 0:
+                print(f"[POSE] Rejected - no movement: y_range={y_range:.3f}", flush=True)
+            return None
+
+        # Also reject if currently static (person stopped)
+        if y_range < 0.01:
+            self.last_rejection_reason = f"Static (y_range={y_range:.3f})"
+            return None
 
         if self._log_counter % 30 == 0:
-            print(f"[POSE] Detected: nose=({nose.x:.2f}, {nose.y:.2f}), vis={nose.visibility:.2f}", flush=True)
+            print(f"[POSE] Detected: nose=({norm_x:.2f}, {norm_y:.2f}), conf={nose_conf:.2f}, person_conf={person_conf:.2f}", flush=True)
 
         return BodyPosition(
-            x=nose.x,
-            y=nose.y,
-            confidence=nose.visibility,
+            x=norm_x,
+            y=norm_y,
+            confidence=nose_conf,
             landmark_name="nose",
         )
 
-    def _get_average_visibility(self, landmarks) -> float:
-        """Calculate average visibility of key body landmarks."""
-        key_indices = [
-            self.NOSE,
-            11, 12,  # shoulders
-            23, 24,  # hips
-            25, 26,  # knees
-        ]
-        visibilities = [landmarks.landmark[i].visibility for i in key_indices]
-        return sum(visibilities) / len(visibilities)
-
     def close(self) -> None:
         """Release resources."""
-        self.pose.close()
+        pass  # YOLO doesn't need explicit cleanup
