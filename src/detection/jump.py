@@ -17,98 +17,102 @@ class JumpEvent:
 
 
 class JumpDetector:
-    """Detects and counts completed jump cycles using hip position tracking."""
+    """Detects and counts jump cycles using direction change detection."""
 
-    def __init__(
-        self,
-        jump_threshold_ratio: float = 0.12,
-        baseline_window: int = 60,
-        min_jump_frames: int = 3,
-    ):
+    def __init__(self, min_amplitude: float = 0.008):
         """
         Initialize jump detector.
 
         Args:
-            jump_threshold_ratio: How much hip must rise relative to baseline (0.12 = 12%)
-            baseline_window: Number of frames to use for baseline calculation
-            min_jump_frames: Minimum frames in air to count as valid jump (debouncing)
+            min_amplitude: Minimum Y movement to count as a jump (fraction of frame height)
         """
-        self.jump_threshold_ratio = jump_threshold_ratio
-        self.min_jump_frames = min_jump_frames
+        self.min_amplitude = min_amplitude
 
-        # Baseline tracking (stores lowest/grounded positions)
-        self.baseline_samples: deque[float] = deque(maxlen=baseline_window)
-        self.baseline_y: Optional[float] = None
+        # Track last few positions for direction detection (no smoothing)
+        self.last_y: Optional[float] = None
+        self.prev_y: Optional[float] = None
 
-        # Jump state machine
-        self.is_in_air = False
-        self.air_frame_count = 0
+        # Direction tracking
+        self.was_going_up = False
+        self.local_min_y: Optional[float] = None  # Valley (highest Y value = lowest position)
+        self.local_max_y: Optional[float] = None  # Peak (lowest Y value = highest position)
 
         # Counters
         self.total_jumps = 0
         self.session_jumps = 0
 
-        logger.info(
-            f"Initialized JumpDetector: threshold={jump_threshold_ratio}, "
-            f"min_frames={min_jump_frames}"
-        )
+        # For debug
+        self.last_valley_y: Optional[float] = None
+        self.last_peak_y: Optional[float] = None
+
+        logger.info(f"Initialized JumpDetector: min_amplitude={min_amplitude}")
 
     def process(self, hip_position: HipPosition) -> Optional[JumpEvent]:
         """
         Process a hip position and detect if a jump was completed.
 
-        Args:
-            hip_position: Current hip position from pose detection
-
-        Returns:
-            JumpEvent if a jump was just completed, None otherwise
+        Detects jumps by finding direction reversals (up->down = peak = jump counted).
         """
-        hip_y = hip_position.y
+        curr_y = hip_position.y
 
-        # Initialize baseline if not set
-        if self.baseline_y is None:
-            self.baseline_y = hip_y
-            self.baseline_samples.append(hip_y)
+        # Need at least 2 previous values
+        if self.last_y is None:
+            self.last_y = curr_y
             return None
 
-        # Calculate jump threshold (lower Y = higher position in frame)
-        threshold = self.baseline_y - self.jump_threshold_ratio
+        if self.prev_y is None:
+            self.prev_y = self.last_y
+            self.last_y = curr_y
+            return None
 
-        if not self.is_in_air:
-            # Currently on ground - update baseline
-            self.baseline_samples.append(hip_y)
-            # Baseline is the maximum Y (lowest point) in recent samples
-            self.baseline_y = max(self.baseline_samples)
+        # Determine current direction (lower Y = going up in frame)
+        going_up = curr_y < self.last_y
 
-            # Check if jumped (Y decreased significantly = moved up)
-            if hip_y < threshold:
-                self.is_in_air = True
-                self.air_frame_count = 1
-                logger.debug(f"Jump started: y={hip_y:.3f}, threshold={threshold:.3f}")
+        # Track local extremes
+        if going_up:
+            # Going up - track the valley we just left (if we were going down)
+            if not self.was_going_up:
+                # Direction changed: was down, now up
+                # The last_y was a local minimum (valley)
+                self.local_min_y = self.last_y
         else:
-            # Currently in air
-            self.air_frame_count += 1
+            # Going down - track the peak we just left (if we were going up)
+            if self.was_going_up:
+                # Direction changed: was up, now down
+                # The last_y was a local maximum (peak) = TOP OF JUMP
+                self.local_max_y = self.last_y
 
-            # Check if landed (Y increased back to near baseline)
-            if hip_y >= threshold:
-                self.is_in_air = False
+                # Check if this completes a valid jump cycle
+                if self.local_min_y is not None:
+                    amplitude = self.local_min_y - self.local_max_y
 
-                # Only count if was in air long enough (debouncing)
-                if self.air_frame_count >= self.min_jump_frames:
-                    self.total_jumps += 1
-                    self.session_jumps += 1
-                    logger.debug(
-                        f"Jump completed! Total={self.total_jumps}, "
-                        f"Session={self.session_jumps}, air_frames={self.air_frame_count}"
-                    )
-                    return JumpEvent(
-                        total_count=self.total_jumps,
-                        session_count=self.session_jumps,
-                    )
-                else:
-                    logger.debug(
-                        f"Jump rejected (too short): {self.air_frame_count} frames"
-                    )
+                    if amplitude >= self.min_amplitude:
+                        self.total_jumps += 1
+                        self.session_jumps += 1
+
+                        # Store for debug
+                        self.last_valley_y = self.local_min_y
+                        self.last_peak_y = self.local_max_y
+
+                        logger.info(
+                            f"Jump #{self.session_jumps}! amplitude={amplitude:.4f}, "
+                            f"peak_y={self.local_max_y:.3f}, valley_y={self.local_min_y:.3f}"
+                        )
+
+                        # Update state
+                        self.prev_y = self.last_y
+                        self.last_y = curr_y
+                        self.was_going_up = going_up
+
+                        return JumpEvent(
+                            total_count=self.total_jumps,
+                            session_count=self.session_jumps,
+                        )
+
+        # Update state
+        self.prev_y = self.last_y
+        self.last_y = curr_y
+        self.was_going_up = going_up
 
         return None
 
@@ -121,10 +125,11 @@ class JumpDetector:
         """Reset all counters and state."""
         self.total_jumps = 0
         self.session_jumps = 0
-        self.baseline_y = None
-        self.baseline_samples.clear()
-        self.is_in_air = False
-        self.air_frame_count = 0
+        self.last_y = None
+        self.prev_y = None
+        self.was_going_up = False
+        self.local_min_y = None
+        self.local_max_y = None
         logger.info("All counters and state reset")
 
     def reset_daily(self) -> None:

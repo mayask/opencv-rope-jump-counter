@@ -35,10 +35,7 @@ class VideoProcessor:
             min_tracking_confidence=config.detection.min_tracking_confidence,
         )
 
-        self.jump_detector = JumpDetector(
-            jump_threshold_ratio=config.detection.jump_threshold_ratio,
-            min_jump_frames=config.detection.min_jump_frames,
-        )
+        self.jump_detector = JumpDetector()
 
         self.session_manager = SessionManager(
             start_threshold=config.session.start_threshold,
@@ -128,6 +125,14 @@ class VideoProcessor:
 
         if hip_position is None:
             return
+
+        # Debug: log hip position every 50 frames
+        if self.frames_processed % 50 == 0:
+            jd = self.jump_detector
+            logger.info(
+                f"[DEBUG] frame={self.frames_processed}, hip_y={hip_position.y:.3f}, "
+                f"jumps={jd.session_jumps}"
+            )
 
         # Detect jump
         jump_event = self.jump_detector.process(hip_position)

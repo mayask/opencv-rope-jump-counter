@@ -111,15 +111,6 @@ class RTSPCapture:
                 logger.warning("Failed to read frame")
                 break
 
-            # Rate limiting
-            now = time.time()
-            if self._last_frame_time is not None:
-                elapsed = now - self._last_frame_time
-                if elapsed < self._frame_interval:
-                    continue
-
-            self._last_frame_time = now
-
             # Non-blocking put, drop old frames if queue is full
             try:
                 # Clear old frames to keep only latest

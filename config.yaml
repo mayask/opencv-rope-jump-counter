@@ -3,7 +3,7 @@
 # RTSP Stream Configuration
 stream:
   rtsp_url: "${RTSP_URL}"  # Override with env var
-  target_fps: 15
+  target_fps: 30  # Match video source FPS
   reconnect_delay: 5
 
 # Detection Configuration

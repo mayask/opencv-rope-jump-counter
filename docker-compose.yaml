@@ -1,4 +1,36 @@
 services:
+  # Test RTSP server that loops a video file
+  test-stream:
+    image: bluenviron/mediamtx:latest
+    container_name: test-stream
+    ports:
+      - "8554:8554"  # RTSP
+    volumes:
+      - ./camera-stream.mp4:/video.mp4:ro
+      - ./mediamtx.yml:/mediamtx.yml:ro
+    profiles:
+      - test
+
+  # FFmpeg to push looped video to RTSP server
+  test-ffmpeg:
+    image: linuxserver/ffmpeg:latest
+    container_name: test-ffmpeg
+    depends_on:
+      - test-stream
+    volumes:
+      - ./camera-stream.mp4:/video.mp4:ro
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        sleep 3
+        while true; do
+          ffmpeg -re -stream_loop -1 -i /video.mp4 -c copy -f rtsp rtsp://test-stream:8554/live
+          sleep 1
+        done
+    profiles:
+      - test
+
+  # Production: uses real camera
   rope-counter:
     build: .
     image: rope-skipping-counter:latest
@@ -30,3 +62,21 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
+
+  # Test mode: uses looped video file
+  rope-counter-test:
+    build: .
+    image: rope-skipping-counter:latest
+    container_name: rope-counter-test
+    depends_on:
+      - test-stream
+      - test-ffmpeg
+    ports:
+      - "8081:8080"
+    environment:
+      - RTSP_URL=rtsp://test-stream:8554/live
+      - WEBHOOK_URL=${WEBHOOK_URL:-}
+      - MILESTONE_INTERVAL=${MILESTONE_INTERVAL:-100}
+      - TZ=${TZ:-Europe/Amsterdam}
+    profiles:
+      - test

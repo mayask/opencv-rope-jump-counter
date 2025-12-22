@@ -1,0 +1,17 @@
+###############################################
+# MediaMTX config for test RTSP stream
+###############################################
+
+# Logging
+logLevel: info
+logDestinations: [stdout]
+
+# RTSP server
+rtsp: yes
+rtspAddress: :8554
+protocols: [tcp]
+
+# Paths
+paths:
+  live:
+    source: publisher
