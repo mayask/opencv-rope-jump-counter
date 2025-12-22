@@ -138,18 +138,30 @@ class PoseDetector:
             # Calculate bbox height as fraction of frame height
             bbox_height_norm = (bbox[3] - bbox[1]) / orig_h
 
-        # Get nose position
-        nose_x, nose_y = kpts[self.NOSE]
-        nose_conf = kpts_conf[self.NOSE] if kpts_conf is not None else person_conf
+        # Get head center (average of visible head keypoints for robustness)
+        head_keypoint_indices = [self.NOSE, self.LEFT_EYE, self.RIGHT_EYE, self.LEFT_EAR, self.RIGHT_EAR]
+        visible_points = []
+        total_conf = 0.0
 
-        # Check if nose was detected (coordinates are 0,0 if not visible)
-        if nose_x == 0 and nose_y == 0:
-            self.last_rejection_reason = "Nose not visible"
+        for idx in head_keypoint_indices:
+            x, y = kpts[idx]
+            if x > 0 and y > 0:  # Visible if not (0,0)
+                conf = kpts_conf[idx] if kpts_conf is not None else person_conf
+                visible_points.append((x, y, conf))
+                total_conf += conf
+
+        if not visible_points:
+            self.last_rejection_reason = "No head keypoints visible"
             return None
 
+        # Weighted average by confidence
+        head_x = sum(p[0] * p[2] for p in visible_points) / total_conf
+        head_y = sum(p[1] * p[2] for p in visible_points) / total_conf
+        avg_conf = total_conf / len(visible_points)
+
         # Normalize coordinates (use original dimensions since kpts are scaled back)
-        norm_x = nose_x / orig_w
-        norm_y = nose_y / orig_h
+        norm_x = head_x / orig_w
+        norm_y = head_y / orig_h
 
         # Motion filter - reject static objects
         self._position_history.append((norm_x, norm_y))
@@ -181,13 +193,13 @@ class PoseDetector:
             return None
 
         if self._log_counter % 30 == 0:
-            print(f"[POSE] Detected: nose=({norm_x:.2f}, {norm_y:.2f}), conf={nose_conf:.2f}, person_conf={person_conf:.2f}", flush=True)
+            print(f"[POSE] Detected: head=({norm_x:.2f}, {norm_y:.2f}), conf={avg_conf:.2f}, person_conf={person_conf:.2f}", flush=True)
 
         return BodyPosition(
             x=norm_x,
             y=norm_y,
-            confidence=nose_conf,
-            landmark_name="nose",
+            confidence=avg_conf,
+            landmark_name="head_center",
             bbox_height=bbox_height_norm,
         )
 

@@ -280,12 +280,12 @@ def generate_debug_frames():
             nose_x, nose_y = keypoints[0]
             if rejection:
                 # Pose detected but rejected - show in red
-                cv2.putText(frame, f"REJECTED: {rejection}", (10, 80), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 255), 2)
+                cv2.putText(frame, f"REJECTED: {rejection}", (10, h - 50), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 255), 2)
                 draw_yolo_skeleton(frame, keypoints, color=(0, 0, 255))
             else:
                 # Valid pose - draw green skeleton
                 draw_yolo_skeleton(frame, keypoints, color=(0, 255, 0))
-                cv2.putText(frame, f"VALID POSE: nose=({nose_x/w:.2f}, {nose_y/h:.2f})", (10, 80), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 2)
+                cv2.putText(frame, f"VALID POSE: head=({nose_x/w:.2f}, {nose_y/h:.2f})", (10, h - 50), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 2)
 
             # Draw bounding box if available
             if bbox is not None:
@@ -293,11 +293,11 @@ def generate_debug_frames():
                 color = (0, 0, 255) if rejection else (0, 255, 0)
                 cv2.rectangle(frame, (int(x1), int(y1)), (int(x2), int(y2)), color, 2)
         else:
-            cv2.putText(frame, f"NO PERSON: {rejection or 'waiting'}", (10, 80), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (128, 128, 128), 2)
+            cv2.putText(frame, f"NO PERSON: {rejection or 'waiting'}", (10, h - 50), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (128, 128, 128), 2)
 
         # Add jump count
         jump_count = processor.jump_detector.session_jumps
-        cv2.putText(frame, f"Jumps: {jump_count}", (10, 110), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 255), 2)
+        cv2.putText(frame, f"Jumps: {jump_count}", (10, h - 20), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 255), 2)
 
         # Encode as JPEG
         _, buffer = cv2.imencode('.jpg', frame, [cv2.IMWRITE_JPEG_QUALITY, 70])
