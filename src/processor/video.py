@@ -63,6 +63,9 @@ class VideoProcessor:
         # Store last frame for debug stream
         self.last_frame = None
 
+        # Track last jump count to compute batch sizes
+        self._last_jump_count = 0
+
     def start(self) -> None:
         """Start the video processor."""
         if self._running:
@@ -147,8 +150,12 @@ class VideoProcessor:
         if jump_event is None:
             return
 
-        # Record jump in session manager
-        session_event = self.session_manager.record_jump()
+        # Calculate batch size (usually 1, but 3+ at rhythm confirmation)
+        batch_size = jump_event.session_count - self._last_jump_count
+        self._last_jump_count = jump_event.session_count
+
+        # Record jump(s) in session manager
+        session_event = self.session_manager.record_jump(count=batch_size)
 
         if session_event is not None:
             self._handle_session_event(session_event)
@@ -163,15 +170,10 @@ class VideoProcessor:
         """Handle a session event (send webhook if needed)."""
         # Run async webhook in the event loop
         if self._event_loop:
-            future = asyncio.run_coroutine_threadsafe(
-                self.webhook_sender.send_event(event),
-                self._event_loop,
-            )
-            # Don't block waiting for result
             try:
-                future.result(timeout=0.1)
-            except TimeoutError:
-                pass  # Webhook will complete in background
+                self._event_loop.run_until_complete(
+                    self.webhook_sender.send_event(event)
+                )
             except Exception as e:
                 logger.error(f"Webhook error: {e}")
 
@@ -185,3 +187,7 @@ class VideoProcessor:
             self.current_fps = sum(self._fps_samples) / len(self._fps_samples)
 
         self._last_fps_time = now
+
+    def reset_counters(self) -> None:
+        """Reset jump count tracking."""
+        self._last_jump_count = 0

@@ -53,6 +53,8 @@ class WebhookSender:
         Returns:
             True if sent successfully, False otherwise
         """
+        logger.info(f"send_event called: type={event.event_type}")
+
         # Only send milestone events
         if event.event_type != SessionEventType.MILESTONE_REACHED:
             return True
@@ -69,6 +71,7 @@ class WebhookSender:
             "timestamp": event.timestamp.isoformat(),
         }
 
+        logger.info(f"Sending milestone {event.milestone} to {self.webhook_url}")
         return await self._send_with_retry(payload)
 
     async def _send_with_retry(self, payload: dict) -> bool:
@@ -79,25 +82,16 @@ class WebhookSender:
             try:
                 async with session.post(self.webhook_url, json=payload) as response:
                     if response.status < 300:
-                        logger.info(
-                            f"Webhook sent successfully: milestone={payload.get('milestone')}"
-                        )
+                        logger.info(f"Webhook sent successfully: status={response.status}")
                         return True
                     else:
-                        logger.warning(
-                            f"Webhook failed with status {response.status} "
-                            f"(attempt {attempt + 1}/{self.max_retries})"
-                        )
+                        logger.warning(f"Webhook failed: status={response.status} attempt={attempt + 1}")
             except asyncio.TimeoutError:
-                logger.warning(
-                    f"Webhook timeout (attempt {attempt + 1}/{self.max_retries})"
-                )
+                logger.warning(f"Webhook timeout: attempt={attempt + 1}")
             except aiohttp.ClientError as e:
-                logger.warning(
-                    f"Webhook error: {e} (attempt {attempt + 1}/{self.max_retries})"
-                )
+                logger.warning(f"Webhook client error: {e} attempt={attempt + 1}")
             except Exception as e:
-                logger.error(f"Unexpected webhook error: {e}")
+                logger.error(f"Webhook unexpected error: {e}")
                 return False
 
             # Exponential backoff

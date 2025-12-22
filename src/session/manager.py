@@ -81,9 +81,13 @@ class SessionManager:
                 )
         return None
 
-    def record_jump(self) -> Optional[SessionEvent]:
+    def record_jump(self, count: int = 1) -> Optional[SessionEvent]:
         """
-        Record a jump and return event if milestone reached.
+        Record jump(s) and return event if milestone reached.
+
+        Args:
+            count: Number of jumps to record (usually 1, but can be more
+                   when jump detector confirms rhythm with batch)
 
         Returns:
             SessionEvent if milestone reached or session started, None otherwise
@@ -93,7 +97,7 @@ class SessionManager:
         self.last_jump_time = now
 
         if not self.session_active:
-            self.pending_jumps += 1
+            self.pending_jumps += count
 
             if self.pending_jumps >= self.start_threshold:
                 # Start session
@@ -111,8 +115,8 @@ class SessionManager:
                     daily_total=self.daily_total,
                 )
         else:
-            self.session_jumps += 1
-            self.daily_total += 1
+            self.session_jumps += count
+            self.daily_total += count
 
             # Check milestone
             current_milestone = (

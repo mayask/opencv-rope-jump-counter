@@ -1,5 +1,6 @@
 import asyncio
 import logging
+import sys
 import time
 from contextlib import asynccontextmanager
 from datetime import datetime
@@ -11,6 +12,13 @@ from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse, StreamingResponse
 
 from ..config.settings import get_config
+
+# Configure logging to stdout
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    stream=sys.stdout,
+)
 from .models import (
     CountResponse,
     HealthResponse,
@@ -164,12 +172,13 @@ async def stop_session():
     )
 
 
-@app.post("/reset", response_model=ResetResponse)
+@app.get("/reset", response_model=ResetResponse)
 async def reset_counts():
     """Reset all counts."""
     processor = get_processor()
     processor.session_manager.reset_all()
     processor.jump_detector.reset_all()
+    processor.reset_counters()
 
     return ResetResponse(
         status="reset",
