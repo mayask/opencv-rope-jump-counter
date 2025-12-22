@@ -10,76 +10,94 @@ logger = logging.getLogger(__name__)
 
 
 @dataclass
-class HipPosition:
-    """Represents the hip center position."""
+class BodyPosition:
+    """Represents tracked body position for jump detection."""
 
+    x: float  # Normalized X position (0=left, 1=right)
     y: float  # Normalized Y position (0=top, 1=bottom)
-    left_y: float
-    right_y: float
     confidence: float
+    landmark_name: str
 
 
 class PoseDetector:
     """MediaPipe pose estimation wrapper for jump detection."""
 
-    # Hip landmark indices in MediaPipe pose
-    LEFT_HIP = 23
-    RIGHT_HIP = 24
+    NOSE = 0
 
     def __init__(
         self,
-        model_complexity: int = 0,
+        model_complexity: int = 1,
         min_detection_confidence: float = 0.5,
         min_tracking_confidence: float = 0.5,
+        track_point: str = "nose",
     ):
         self.mp_pose = mp.solutions.pose
+        # Enable segmentation to verify actual human pixels exist
         self.pose = self.mp_pose.Pose(
             static_image_mode=False,
             model_complexity=model_complexity,
+            enable_segmentation=True,  # Get segmentation mask
             min_detection_confidence=min_detection_confidence,
             min_tracking_confidence=min_tracking_confidence,
         )
+        self.track_point = track_point
+
+        # For debug visualization
+        self.last_results = None
+        self.last_rejection_reason = None
+        self.last_segmentation_ratio = 0.0
+
+        # Motion tracking - detect static objects
+        self.position_history: list[tuple[float, float]] = []
+        self.motion_window = 30  # ~1 second of frames
+        self.min_motion = 0.02  # Require 2% movement to be "alive"
+        self.is_moving = False
+
         logger.info(
-            f"Initialized PoseDetector with model_complexity={model_complexity}"
+            f"Initialized PoseDetector: model={model_complexity}, tracking={track_point}, segmentation=enabled"
         )
 
-    def process_frame(self, frame: np.ndarray) -> Optional[HipPosition]:
-        """
-        Process a frame and extract hip position.
-
-        Args:
-            frame: BGR image from OpenCV
-
-        Returns:
-            HipPosition if detected, None otherwise
-        """
-        # Convert BGR to RGB for MediaPipe
+    def process_frame(self, frame: np.ndarray) -> Optional[BodyPosition]:
+        """Process a frame and extract body position."""
         rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         results = self.pose.process(rgb_frame)
 
+        # Store for debug
+        self.last_results = results
+        self.last_rejection_reason = None
+        self.last_segmentation_ratio = 0.0
+
         if not results.pose_landmarks:
+            self.last_rejection_reason = "No pose detected"
             return None
 
-        landmarks = results.pose_landmarks.landmark
+        nose = results.pose_landmarks.landmark[self.NOSE]
 
-        left_hip = landmarks[self.LEFT_HIP]
-        right_hip = landmarks[self.RIGHT_HIP]
+        # Log every 30 frames
+        if not hasattr(self, '_log_counter'):
+            self._log_counter = 0
+        self._log_counter += 1
 
-        # Calculate confidence as average visibility
-        confidence = (left_hip.visibility + right_hip.visibility) / 2
+        if self._log_counter % 30 == 0:
+            print(f"[POSE] Detected: nose=({nose.x:.2f}, {nose.y:.2f}), vis={nose.visibility:.2f}", flush=True)
 
-        if confidence < 0.3:
-            return None
-
-        # Calculate hip center Y position
-        hip_y = (left_hip.y + right_hip.y) / 2
-
-        return HipPosition(
-            y=hip_y,
-            left_y=left_hip.y,
-            right_y=right_hip.y,
-            confidence=confidence,
+        return BodyPosition(
+            x=nose.x,
+            y=nose.y,
+            confidence=nose.visibility,
+            landmark_name="nose",
         )
+
+    def _get_average_visibility(self, landmarks) -> float:
+        """Calculate average visibility of key body landmarks."""
+        key_indices = [
+            self.NOSE,
+            11, 12,  # shoulders
+            23, 24,  # hips
+            25, 26,  # knees
+        ]
+        visibilities = [landmarks.landmark[i].visibility for i in key_indices]
+        return sum(visibilities) / len(visibilities)
 
     def close(self) -> None:
         """Release resources."""

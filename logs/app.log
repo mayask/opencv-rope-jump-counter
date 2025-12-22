@@ -1,0 +1,65 @@
+2025-12-22 12:09:32,112 - __main__ - INFO - Starting Rope Skipping Counter on 0.0.0.0:8080
+2025-12-22 12:09:32,112 - __main__ - INFO - RTSP URL: rtsps://192.168.1.1:7441/Zh57VpTojynQVGvw?enableSrtp
+2025-12-22 12:09:32,112 - __main__ - INFO - Webhook URL: http://192.168.1.131:8123/api/webhook/-yXN-y16djNI4k9TIvPQ3d8vL
+2025-12-22 12:09:32,112 - __main__ - INFO - Milestone interval: 100
+2025-12-22 12:09:32,457 - matplotlib - DEBUG - matplotlib data path: /usr/local/lib/python3.11/site-packages/matplotlib/mpl-data
+2025-12-22 12:09:32,465 - matplotlib - DEBUG - CONFIGDIR=/home/appuser/.config/matplotlib
+2025-12-22 12:09:32,467 - matplotlib - DEBUG - interactive is False
+2025-12-22 12:09:32,467 - matplotlib - DEBUG - platform is linux
+2025-12-22 12:09:32,499 - matplotlib - DEBUG - CACHEDIR=/home/appuser/.cache/matplotlib
+2025-12-22 12:09:32,499 - matplotlib.font_manager - DEBUG - font search path [PosixPath('/usr/local/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/ttf'), PosixPath('/usr/local/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/afm'), PosixPath('/usr/local/lib/python3.11/site-packages/matplotlib/mpl-data/fonts/pdfcorefonts')]
+2025-12-22 12:09:32,633 - matplotlib.font_manager - INFO - generated new fontManager
+2025-12-22 12:09:33,248 - uvicorn.error - INFO - Started server process [1]
+2025-12-22 12:09:33,248 - uvicorn.error - INFO - Started server process [1]
+2025-12-22 12:09:33,248 - uvicorn.error - INFO - Started server process [1]
+2025-12-22 12:09:33,248 - uvicorn.error - INFO - Waiting for application startup.
+2025-12-22 12:09:33,248 - uvicorn.error - INFO - Waiting for application startup.
+2025-12-22 12:09:33,248 - uvicorn.error - INFO - Waiting for application startup.
+2025-12-22 12:09:33,369 - src.detection.pose - INFO - Initialized PoseDetector: model=2, tracking=nose, segmentation=enabled
+2025-12-22 12:09:33,369 - src.detection.jump - INFO - Initialized JumpDetector: min_amplitude=0.02, max_amplitude=0.1, max_x_drift=0.15
+2025-12-22 12:09:33,369 - src.session.manager - INFO - Initialized SessionManager: start_threshold=5, stop_timeout=30s, milestone=100
+2025-12-22 12:09:33,369 - src.notifications.webhook - INFO - Initialized WebhookSender: url=http://192.168.1.131:8123/api/webhook/-yXN-y16djNI4k9TIvPQ3d8vL
+2025-12-22 12:09:33,370 - src.stream.capture - INFO - Connecting to rtsps://192.168.1.1:7441/Zh57VpTojynQVGvw?enableSrtp...
+2025-12-22 12:09:33,370 - src.stream.capture - INFO - Started RTSP capture for rtsps://192.168.1.1:7441/Zh57VpTojynQVGvw?enableSrtp
+2025-12-22 12:09:33,371 - src.processor.video - INFO - VideoProcessor started
+2025-12-22 12:09:33,371 - src.api.app - INFO - Application started
+2025-12-22 12:09:33,371 - uvicorn.error - INFO - Application startup complete.
+2025-12-22 12:09:33,371 - uvicorn.error - INFO - Application startup complete.
+2025-12-22 12:09:33,371 - uvicorn.error - INFO - Application startup complete.
+2025-12-22 12:09:33,373 - uvicorn.error - INFO - Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+2025-12-22 12:09:33,373 - uvicorn.error - INFO - Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+2025-12-22 12:09:33,373 - uvicorn.error - INFO - Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+2025-12-22 12:09:34,397 - src.stream.capture - INFO - Successfully connected to RTSP stream
+2025-12-22 12:09:36,953 - uvicorn.access - INFO - 127.0.0.1:45404 - "GET /health HTTP/1.1" 200
+2025-12-22 12:09:36,953 - uvicorn.access - INFO - 127.0.0.1:45404 - "GET /health HTTP/1.1" 200
+2025-12-22 12:09:36,953 - uvicorn.access - INFO - 127.0.0.1:45404 - "GET /health HTTP/1.1" 200
+2025-12-22 12:09:56,589 - src.processor.video - INFO - [DEBUG] frame=600, y=0.688, jumps=0
+2025-12-22 12:10:07,222 - uvicorn.access - INFO - 127.0.0.1:51368 - "GET /health HTTP/1.1" 200
+2025-12-22 12:10:07,222 - uvicorn.access - INFO - 127.0.0.1:51368 - "GET /health HTTP/1.1" 200
+2025-12-22 12:10:07,222 - uvicorn.access - INFO - 127.0.0.1:51368 - "GET /health HTTP/1.1" 200
+2025-12-22 12:10:11,110 - src.processor.video - INFO - [DEBUG] frame=950, y=0.678, jumps=0
+2025-12-22 12:10:13,580 - src.detection.jump - INFO - Warmup complete after 60 frames
+2025-12-22 12:10:13,913 - src.detection.jump - DEBUG - Rejected: amp=0.0148 < 0.02
+2025-12-22 12:10:14,087 - src.detection.jump - DEBUG - Rejected: amp=0.0052 < 0.02
+2025-12-22 12:10:14,323 - src.detection.jump - DEBUG - Rejected: amp=0.0002 < 0.02
+2025-12-22 12:10:14,582 - src.detection.jump - INFO - Jump #1! amp=0.0282, stationary=True
+2025-12-22 12:10:19,119 - src.detection.jump - INFO - Pose detection gap 4.54s - resetting warmup
+2025-12-22 12:10:37,477 - uvicorn.access - INFO - 127.0.0.1:35500 - "GET /health HTTP/1.1" 200
+2025-12-22 12:10:37,477 - uvicorn.access - INFO - 127.0.0.1:35500 - "GET /health HTTP/1.1" 200
+2025-12-22 12:10:37,477 - uvicorn.access - INFO - 127.0.0.1:35500 - "GET /health HTTP/1.1" 200
+2025-12-22 12:11:01,669 - src.processor.video - INFO - [DEBUG] frame=2350, y=0.676, jumps=1
+2025-12-22 12:11:05,393 - src.detection.jump - INFO - Warmup complete after 60 frames
+2025-12-22 12:11:06,346 - src.processor.video - INFO - [DEBUG] frame=2400, y=0.680, jumps=1
+2025-12-22 12:11:06,348 - src.detection.jump - INFO - Jump #2! amp=0.0222, stationary=True
+2025-12-22 12:11:06,997 - src.detection.jump - DEBUG - Rejected: amp=0.0001 < 0.02
+2025-12-22 12:11:07,615 - src.detection.jump - DEBUG - Rejected: amp=0.0000 < 0.02
+2025-12-22 12:11:07,904 - uvicorn.access - INFO - 127.0.0.1:38022 - "GET /health HTTP/1.1" 200
+2025-12-22 12:11:07,904 - uvicorn.access - INFO - 127.0.0.1:38022 - "GET /health HTTP/1.1" 200
+2025-12-22 12:11:07,904 - uvicorn.access - INFO - 127.0.0.1:38022 - "GET /health HTTP/1.1" 200
+2025-12-22 12:11:08,473 - src.detection.jump - DEBUG - Rejected: amp=0.0001 < 0.02
+2025-12-22 12:11:08,631 - src.detection.jump - DEBUG - Rejected: amp=0.0042 < 0.02
+2025-12-22 12:11:08,793 - src.detection.jump - DEBUG - Rejected: amp=0.0030 < 0.02
+2025-12-22 12:11:09,036 - src.detection.jump - DEBUG - Rejected: amp=0.0019 < 0.02
+2025-12-22 12:11:09,294 - src.detection.jump - DEBUG - Rejected: amp=0.0008 < 0.02
+2025-12-22 12:11:09,854 - src.detection.jump - DEBUG - Rejected: amp=0.0030 < 0.02
+2025-12-22 12:11:10,704 - src.processor.video - INFO - [DEBUG] frame=2450, y=0.701, jumps=2

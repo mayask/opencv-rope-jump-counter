@@ -1,16 +1,45 @@
 import logging
+import os
 import sys
 
 import uvicorn
 
 from .config.settings import get_config
 
-# Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    handlers=[logging.StreamHandler(sys.stdout)],
-)
+# Configure logging with both console and file output
+log_format = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+
+# Add file handler if LOG_FILE is set or default to /app/logs/app.log
+log_file = os.environ.get("LOG_FILE", "/app/logs/app.log")
+log_dir = os.path.dirname(log_file)
+if log_dir:
+    os.makedirs(log_dir, exist_ok=True)
+
+# Create handlers
+console_handler = logging.StreamHandler(sys.stdout)
+console_handler.setFormatter(logging.Formatter(log_format))
+
+file_handler = None
+try:
+    file_handler = logging.FileHandler(log_file)
+    file_handler.setFormatter(logging.Formatter(log_format))
+except Exception:
+    pass
+
+# Configure root logger
+root_logger = logging.getLogger()
+root_logger.setLevel(logging.DEBUG)
+root_logger.addHandler(console_handler)
+if file_handler:
+    root_logger.addHandler(file_handler)
+
+# Also configure uvicorn loggers to use our handlers
+for logger_name in ["uvicorn", "uvicorn.access", "uvicorn.error"]:
+    uvi_logger = logging.getLogger(logger_name)
+    uvi_logger.handlers = []
+    uvi_logger.addHandler(console_handler)
+    if file_handler:
+        uvi_logger.addHandler(file_handler)
 
 logger = logging.getLogger(__name__)
 
@@ -37,6 +66,7 @@ def main():
         host=config.api.host,
         port=config.api.port,
         log_level="info",
+        log_config=None,  # Use our pre-configured loggers
     )
 
 

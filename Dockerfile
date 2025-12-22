@@ -17,8 +17,8 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Pre-download MediaPipe models (must be done as root before user switch)
-RUN python -c "import mediapipe as mp; mp.solutions.pose.Pose(model_complexity=0)"
+# Pre-download all MediaPipe pose models (must be done as root before user switch)
+RUN python -c "import mediapipe as mp; mp.solutions.pose.Pose(model_complexity=0); mp.solutions.pose.Pose(model_complexity=1); mp.solutions.pose.Pose(model_complexity=2)"
 
 # Copy application code
 COPY src/ ./src/

@@ -33,6 +33,7 @@ class VideoProcessor:
             model_complexity=config.detection.model_complexity,
             min_detection_confidence=config.detection.min_detection_confidence,
             min_tracking_confidence=config.detection.min_tracking_confidence,
+            track_point="nose",  # Head movement is more pronounced for rope skipping
         )
 
         self.jump_detector = JumpDetector()
@@ -58,6 +59,9 @@ class VideoProcessor:
         self.current_fps = 0.0
         self._fps_samples: deque[float] = deque(maxlen=30)
         self._last_fps_time = time.time()
+
+        # Store last frame for debug stream
+        self.last_frame = None
 
     def start(self) -> None:
         """Start the video processor."""
@@ -120,22 +124,25 @@ class VideoProcessor:
         self.frames_processed += 1
         self._update_fps()
 
-        # Detect pose
-        hip_position = self.pose_detector.process_frame(frame)
+        # Detect pose FIRST
+        body_position = self.pose_detector.process_frame(frame)
 
-        if hip_position is None:
+        # Store frame AFTER pose detection so frame and results are in sync
+        self.last_frame = frame.copy()
+
+        if body_position is None:
             return
 
-        # Debug: log hip position every 50 frames
+        # Debug: log position every 50 frames
         if self.frames_processed % 50 == 0:
             jd = self.jump_detector
             logger.info(
-                f"[DEBUG] frame={self.frames_processed}, hip_y={hip_position.y:.3f}, "
+                f"[DEBUG] frame={self.frames_processed}, y={body_position.y:.3f}, "
                 f"jumps={jd.session_jumps}"
             )
 
         # Detect jump
-        jump_event = self.jump_detector.process(hip_position)
+        jump_event = self.jump_detector.process(body_position)
 
         if jump_event is None:
             return
