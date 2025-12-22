@@ -2,7 +2,7 @@
 
 Counts rope skipping jumps from an RTSP camera feed using YOLOv8 pose detection. Sends webhook notifications to Home Assistant on milestones.
 
-![Demo](demo.gif)
+<video src="demo.mp4" autoplay loop muted playsinline></video>
 
 ## Features
 
