@@ -33,14 +33,6 @@ root_logger.addHandler(console_handler)
 if file_handler:
     root_logger.addHandler(file_handler)
 
-# Also configure uvicorn loggers to use our handlers
-for logger_name in ["uvicorn", "uvicorn.access", "uvicorn.error"]:
-    uvi_logger = logging.getLogger(logger_name)
-    uvi_logger.handlers = []
-    uvi_logger.addHandler(console_handler)
-    if file_handler:
-        uvi_logger.addHandler(file_handler)
-
 logger = logging.getLogger(__name__)
 
 

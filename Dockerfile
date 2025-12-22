@@ -18,7 +18,8 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Pre-download YOLOv8 pose model (must be done as root before user switch)
-RUN python -c "from ultralytics import YOLO; YOLO('yolov8n-pose.pt')"
+RUN python -c "from ultralytics import YOLO; YOLO('yolov8n-pose.pt')" \
+    && chmod -R 777 /tmp/Ultralytics
 
 # Copy application code
 COPY src/ ./src/
