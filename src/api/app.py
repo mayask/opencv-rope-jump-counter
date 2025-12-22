@@ -255,14 +255,25 @@ def generate_debug_frames():
         last_frame_id = processor.frames_processed
 
         frame = processor.last_frame.copy()
+        orig_h, orig_w = frame.shape[:2]
+
+        # Resize for lower bandwidth debug stream
+        scale = 1.0
+        if orig_w > 640:
+            scale = 640 / orig_w
+            frame = cv2.resize(frame, (640, int(orig_h * scale)))
         h, w = frame.shape[:2]
 
         # Debug: show frame dimensions
         cv2.putText(frame, f"Frame: {w}x{h}", (w - 200, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
 
-        # Get YOLO detection info
+        # Get YOLO detection info (scale keypoints to resized frame)
         keypoints = processor.pose_detector.last_keypoints
+        if keypoints is not None and scale != 1.0:
+            keypoints = keypoints * scale
         bbox = processor.pose_detector.last_bbox
+        if bbox is not None and scale != 1.0:
+            bbox = bbox * scale
         rejection = processor.pose_detector.last_rejection_reason
 
         if keypoints is not None:

@@ -78,6 +78,14 @@ class PoseDetector:
 
     def process_frame(self, frame: np.ndarray) -> Optional[BodyPosition]:
         """Process a frame and extract body position."""
+        orig_h, orig_w = frame.shape[:2]
+        scale = 1.0
+
+        # Resize for faster inference if needed (skip if already small)
+        if orig_w > 640:
+            scale = 640 / orig_w
+            frame = cv2.resize(frame, (640, int(orig_h * scale)))
+
         h, w = frame.shape[:2]
 
         # Run YOLO inference
@@ -114,10 +122,17 @@ class PoseDetector:
         kpts = keypoints.xy[best_idx].cpu().numpy()  # Shape: (17, 2)
         kpts_conf = keypoints.conf[best_idx].cpu().numpy() if keypoints.conf is not None else None
 
+        # Scale keypoints back to original frame dimensions for overlay
+        if scale != 1.0:
+            kpts = kpts / scale
+
         # Store for debug visualization
         self.last_keypoints = kpts
         if boxes.xyxy is not None and len(boxes.xyxy) > best_idx:
-            self.last_bbox = boxes.xyxy[best_idx].cpu().numpy()
+            bbox = boxes.xyxy[best_idx].cpu().numpy()
+            if scale != 1.0:
+                bbox = bbox / scale
+            self.last_bbox = bbox
 
         # Get nose position
         nose_x, nose_y = kpts[self.NOSE]
@@ -128,9 +143,9 @@ class PoseDetector:
             self.last_rejection_reason = "Nose not visible"
             return None
 
-        # Normalize coordinates
-        norm_x = nose_x / w
-        norm_y = nose_y / h
+        # Normalize coordinates (use original dimensions since kpts are scaled back)
+        norm_x = nose_x / orig_w
+        norm_y = nose_y / orig_h
 
         # Motion filter - reject static objects
         self._position_history.append((norm_x, norm_y))

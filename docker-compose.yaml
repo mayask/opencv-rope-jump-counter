@@ -30,7 +30,7 @@ services:
     profiles:
       - test
 
-  # Production: uses real camera
+  # Main app - swap RTSP_URL for test vs production
   rope-counter:
     build: .
     image: rope-skipping-counter:latest
@@ -51,86 +51,8 @@ services:
       timeout: 10s
       retries: 3
       start_period: 10s
-    deploy:
-      resources:
-        limits:
-          cpus: '2.0'
-          memory: 2G
-        reservations:
-          cpus: '0.5'
-          memory: 1G
     logging:
       driver: "json-file"
       options:
         max-size: "10m"
         max-file: "3"
-
-  # Test mode: uses looped video file
-  rope-counter-test:
-    build: .
-    image: rope-skipping-counter:latest
-    container_name: rope-counter-test
-    depends_on:
-      - test-stream
-      - test-ffmpeg
-    ports:
-      - "8081:8080"
-    volumes:
-      - ./logs:/app/logs
-      - ./src:/app/src:ro  # Hot reload: mount source code
-    environment:
-      - RTSP_URL=rtsp://test-stream:8554/live
-      - WEBHOOK_URL=${WEBHOOK_URL:-}
-      - MILESTONE_INTERVAL=${MILESTONE_INTERVAL:-100}
-      - TZ=${TZ:-Europe/Amsterdam}
-    command: ["python", "-m", "uvicorn", "src.api.app:app", "--host", "0.0.0.0", "--port", "8080", "--reload", "--reload-dir", "/app/src"]
-    profiles:
-      - test
-
-  # Single-run test with 24-jump video (no loop)
-  test-stream-24:
-    image: bluenviron/mediamtx:latest
-    container_name: test-stream-24
-    ports:
-      - "8555:8554"
-    volumes:
-      - ./camera-stream-24.mp4:/video.mp4:ro
-      - ./mediamtx.yml:/mediamtx.yml:ro
-    profiles:
-      - test24
-
-  test-ffmpeg-24:
-    image: linuxserver/ffmpeg:latest
-    container_name: test-ffmpeg-24
-    depends_on:
-      - test-stream-24
-    volumes:
-      - ./camera-stream-24.mp4:/video.mp4:ro
-    entrypoint: ["/bin/sh", "-c"]
-    command:
-      - |
-        sleep 3
-        ffmpeg -re -i /video.mp4 -c copy -f rtsp rtsp://test-stream-24:8554/live
-        echo "Video finished"
-        sleep 999999
-    profiles:
-      - test24
-
-  rope-counter-test-24:
-    build: .
-    image: rope-skipping-counter:latest
-    container_name: rope-counter-test-24
-    depends_on:
-      - test-stream-24
-      - test-ffmpeg-24
-    ports:
-      - "8082:8080"
-    volumes:
-      - ./logs:/app/logs
-    environment:
-      - RTSP_URL=rtsp://test-stream-24:8554/live
-      - WEBHOOK_URL=${WEBHOOK_URL:-}
-      - MILESTONE_INTERVAL=${MILESTONE_INTERVAL:-100}
-      - TZ=${TZ:-Europe/Amsterdam}
-    profiles:
-      - test24
