@@ -30,14 +30,16 @@ class JumpDetector:
 
     def __init__(
         self,
-        min_amplitude: float = 0.04,  # Minimum 4% of person's body height
-        max_x_drift: float = 0.15,  # Max 15% horizontal movement (allow moving around)
+        min_amplitude: float = 0.06,  # Minimum 6% of person's body height
+        max_x_drift: float = 0.25,  # Max 25% horizontal movement (of body width)
+        max_y_drift: float = 0.35,  # Max 35% vertical baseline drift (of body height)
         max_jump_interval: float = 1.5,  # Max 1.5 seconds between jumps (slower pace OK)
         min_jump_gap: float = 0.15,  # Minimum 0.15s between jumps (max ~6/sec)
         rhythm_tolerance: float = 0.6,  # 60% tolerance on jump interval consistency
-        confirmation_jumps: int = 3,  # Need 3 consistent oscillations to confirm rhythm
+        confirmation_jumps: int = 4,  # Need 4 consistent oscillations to confirm rhythm
     ):
         self.min_amplitude = min_amplitude
+        self.max_y_drift = max_y_drift
         self.max_x_drift = max_x_drift
         self.max_jump_interval = max_jump_interval
         self.min_jump_gap = min_jump_gap
@@ -51,9 +53,11 @@ class JumpDetector:
         self.local_min_y: Optional[float] = None
         self.local_max_y: Optional[float] = None
 
-        # X position stability tracking
-        self.x_history: deque[float] = deque(maxlen=30)  # ~2 seconds of X positions
+        # Position stability tracking
+        self.x_history: deque[float] = deque(maxlen=15)  # ~1 second of X positions
         self.anchor_x: Optional[float] = None
+        self.y_baseline_history: deque[float] = deque(maxlen=10)  # Y baseline tracking (smoothed)
+        self.anchor_y: Optional[float] = None
 
         # Jump timing and rhythm detection
         self.oscillation_times: deque[float] = deque(maxlen=10)  # Recent oscillation timestamps
@@ -71,10 +75,11 @@ class JumpDetector:
         self.is_stationary = False
 
         # Amplitude limits (relative to person's bbox height)
-        self.max_amplitude = 0.15  # Max 15% of person height
+        self.max_amplitude = 0.25  # Max 25% of person height
 
-        # Track person's bbox height for amplitude normalization
+        # Track person's bbox dimensions for normalization
         self.last_bbox_height: float = 0.0
+        self.last_bbox_width: float = 0.0
 
         # Detection gap tracking (no warmup - pose detector handles that)
         self.last_detection_time: Optional[float] = None
@@ -99,9 +104,11 @@ class JumpDetector:
         curr_y = body_position.y
         now = time.time()
 
-        # Store bbox height for amplitude normalization
+        # Store bbox dimensions for normalization
         if body_position.bbox_height > 0:
             self.last_bbox_height = body_position.bbox_height
+        if body_position.bbox_width > 0:
+            self.last_bbox_width = body_position.bbox_width
 
         # Check for detection gaps - reset state if camera lost track
         if self.last_detection_time is not None:
@@ -115,26 +122,61 @@ class JumpDetector:
         # Track X position history
         self.x_history.append(curr_x)
 
-        # Check X position stability (must be stationary to count jumps)
+        # Check position stability (must be stationary to count jumps)
+        # Normalize drift by body width for distance-independence
         if len(self.x_history) >= 5:
             x_range = max(self.x_history) - min(self.x_history)
+            # Normalize by bbox width if available
+            if self.last_bbox_width > 0:
+                x_drift_norm = x_range / self.last_bbox_width
+            else:
+                x_drift_norm = x_range
+
             was_stationary = self.is_stationary
-            self.is_stationary = x_range < self.max_x_drift
+            self.is_stationary = x_drift_norm < self.max_x_drift
 
             # If person starts moving, reset rhythm detection
             if was_stationary and not self.is_stationary:
                 self._reset_rhythm()
-                print(f"[JUMP] Person moving (x_range={x_range:.3f}) - reset rhythm", flush=True)
+                print(f"[JUMP] Person moving (x_drift={x_drift_norm:.3f}) - reset rhythm", flush=True)
 
             # Set anchor when becoming stationary
             if self.is_stationary and self.anchor_x is None:
                 self.anchor_x = sum(self.x_history) / len(self.x_history)
 
-            # Check drift from anchor
+            # Check drift from anchor (normalized by body width)
             if self.anchor_x is not None:
                 drift = abs(curr_x - self.anchor_x)
-                if drift > self.max_x_drift:
+                if self.last_bbox_width > 0:
+                    drift_norm = drift / self.last_bbox_width
+                else:
+                    drift_norm = drift
+                if drift_norm > self.max_x_drift:
                     self.anchor_x = None
+                    self.is_stationary = False
+                    self._reset_rhythm()
+
+        # Track Y baseline (smoothed average to detect walking vs jumping)
+        # Use exponential moving average for baseline
+        self.y_baseline_history.append(curr_y)
+        if len(self.y_baseline_history) >= 3:
+            y_baseline = sum(self.y_baseline_history) / len(self.y_baseline_history)
+
+            # Set anchor Y when becoming stationary
+            if self.is_stationary and self.anchor_y is None:
+                self.anchor_y = y_baseline
+
+            # Check Y drift from anchor (normalized by body height)
+            if self.anchor_y is not None and self.is_stationary:
+                y_drift = abs(y_baseline - self.anchor_y)
+                if self.last_bbox_height > 0:
+                    y_drift_norm = y_drift / self.last_bbox_height
+                else:
+                    y_drift_norm = y_drift
+                # Y drift threshold - walking moves baseline significantly
+                if y_drift_norm > self.max_y_drift:
+                    print(f"[JUMP] Y baseline drifting (y_drift={y_drift_norm:.3f}) - reset rhythm", flush=True)
+                    self.anchor_y = None
                     self.is_stationary = False
                     self._reset_rhythm()
 
@@ -264,9 +306,10 @@ class JumpDetector:
         # Check if intervals are consistent
         avg_interval = sum(intervals) / len(intervals)
 
-        # Rope skipping typically 1-5 jumps per second (0.2s - 1.0s interval)
-        if avg_interval < 0.15 or avg_interval > 1.0:
-            print(f"[JUMP] Rhythm check failed: avg_interval={avg_interval:.3f}s outside 0.15-1.0s range", flush=True)
+        # Rope skipping typically 1-5 jumps per second (0.2s - 0.9s interval)
+        # Allow slower jumps for variable speed jumping
+        if avg_interval < 0.15 or avg_interval > 0.9:
+            print(f"[JUMP] Rhythm check failed: avg_interval={avg_interval:.3f}s outside 0.15-0.9s range", flush=True)
             return False
 
         # Check consistency - all intervals should be within tolerance of average
@@ -295,6 +338,8 @@ class JumpDetector:
         self.was_going_up = False
         self.x_history.clear()
         self.anchor_x = None
+        self.y_baseline_history.clear()
+        self.anchor_y = None
         self.is_stationary = False
         self._reset_rhythm()
 

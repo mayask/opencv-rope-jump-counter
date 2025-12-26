@@ -9,3 +9,4 @@ venv/
 .mypy_cache/
 
 *.mp4
+yolov8n-pose.pt

@@ -18,6 +18,7 @@ class BodyPosition:
     confidence: float
     landmark_name: str
     bbox_height: float = 0.0  # Bounding box height as fraction of frame (for amplitude normalization)
+    bbox_width: float = 0.0  # Bounding box width as fraction of frame (for drift normalization)
 
 
 class PoseDetector:
@@ -127,16 +128,18 @@ class PoseDetector:
         if scale != 1.0:
             kpts = kpts / scale
 
-        # Store for debug visualization and calculate bbox height
+        # Store for debug visualization and calculate bbox dimensions
         self.last_keypoints = kpts
         bbox_height_norm = 0.0
+        bbox_width_norm = 0.0
         if boxes.xyxy is not None and len(boxes.xyxy) > best_idx:
             bbox = boxes.xyxy[best_idx].cpu().numpy()
             if scale != 1.0:
                 bbox = bbox / scale
             self.last_bbox = bbox
-            # Calculate bbox height as fraction of frame height
+            # Calculate bbox dimensions as fraction of frame
             bbox_height_norm = (bbox[3] - bbox[1]) / orig_h
+            bbox_width_norm = (bbox[2] - bbox[0]) / orig_w
 
         # Get head center (average of visible head keypoints for robustness)
         head_keypoint_indices = [self.NOSE, self.LEFT_EYE, self.RIGHT_EYE, self.LEFT_EAR, self.RIGHT_EAR]
@@ -201,6 +204,7 @@ class PoseDetector:
             confidence=avg_conf,
             landmark_name="head_center",
             bbox_height=bbox_height_norm,
+            bbox_width=bbox_width_norm,
         )
 
     def close(self) -> None:
