@@ -23,8 +23,9 @@ file_handler = None
 try:
     file_handler = logging.FileHandler(log_file)
     file_handler.setFormatter(logging.Formatter(log_format))
-except Exception:
-    pass
+    file_handler.setLevel(logging.DEBUG)
+except Exception as e:
+    print(f"Warning: Could not create log file {log_file}: {e}", file=sys.stderr)
 
 # Configure root logger
 root_logger = logging.getLogger()

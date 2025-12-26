@@ -138,7 +138,7 @@ class JumpDetector:
             # If person starts moving, reset rhythm detection
             if was_stationary and not self.is_stationary:
                 self._reset_rhythm()
-                print(f"[JUMP] Person moving (x_drift={x_drift_norm:.3f}) - reset rhythm", flush=True)
+                logger.debug(f"Person moving (x_drift={x_drift_norm:.3f}) - reset rhythm")
 
             # Set anchor when becoming stationary
             if self.is_stationary and self.anchor_x is None:
@@ -175,7 +175,7 @@ class JumpDetector:
                     y_drift_norm = y_drift
                 # Y drift threshold - walking moves baseline significantly
                 if y_drift_norm > self.max_y_drift:
-                    print(f"[JUMP] Y baseline drifting (y_drift={y_drift_norm:.3f}) - reset rhythm", flush=True)
+                    logger.debug(f"Y baseline drifting (y_drift={y_drift_norm:.3f}) - reset rhythm")
                     self.anchor_y = None
                     self.is_stationary = False
                     self._reset_rhythm()
@@ -238,17 +238,17 @@ class JumpDetector:
         else:
             amplitude = raw_amplitude  # Fallback to frame-relative if no bbox
         if amplitude < self.min_amplitude:
-            print(f"[JUMP] Rejected: amp={amplitude:.4f} < {self.min_amplitude}", flush=True)
+            logger.debug(f"Rejected: amp={amplitude:.4f} < {self.min_amplitude}")
             return None
         if amplitude > self.max_amplitude:
-            print(f"[JUMP] Rejected: amp={amplitude:.4f} > {self.max_amplitude}", flush=True)
+            logger.debug(f"Rejected: amp={amplitude:.4f} > {self.max_amplitude}")
             return None
 
         # Check minimum gap since last oscillation
         if self.oscillation_times:
             gap = now - self.oscillation_times[-1]
             if gap < self.min_jump_gap:
-                print(f"[JUMP] Rejected: gap={gap:.3f}s < {self.min_jump_gap}", flush=True)
+                logger.debug(f"Rejected: gap={gap:.3f}s < {self.min_jump_gap}")
                 return None
 
         # Record this oscillation
@@ -265,13 +265,13 @@ class JumpDetector:
                     self.session_jumps += self.pending_jumps
                     self.last_jump_time = now
                     logger.info(f"Rhythm confirmed! Counted {self.pending_jumps} jumps")
-                    print(f"[JUMP] Rhythm confirmed! Counted {self.pending_jumps} jumps", flush=True)
+                    logger.debug(f"Rhythm confirmed! Counted {self.pending_jumps} jumps")
                     return JumpEvent(
                         total_count=self.total_jumps,
                         session_count=self.session_jumps,
                     )
             # Not enough oscillations yet or rhythm not consistent
-            print(f"[JUMP] Pending: {len(self.oscillation_times)}/{self.confirmation_jumps} oscillations", flush=True)
+            logger.debug(f"Pending: {len(self.oscillation_times)}/{self.confirmation_jumps} oscillations")
             return None
 
         # Rhythm already confirmed - count this jump
@@ -281,7 +281,7 @@ class JumpDetector:
         self.last_valley_y = self.local_min_y
         self.last_peak_y = self.local_max_y
 
-        print(f"[JUMP] Valid! #{self.session_jumps} amp={amplitude:.4f}", flush=True)
+        logger.debug(f"Valid! #{self.session_jumps} amp={amplitude:.4f}")
         logger.info(f"Jump #{self.session_jumps}! amp={amplitude:.4f}")
 
         return JumpEvent(
@@ -309,17 +309,17 @@ class JumpDetector:
         # Rope skipping typically 1-5 jumps per second (0.2s - 0.9s interval)
         # Allow slower jumps for variable speed jumping
         if avg_interval < 0.15 or avg_interval > 0.9:
-            print(f"[JUMP] Rhythm check failed: avg_interval={avg_interval:.3f}s outside 0.15-0.9s range", flush=True)
+            logger.debug(f"Rhythm check failed: avg_interval={avg_interval:.3f}s outside 0.15-0.9s range")
             return False
 
         # Check consistency - all intervals should be within tolerance of average
         for interval in intervals:
             deviation = abs(interval - avg_interval) / avg_interval
             if deviation > self.rhythm_tolerance:
-                print(f"[JUMP] Rhythm check failed: interval={interval:.3f}s deviates {deviation:.1%} from avg={avg_interval:.3f}s", flush=True)
+                logger.debug(f"Rhythm check failed: interval={interval:.3f}s deviates {deviation:.1%} from avg={avg_interval:.3f}s")
                 return False
 
-        print(f"[JUMP] Rhythm check passed: avg_interval={avg_interval:.3f}s, {len(intervals)} consistent intervals", flush=True)
+        logger.debug(f"Rhythm check passed: avg_interval={avg_interval:.3f}s, {len(intervals)} consistent intervals")
         return True
 
     def _reset_rhythm(self) -> None:

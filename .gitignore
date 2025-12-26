@@ -10,3 +10,4 @@ venv/
 
 *.mp4
 yolov8n-pose.pt
+logs/app.log

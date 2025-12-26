@@ -187,7 +187,7 @@ class PoseDetector:
         if not self._has_seen_movement:
             self.last_rejection_reason = f"No movement yet (y_range={y_range:.3f})"
             if self._log_counter % 30 == 0:
-                print(f"[POSE] Rejected - no movement: y_range={y_range:.3f}", flush=True)
+                logger.debug(f"Rejected - no movement: y_range={y_range:.3f}")
             return None
 
         # Also reject if currently static (person stopped)
@@ -196,7 +196,7 @@ class PoseDetector:
             return None
 
         if self._log_counter % 30 == 0:
-            print(f"[POSE] Detected: head=({norm_x:.2f}, {norm_y:.2f}), conf={avg_conf:.2f}, person_conf={person_conf:.2f}", flush=True)
+            logger.debug(f"Detected: head=({norm_x:.2f}, {norm_y:.2f}), conf={avg_conf:.2f}, person_conf={person_conf:.2f}")
 
         return BodyPosition(
             x=norm_x,
