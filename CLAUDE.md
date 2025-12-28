@@ -1,5 +1,22 @@
 # Development Guidelines
 
+## Algorithm Changes
+
+**IMPORTANT**: Before making any algorithm changes, read `CHANGELOG.md` to understand past decisions and why they were made.
+
+When making changes to detection logic:
+1. Read `CHANGELOG.md` first - understand existing thresholds and why they exist
+2. Run `make test` before and after changes
+3. Add a timestamped entry to `CHANGELOG.md` with:
+   - Date header: `## YYYY-MM-DD`
+   - Entry type: `### Fixed:`, `### Added:`, `### Changed:`, `### Tuned:`
+   - What changed, why, what bug it fixed, any trade-offs
+4. Update the "Current Thresholds Reference" table if thresholds changed
+
+Files that affect detection:
+- `src/detection/pose.py` - pose extraction, confidence filtering, motion filter
+- `src/detection/jump.py` - jump detection, amplitude/drift/rhythm validation
+
 ## Testing
 
 Always use Makefile commands for running tests. Never use Docker for tests.
