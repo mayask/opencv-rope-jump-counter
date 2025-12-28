@@ -45,9 +45,9 @@ docker compose --profile test up -d
 
 Pre-built image available on Docker Hub: [raregoat8804/opencv-rope-jump-counter](https://hub.docker.com/r/raregoat8804/opencv-rope-jump-counter)
 
-### 3. View debug stream
+### 3. View debug page
 
-Open `http://localhost:8080/debug/stream` in a browser to see the live pose detection overlay.
+Open `http://localhost:8080/debug` in a browser to see the live video stream with pose overlay, jump counters, and reset button.
 
 ## API Endpoints
 
@@ -58,7 +58,8 @@ Open `http://localhost:8080/debug/stream` in a browser to see the live pose dete
 | `GET /count` | Current jump counts |
 | `GET /reset` | Reset all counters |
 | `GET /snapshot` | Capture current frame |
-| `GET /debug/stream` | Live MJPEG stream with pose overlay |
+| `GET /debug` | Debug page with video stream, stats, and controls |
+| `GET /debug/stream` | Raw MJPEG stream with pose overlay |
 | `POST /session/start` | Manually start session |
 | `POST /session/stop` | Manually stop session |
 

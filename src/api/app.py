@@ -381,11 +381,22 @@ async def debug_page():
         button:hover {
             background: #c0392b;
         }
-        button.secondary {
-            background: #3498db;
+        button.success {
+            background: #27ae60;
         }
-        button.secondary:hover {
-            background: #2980b9;
+        button.success:hover {
+            background: #219a52;
+        }
+        button.warning {
+            background: #f39c12;
+        }
+        button.warning:hover {
+            background: #d68910;
+        }
+        button:disabled {
+            background: #555;
+            cursor: not-allowed;
+            opacity: 0.6;
         }
         #status {
             margin-top: 10px;
@@ -404,12 +415,39 @@ async def debug_page():
         <img src="/debug/stream" alt="Live stream" />
     </div>
     <div class="controls">
+        <button class="success" id="btn-start" onclick="startSession()">Start Session</button>
+        <button class="warning" id="btn-stop" onclick="stopSession()">Stop Session</button>
         <button onclick="resetCounter()">Reset Counter</button>
-        <button class="secondary" onclick="refreshStats()">Refresh Stats</button>
     </div>
     <div id="status"></div>
 
     <script>
+        async function startSession() {
+            const status = document.getElementById('status');
+            status.textContent = 'Starting session...';
+            try {
+                const res = await fetch('/session/start', {method: 'POST'});
+                const data = await res.json();
+                status.textContent = data.message;
+                refreshStats();
+            } catch (e) {
+                status.textContent = 'Error: ' + e.message;
+            }
+        }
+
+        async function stopSession() {
+            const status = document.getElementById('status');
+            status.textContent = 'Stopping session...';
+            try {
+                const res = await fetch('/session/stop', {method: 'POST'});
+                const data = await res.json();
+                status.textContent = data.message;
+                refreshStats();
+            } catch (e) {
+                status.textContent = 'Error: ' + e.message;
+            }
+        }
+
         async function resetCounter() {
             const status = document.getElementById('status');
             status.textContent = 'Resetting...';
@@ -430,6 +468,9 @@ async def debug_page():
                 document.getElementById('session-count').textContent = data.session.jumps;
                 document.getElementById('daily-count').textContent = data.daily_total;
                 document.getElementById('fps').textContent = data.stream.fps.toFixed(1);
+                // Update button states
+                document.getElementById('btn-start').disabled = data.session.active;
+                document.getElementById('btn-stop').disabled = !data.session.active;
             } catch (e) {
                 console.error('Failed to refresh stats:', e);
             }
