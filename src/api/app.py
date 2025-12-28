@@ -9,7 +9,7 @@ from typing import TYPE_CHECKING
 import cv2
 import numpy as np
 from fastapi import FastAPI, HTTPException
-from fastapi.responses import FileResponse, StreamingResponse
+from fastapi.responses import FileResponse, HTMLResponse, StreamingResponse
 
 from ..config.settings import get_config
 
@@ -307,8 +307,138 @@ def generate_debug_frames():
 
 @app.get("/debug/stream")
 async def debug_stream():
-    """Live video stream with pose detection overlay. Open in browser."""
+    """Raw MJPEG stream with pose detection overlay."""
     return StreamingResponse(
         generate_debug_frames(),
         media_type="multipart/x-mixed-replace; boundary=frame",
     )
+
+
+@app.get("/debug", response_class=HTMLResponse)
+async def debug_page():
+    """Debug page with live video stream and controls."""
+    return """
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Rope Skipping Debug</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #1a1a1a;
+            color: #fff;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            margin-bottom: 10px;
+        }
+        .stats {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        .stat {
+            background: #333;
+            padding: 10px 20px;
+            border-radius: 8px;
+        }
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #0f0;
+        }
+        .video-container {
+            position: relative;
+            background: #000;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        video, img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+        .controls {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+        }
+        button {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        button:hover {
+            background: #c0392b;
+        }
+        button.secondary {
+            background: #3498db;
+        }
+        button.secondary:hover {
+            background: #2980b9;
+        }
+        #status {
+            margin-top: 10px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <h1>Rope Skipping Debug</h1>
+    <div class="stats">
+        <div class="stat">Session: <span class="stat-value" id="session-count">-</span></div>
+        <div class="stat">Daily: <span class="stat-value" id="daily-count">-</span></div>
+        <div class="stat">FPS: <span class="stat-value" id="fps">-</span></div>
+    </div>
+    <div class="video-container">
+        <img src="/debug/stream" alt="Live stream" />
+    </div>
+    <div class="controls">
+        <button onclick="resetCounter()">Reset Counter</button>
+        <button class="secondary" onclick="refreshStats()">Refresh Stats</button>
+    </div>
+    <div id="status"></div>
+
+    <script>
+        async function resetCounter() {
+            const status = document.getElementById('status');
+            status.textContent = 'Resetting...';
+            try {
+                const res = await fetch('/reset');
+                const data = await res.json();
+                status.textContent = data.message;
+                refreshStats();
+            } catch (e) {
+                status.textContent = 'Error: ' + e.message;
+            }
+        }
+
+        async function refreshStats() {
+            try {
+                const res = await fetch('/status');
+                const data = await res.json();
+                document.getElementById('session-count').textContent = data.session.jumps;
+                document.getElementById('daily-count').textContent = data.daily_total;
+                document.getElementById('fps').textContent = data.stream.fps.toFixed(1);
+            } catch (e) {
+                console.error('Failed to refresh stats:', e);
+            }
+        }
+
+        // Auto-refresh stats every 2 seconds
+        setInterval(refreshStats, 2000);
+        refreshStats();
+    </script>
+</body>
+</html>
+"""

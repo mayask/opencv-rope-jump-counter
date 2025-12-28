@@ -61,6 +61,7 @@ class PoseDetector:
         self.model = YOLO(model_name)
 
         self.min_confidence = min_detection_confidence
+        self.min_head_confidence = 0.3  # Minimum confidence for head keypoints
         self.track_point = track_point
 
         # For debug visualization
@@ -161,6 +162,13 @@ class PoseDetector:
         head_x = sum(p[0] * p[2] for p in visible_points) / total_conf
         head_y = sum(p[1] * p[2] for p in visible_points) / total_conf
         avg_conf = total_conf / len(visible_points)
+
+        # Reject low-confidence head detections (prevents false positives from noise)
+        if avg_conf < self.min_head_confidence:
+            self.last_rejection_reason = f"Low head confidence ({avg_conf:.2f} < {self.min_head_confidence})"
+            if self._log_counter % 30 == 0:
+                logger.debug(f"Rejected - low head confidence: {avg_conf:.2f}")
+            return None
 
         # Normalize coordinates (use original dimensions since kpts are scaled back)
         norm_x = head_x / orig_w

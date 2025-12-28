@@ -9,14 +9,16 @@ Examples:
 - 35-jumping-in-garage.mp4: expects exactly 35 jumps
 - 30-40-jumping-variable-speed.mp4: expects 30-40 jumps
 - 0-walking-around.mp4: expects 0 jumps (no false positives)
+
+Pose detections are cached to .json files for fast test runs.
+Run `make test-cache` to regenerate cache after algorithm changes.
 """
 
+import json
 import re
-import time
+from dataclasses import asdict
 from pathlib import Path
 from unittest.mock import patch
-
-import cv2
 
 try:
     import pytest
@@ -25,7 +27,10 @@ except ImportError:
     HAS_PYTEST = False
 
 from src.detection.jump import JumpDetector
-from src.detection.pose import PoseDetector
+from src.detection.pose import BodyPosition
+
+FIXTURES_DIR = Path(__file__).parent / "fixtures"
+CACHE_DIR = Path(__file__).parent / "fixtures" / ".cache"
 
 
 class SimulatedClock:
@@ -45,8 +50,6 @@ class SimulatedClock:
     def time(self) -> float:
         """Return current simulated time."""
         return self.current_time
-
-FIXTURES_DIR = Path(__file__).parent / "fixtures"
 
 
 def parse_expected_count(filename: str) -> tuple[int, int]:
@@ -70,58 +73,106 @@ def parse_expected_count(filename: str) -> tuple[int, int]:
     raise ValueError(f"Invalid test filename format: {filename}")
 
 
-def process_video(video_path: Path) -> int:
-    """
-    Process a video file and return the detected jump count.
+def get_cache_path(video_path: Path) -> Path:
+    """Get cache file path for a video."""
+    return CACHE_DIR / f"{video_path.stem}.json"
 
-    Initializes detector fresh for each video and processes all frames.
-    Uses simulated clock based on video FPS for accurate timing.
-    """
+
+def load_cached_poses(video_path: Path) -> list[dict] | None:
+    """Load cached pose detections if available."""
+    cache_path = get_cache_path(video_path)
+    if not cache_path.exists():
+        return None
+
+    with open(cache_path) as f:
+        return json.load(f)
+
+
+def generate_pose_cache(video_path: Path) -> list[dict]:
+    """Extract poses from video and cache them."""
+    import cv2
+    from src.detection.pose import PoseDetector
+
     cap = cv2.VideoCapture(str(video_path))
     if not cap.isOpened():
         raise RuntimeError(f"Failed to open video: {video_path}")
 
     fps = cap.get(cv2.CAP_PROP_FPS)
     frame_count = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
-    print(f"\nProcessing {video_path.name}: {frame_count} frames @ {fps:.1f} FPS")
+    print(f"\nCaching poses for {video_path.name}: {frame_count} frames @ {fps:.1f} FPS")
 
-    # Create simulated clock for proper timing
+    pose_detector = PoseDetector()
+    poses = []
+
+    try:
+        frames_processed = 0
+        while True:
+            ret, frame = cap.read()
+            if not ret:
+                break
+
+            body_position = pose_detector.process_frame(frame)
+
+            if body_position:
+                # Convert to regular Python types for JSON serialization
+                pose_dict = asdict(body_position)
+                pose_dict = {k: float(v) if hasattr(v, 'item') else v for k, v in pose_dict.items()}
+                poses.append(pose_dict)
+            else:
+                poses.append(None)
+
+            frames_processed += 1
+            if frames_processed % 100 == 0:
+                print(f"  Cached {frames_processed}/{frame_count} frames")
+
+        # Save cache
+        CACHE_DIR.mkdir(exist_ok=True)
+        cache_path = get_cache_path(video_path)
+        with open(cache_path, 'w') as f:
+            json.dump({"fps": fps, "poses": poses}, f)
+
+        print(f"  Saved cache: {cache_path}")
+        return {"fps": fps, "poses": poses}
+
+    finally:
+        cap.release()
+        pose_detector.close()
+
+
+def process_video(video_path: Path, use_cache: bool = True) -> int:
+    """
+    Process a video file and return the detected jump count.
+
+    Uses cached pose detections for speed if available.
+    """
+    cache_data = load_cached_poses(video_path) if use_cache else None
+
+    if cache_data is None:
+        # No cache - need to generate
+        cache_data = generate_pose_cache(video_path)
+
+    fps = cache_data["fps"]
+    poses = cache_data["poses"]
+
+    print(f"\nProcessing {video_path.name}: {len(poses)} frames @ {fps:.1f} FPS (cached)")
+
     clock = SimulatedClock(fps)
 
-    # Patch time.time in the jump module to use our simulated clock
     with patch("src.detection.jump.time.time", clock.time):
-        pose_detector = PoseDetector()
         jump_detector = JumpDetector()
 
-        try:
-            frames_processed = 0
-            while True:
-                ret, frame = cap.read()
-                if not ret:
-                    break
+        for i, pose_data in enumerate(poses):
+            clock.advance_frame()
 
-                # Advance simulated time for this frame
-                clock.advance_frame()
+            if pose_data:
+                body_position = BodyPosition(**pose_data)
+                jump_detector.process(body_position)
 
-                # Detect pose
-                body_position = pose_detector.process_frame(frame)
+            if (i + 1) % 500 == 0:
+                print(f"  Processed {i + 1}/{len(poses)} frames, jumps: {jump_detector.session_jumps}")
 
-                # Process jump detection
-                if body_position:
-                    jump_detector.process(body_position)
-
-                frames_processed += 1
-
-                # Progress indicator
-                if frames_processed % 100 == 0:
-                    print(f"  Processed {frames_processed}/{frame_count} frames, jumps: {jump_detector.session_jumps}")
-
-            print(f"  Final: {frames_processed} frames processed, {jump_detector.session_jumps} jumps detected")
-            return jump_detector.session_jumps
-
-        finally:
-            cap.release()
-            pose_detector.close()
+        print(f"  Final: {len(poses)} frames, {jump_detector.session_jumps} jumps detected")
+        return jump_detector.session_jumps
 
 
 def get_test_videos() -> list[Path]:
@@ -143,12 +194,10 @@ if HAS_PYTEST:
         detected = process_video(video_path)
 
         if min_expected == max_expected:
-            # Exact match expected
             assert detected == min_expected, (
                 f"Expected exactly {min_expected} jumps, detected {detected}"
             )
         else:
-            # Range expected
             assert min_expected <= detected <= max_expected, (
                 f"Expected {min_expected}-{max_expected} jumps, detected {detected}"
             )
@@ -161,8 +210,27 @@ def test_fixtures_exist():
         pytest.skip("No test videos in tests/fixtures/. Add mp4 files named like: 35-description.mp4")
 
 
+def regenerate_all_caches():
+    """Regenerate pose cache for all test videos."""
+    videos = get_test_videos()
+    if not videos:
+        print(f"No test videos found in {FIXTURES_DIR}")
+        return
+
+    print(f"Regenerating cache for {len(videos)} videos...")
+    for video_path in videos:
+        generate_pose_cache(video_path)
+    print("\nCache regeneration complete!")
+
+
 # Allow running directly
 if __name__ == "__main__":
+    import sys
+
+    if len(sys.argv) > 1 and sys.argv[1] == "--cache":
+        regenerate_all_caches()
+        exit(0)
+
     videos = get_test_videos()
     if not videos:
         print(f"No test videos found in {FIXTURES_DIR}")

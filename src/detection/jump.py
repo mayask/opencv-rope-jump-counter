@@ -32,7 +32,7 @@ class JumpDetector:
         self,
         min_amplitude: float = 0.06,  # Minimum 6% of person's body height
         max_x_drift: float = 0.25,  # Max 25% horizontal movement (of body width)
-        max_y_drift: float = 0.35,  # Max 35% vertical baseline drift (of body height)
+        max_y_drift: float = 0.20,  # Max 20% vertical baseline drift (of body height)
         max_jump_interval: float = 1.5,  # Max 1.5 seconds between jumps (slower pace OK)
         min_jump_gap: float = 0.15,  # Minimum 0.15s between jumps (max ~6/sec)
         rhythm_tolerance: float = 0.6,  # 60% tolerance on jump interval consistency
