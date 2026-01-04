@@ -88,10 +88,17 @@ def load_cached_poses(video_path: Path) -> list[dict] | None:
         return json.load(f)
 
 
-def generate_pose_cache(video_path: Path) -> list[dict]:
+def generate_pose_cache(video_path: Path, force: bool = False) -> list[dict]:
     """Extract poses from video and cache them."""
+    import sys
     import cv2
     from src.detection.pose import PoseDetector
+
+    cache_path = get_cache_path(video_path)
+    if not force and cache_path.exists():
+        print(f"  [SKIP] {video_path.name} - cache exists")
+        with open(cache_path) as f:
+            return json.load(f)
 
     cap = cv2.VideoCapture(str(video_path))
     if not cap.isOpened():
@@ -99,10 +106,11 @@ def generate_pose_cache(video_path: Path) -> list[dict]:
 
     fps = cap.get(cv2.CAP_PROP_FPS)
     frame_count = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
-    print(f"\nCaching poses for {video_path.name}: {frame_count} frames @ {fps:.1f} FPS")
+    print(f"  [CACHE] {video_path.name}: {frame_count} frames @ {fps:.1f} FPS")
 
     pose_detector = PoseDetector()
     poses = []
+    detections = 0
 
     try:
         frames_processed = 0
@@ -118,20 +126,20 @@ def generate_pose_cache(video_path: Path) -> list[dict]:
                 pose_dict = asdict(body_position)
                 pose_dict = {k: float(v) if hasattr(v, 'item') else v for k, v in pose_dict.items()}
                 poses.append(pose_dict)
+                detections += 1
             else:
                 poses.append(None)
 
             frames_processed += 1
             if frames_processed % 100 == 0:
-                print(f"  Cached {frames_processed}/{frame_count} frames")
+                print(f"    {frames_processed}/{frame_count} frames, {detections} poses detected", flush=True)
 
         # Save cache
         CACHE_DIR.mkdir(exist_ok=True)
-        cache_path = get_cache_path(video_path)
         with open(cache_path, 'w') as f:
             json.dump({"fps": fps, "poses": poses}, f)
 
-        print(f"  Saved cache: {cache_path}")
+        print(f"    Done: {detections}/{frame_count} poses saved to {cache_path.name}")
         return {"fps": fps, "poses": poses}
 
     finally:
@@ -210,17 +218,27 @@ def test_fixtures_exist():
         pytest.skip("No test videos in tests/fixtures/. Add mp4 files named like: 35-description.mp4")
 
 
-def regenerate_all_caches():
+def regenerate_all_caches(force: bool = False):
     """Regenerate pose cache for all test videos."""
     videos = get_test_videos()
     if not videos:
         print(f"No test videos found in {FIXTURES_DIR}")
         return
 
-    print(f"Regenerating cache for {len(videos)} videos...")
+    mode = "force regenerating" if force else "checking"
+    print(f"Caching {len(videos)} videos ({mode})...\n", flush=True)
+    
+    cached = 0
+    skipped = 0
     for video_path in videos:
-        generate_pose_cache(video_path)
-    print("\nCache regeneration complete!")
+        cache_path = get_cache_path(video_path)
+        if not force and cache_path.exists():
+            skipped += 1
+        else:
+            cached += 1
+        generate_pose_cache(video_path, force=force)
+    
+    print(f"\nDone: {cached} cached, {skipped} skipped")
 
 
 # Allow running directly
@@ -228,7 +246,8 @@ if __name__ == "__main__":
     import sys
 
     if len(sys.argv) > 1 and sys.argv[1] == "--cache":
-        regenerate_all_caches()
+        force = "--force" in sys.argv
+        regenerate_all_caches(force=force)
         exit(0)
 
     videos = get_test_videos()
