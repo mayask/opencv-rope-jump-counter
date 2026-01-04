@@ -270,31 +270,49 @@ def generate_debug_frames():
         # Debug: show frame dimensions
         cv2.putText(frame, f"Frame: {w}x{h}", (w - 200, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
 
-        # Get YOLO detection info (scale keypoints to resized frame)
-        keypoints = processor.pose_detector.last_keypoints
-        if keypoints is not None and scale != 1.0:
-            keypoints = keypoints * scale
-        bbox = processor.pose_detector.last_bbox
-        if bbox is not None and scale != 1.0:
-            bbox = bbox * scale
+        # Get YOLO detection info
+        all_keypoints = processor.pose_detector.all_keypoints
+        all_bboxes = processor.pose_detector.all_bboxes
+        best_idx = getattr(processor.pose_detector, 'last_best_idx', 0)
         rejection = processor.pose_detector.last_rejection_reason
 
-        if keypoints is not None:
-            nose_x, nose_y = keypoints[0]
-            if rejection:
-                # Pose detected but rejected - show in red
-                cv2.putText(frame, f"REJECTED: {rejection}", (10, h - 50), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 255), 2)
-                draw_yolo_skeleton(frame, keypoints, color=(0, 0, 255))
-            else:
-                # Valid pose - draw green skeleton
-                draw_yolo_skeleton(frame, keypoints, color=(0, 255, 0))
-                cv2.putText(frame, f"VALID POSE: head=({nose_x/w:.2f}, {nose_y/h:.2f})", (10, h - 50), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 2)
+        # Check if jump detector ignored this detection (person switch)
+        person_switched = processor.jump_detector.last_detection_ignored
 
-            # Draw bounding box if available
-            if bbox is not None:
-                x1, y1, x2, y2 = bbox
-                color = (0, 0, 255) if rejection else (0, 255, 0)
-                cv2.rectangle(frame, (int(x1), int(y1)), (int(x2), int(y2)), color, 2)
+        # Draw all detected people
+        if all_keypoints:
+            for i, kpts in enumerate(all_keypoints):
+                # Scale keypoints for display
+                if scale != 1.0:
+                    kpts = kpts * scale
+                
+                bbox = all_bboxes[i] if i < len(all_bboxes) else None
+                if bbox is not None and scale != 1.0:
+                    bbox = bbox * scale
+                
+                if i == best_idx:
+                    # This is the selected/tracked person
+                    if rejection:
+                        color = (0, 0, 255)  # Red - rejected
+                        status = f"REJECTED: {rejection}"
+                    elif person_switched:
+                        color = (0, 165, 255)  # Orange - ignored
+                        status = "IGNORED: person switch"
+                    else:
+                        color = (0, 255, 0)  # Green - tracking
+                        nose_x, nose_y = kpts[0]
+                        status = f"TRACKING: head=({nose_x/w:.2f}, {nose_y/h:.2f})"
+                    
+                    cv2.putText(frame, status, (10, h - 50), cv2.FONT_HERSHEY_SIMPLEX, 0.6, color, 2)
+                else:
+                    # Other detected people - show in gray/dimmed
+                    color = (128, 128, 128)  # Gray for non-tracked people
+                
+                draw_yolo_skeleton(frame, kpts, color=color)
+                
+                if bbox is not None:
+                    x1, y1, x2, y2 = bbox
+                    cv2.rectangle(frame, (int(x1), int(y1)), (int(x2), int(y2)), color, 2)
         else:
             cv2.putText(frame, f"NO PERSON: {rejection or 'waiting'}", (10, h - 50), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (128, 128, 128), 2)
 

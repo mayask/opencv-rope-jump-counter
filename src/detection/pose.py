@@ -69,6 +69,13 @@ class PoseDetector:
         self.last_rejection_reason = None
         self.last_keypoints = None
         self.last_bbox = None
+        self.all_keypoints = []  # All detected people's keypoints
+        self.all_bboxes = []  # All detected people's bboxes
+        self.last_best_idx = 0  # Which detection was selected
+
+        # Person tracking - prefer staying with the same person
+        self._tracked_position: Optional[tuple[float, float]] = None  # Last known (x, y) of tracked person
+        self._tracking_active = False  # Whether we're actively tracking someone
 
         # Motion tracking - detect static objects
         self._position_history: list[tuple[float, float]] = []
@@ -99,6 +106,8 @@ class PoseDetector:
         self.last_rejection_reason = None
         self.last_keypoints = None
         self.last_bbox = None
+        self.all_keypoints = []  # All detected people's keypoints
+        self.all_bboxes = []  # All detected people's bboxes
         self._log_counter += 1
 
         # Check if any person detected
@@ -113,13 +122,57 @@ class PoseDetector:
             self.last_rejection_reason = "No keypoints"
             return None
 
-        # Get the most confident person detection
-        if boxes.conf is not None and len(boxes.conf) > 0:
-            best_idx = boxes.conf.argmax().item()
-            person_conf = boxes.conf[best_idx].item()
+        # Store ALL detected people for debug overlay and find best match
+        num_detections = len(keypoints.xy)
+        head_positions = []  # (idx, head_x, head_y, confidence) for each detection
+        
+        for i in range(num_detections):
+            kpts_i = keypoints.xy[i].cpu().numpy()
+            if scale != 1.0:
+                kpts_i = kpts_i / scale
+            self.all_keypoints.append(kpts_i)
+            
+            if boxes.xyxy is not None and len(boxes.xyxy) > i:
+                bbox_i = boxes.xyxy[i].cpu().numpy()
+                if scale != 1.0:
+                    bbox_i = bbox_i / scale
+                self.all_bboxes.append(bbox_i)
+            else:
+                self.all_bboxes.append(None)
+            
+            # Calculate head position for this detection
+            head_x, head_y, head_conf = self._get_head_position(kpts_i, orig_w, orig_h)
+            if head_x is not None:
+                person_conf_i = boxes.conf[i].item() if boxes.conf is not None else 0.5
+                head_positions.append((i, head_x, head_y, head_conf, person_conf_i))
+
+        if not head_positions:
+            self.last_rejection_reason = "No valid head positions"
+            return None
+
+        # Choose which person to track
+        if self._tracking_active and self._tracked_position is not None:
+            # Find the detection closest to our tracked position
+            tracked_x, tracked_y = self._tracked_position
+            best_idx = None
+            best_dist = float('inf')
+            
+            for idx, hx, hy, hconf, pconf in head_positions:
+                # Distance in normalized coordinates
+                dist = ((hx - tracked_x) ** 2 + (hy - tracked_y) ** 2) ** 0.5
+                if dist < best_dist:
+                    best_dist = dist
+                    best_idx = idx
+                    person_conf = pconf
+            
+            # If closest person is too far (>20% of frame), fall back to most confident
+            if best_dist > 0.2:
+                best_idx = max(head_positions, key=lambda x: x[4])[0]  # Most confident
+                person_conf = max(head_positions, key=lambda x: x[4])[4]
         else:
-            best_idx = 0
-            person_conf = 0.5
+            # Not tracking yet - use most confident detection
+            best_idx = max(head_positions, key=lambda x: x[4])[0]
+            person_conf = max(head_positions, key=lambda x: x[4])[4]
 
         # Get keypoints for best detection
         kpts = keypoints.xy[best_idx].cpu().numpy()  # Shape: (17, 2)
@@ -131,6 +184,7 @@ class PoseDetector:
 
         # Store for debug visualization and calculate bbox dimensions
         self.last_keypoints = kpts
+        self.last_best_idx = best_idx  # Track which detection is being used
         bbox_height_norm = 0.0
         bbox_width_norm = 0.0
         if boxes.xyxy is not None and len(boxes.xyxy) > best_idx:
@@ -206,6 +260,10 @@ class PoseDetector:
         if self._log_counter % 30 == 0:
             logger.debug(f"Detected: head=({norm_x:.2f}, {norm_y:.2f}), conf={avg_conf:.2f}, person_conf={person_conf:.2f}")
 
+        # Update tracked position for next frame
+        self._tracked_position = (norm_x, norm_y)
+        self._tracking_active = True
+
         return BodyPosition(
             x=norm_x,
             y=norm_y,
@@ -214,6 +272,28 @@ class PoseDetector:
             bbox_height=bbox_height_norm,
             bbox_width=bbox_width_norm,
         )
+
+    def _get_head_position(self, kpts: np.ndarray, orig_w: int, orig_h: int) -> tuple[Optional[float], Optional[float], float]:
+        """Get normalized head position from keypoints. Returns (x, y, confidence) or (None, None, 0)."""
+        head_keypoint_indices = [self.NOSE, self.LEFT_EYE, self.RIGHT_EYE, self.LEFT_EAR, self.RIGHT_EAR]
+        visible_points = []
+        total_conf = 0.0
+
+        for idx in head_keypoint_indices:
+            x, y = kpts[idx]
+            if x > 0 and y > 0:
+                # Assume reasonable confidence if not available
+                visible_points.append((x, y, 0.5))
+                total_conf += 0.5
+
+        if not visible_points:
+            return None, None, 0.0
+
+        head_x = sum(p[0] * p[2] for p in visible_points) / total_conf
+        head_y = sum(p[1] * p[2] for p in visible_points) / total_conf
+        avg_conf = total_conf / len(visible_points)
+
+        return head_x / orig_w, head_y / orig_h, avg_conf
 
     def close(self) -> None:
         """Release resources."""

@@ -6,13 +6,24 @@ Document all algorithm changes, bugs, and findings with timestamps.
 
 ## 2026-01-04
 
+### Added: Position-based person tracking
+- **Issue**: When multiple people in frame, YOLO picks highest confidence which may not be the jumper
+- **Fix**: Pose detector now tracks position continuity - prefers person closest to last tracked position
+- **Location**: `pose.py` - added `_tracked_position` and proximity-based selection
+- **Result**: Maintains tracking on jumper even when interferer has higher confidence
+
 ### Added: Person switch protection during active jumping
 - **Issue**: When other people walk through the frame during jumping, YOLO switches to tracking them (higher confidence), causing rhythm reset and lost jump counts
 - **Test case**: `100-117-jumps-other-people-interfering.mp4` - was detecting only 79 jumps
-- **Fix**: Added `max_y_jump` check in `jump.py` - if rhythm is confirmed and Y position jumps more than 15% of bbox height between frames, ignore the detection (likely a different person)
+- **Fix**: Added `max_y_jump` check in `jump.py` - if Y position jumps more than 15% of bbox height between frames, ignore the detection (likely a different person)
 - **Also added**: X position jump protection (30% of bbox width threshold)
-- **Result**: Now detecting 102 jumps (up from 79)
-- **Trade-off**: Accepts some jump loss during interference as unavoidable
+- **Change**: Protection now active even after rhythm reset (not just when `rhythm_confirmed`)
+- **Result**: Now detecting 110 jumps (up from 79)
+
+### Improved: Debug overlay shows all detected people
+- **Change**: Debug stream now draws all detected people, not just the selected one
+- **Colors**: Green = tracked jumper, Gray = other people, Orange = ignored (person switch), Red = rejected
+- **Location**: `app.py` - updated `generate_debug_frames()`
 
 ### Improved: Test cache script now incremental
 - **Change**: `make test-cache` only caches new videos, skips existing cache files
@@ -104,6 +115,7 @@ Document all algorithm changes, bugs, and findings with timestamps.
 | `max_x_drift` | 0.25 | jump.py | Max 25% of bbox width |
 | `max_y_drift` | 0.20 | jump.py | Max 20% of bbox height |
 | `max_y_jump` | 0.15 | jump.py | Max 15% Y change per frame (person switch protection) |
+| tracking distance | 0.20 | pose.py | Max 20% distance to stay with tracked person |
 | `confirmation_jumps` | 4 | jump.py | Oscillations before counting |
 | `rhythm_tolerance` | 0.6 | jump.py | 60% interval deviation |
 | `min_jump_gap` | 0.15 | jump.py | Min 0.15s between jumps |

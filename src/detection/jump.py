@@ -89,6 +89,9 @@ class JumpDetector:
         self.max_y_jump = 0.15  # Max 15% Y change between frames (normalized by bbox)
         self.last_valid_y: Optional[float] = None
         self.last_valid_x: Optional[float] = None
+        
+        # Flag to indicate if last detection was ignored (for debug overlay)
+        self.last_detection_ignored = False
 
         logger.info(
             f"Initialized JumpDetector: min_amplitude={min_amplitude}, "
@@ -124,9 +127,10 @@ class JumpDetector:
 
         self.last_detection_time = now
 
-        # Person switching protection - if we have confirmed rhythm and see a huge position jump,
-        # it's likely another person passing through, so ignore this detection
-        if self.rhythm_confirmed and self.last_valid_y is not None:
+        # Person switching protection - if we have a tracked position and see a huge position jump,
+        # it's likely another person passing through, so ignore this detection.
+        # This works even after rhythm reset to maintain tracking continuity.
+        if self.last_valid_y is not None:
             y_change = abs(curr_y - self.last_valid_y)
             # Normalize by bbox height if available
             if self.last_bbox_height > 0:
@@ -136,6 +140,7 @@ class JumpDetector:
             
             if y_change_norm > self.max_y_jump:
                 logger.debug(f"Ignoring detection - likely person switch (y_change={y_change_norm:.3f})")
+                self.last_detection_ignored = True
                 return None
             
             # Also check X jump (person switch often changes X position too)
@@ -149,8 +154,11 @@ class JumpDetector:
                 # Allow more X movement than Y (people sway side to side when jumping)
                 if x_change_norm > self.max_y_jump * 2:  # 30% of bbox width
                     logger.debug(f"Ignoring detection - likely person switch (x_change={x_change_norm:.3f})")
+                    self.last_detection_ignored = True
                     return None
         
+        # Detection was accepted, clear the ignored flag
+        self.last_detection_ignored = False
         self.last_valid_y = curr_y
         self.last_valid_x = curr_x
 
