@@ -85,6 +85,11 @@ class JumpDetector:
         self.last_detection_time: Optional[float] = None
         self.max_detection_gap = 0.5
 
+        # Person switching protection - ignore sudden position jumps during active rhythm
+        self.max_y_jump = 0.15  # Max 15% Y change between frames (normalized by bbox)
+        self.last_valid_y: Optional[float] = None
+        self.last_valid_x: Optional[float] = None
+
         logger.info(
             f"Initialized JumpDetector: min_amplitude={min_amplitude}, "
             f"max_amplitude={self.max_amplitude}, max_x_drift={max_x_drift}, "
@@ -118,6 +123,36 @@ class JumpDetector:
                 self._full_reset()
 
         self.last_detection_time = now
+
+        # Person switching protection - if we have confirmed rhythm and see a huge position jump,
+        # it's likely another person passing through, so ignore this detection
+        if self.rhythm_confirmed and self.last_valid_y is not None:
+            y_change = abs(curr_y - self.last_valid_y)
+            # Normalize by bbox height if available
+            if self.last_bbox_height > 0:
+                y_change_norm = y_change / self.last_bbox_height
+            else:
+                y_change_norm = y_change
+            
+            if y_change_norm > self.max_y_jump:
+                logger.debug(f"Ignoring detection - likely person switch (y_change={y_change_norm:.3f})")
+                return None
+            
+            # Also check X jump (person switch often changes X position too)
+            if self.last_valid_x is not None:
+                x_change = abs(curr_x - self.last_valid_x)
+                if self.last_bbox_width > 0:
+                    x_change_norm = x_change / self.last_bbox_width
+                else:
+                    x_change_norm = x_change
+                
+                # Allow more X movement than Y (people sway side to side when jumping)
+                if x_change_norm > self.max_y_jump * 2:  # 30% of bbox width
+                    logger.debug(f"Ignoring detection - likely person switch (x_change={x_change_norm:.3f})")
+                    return None
+        
+        self.last_valid_y = curr_y
+        self.last_valid_x = curr_x
 
         # Track X position history
         self.x_history.append(curr_x)
@@ -341,6 +376,8 @@ class JumpDetector:
         self.y_baseline_history.clear()
         self.anchor_y = None
         self.is_stationary = False
+        self.last_valid_y = None
+        self.last_valid_x = None
         self._reset_rhythm()
 
     def reset_session(self) -> None:

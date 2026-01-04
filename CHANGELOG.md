@@ -4,6 +4,23 @@ Document all algorithm changes, bugs, and findings with timestamps.
 
 ---
 
+## 2026-01-04
+
+### Added: Person switch protection during active jumping
+- **Issue**: When other people walk through the frame during jumping, YOLO switches to tracking them (higher confidence), causing rhythm reset and lost jump counts
+- **Test case**: `100-117-jumps-other-people-interfering.mp4` - was detecting only 79 jumps
+- **Fix**: Added `max_y_jump` check in `jump.py` - if rhythm is confirmed and Y position jumps more than 15% of bbox height between frames, ignore the detection (likely a different person)
+- **Also added**: X position jump protection (30% of bbox width threshold)
+- **Result**: Now detecting 102 jumps (up from 79)
+- **Trade-off**: Accepts some jump loss during interference as unavoidable
+
+### Improved: Test cache script now incremental
+- **Change**: `make test-cache` only caches new videos, skips existing cache files
+- **Benefit**: Much faster when adding new test videos
+- **Flag**: Use `--force` to regenerate all caches
+
+---
+
 ## 2025-12-28
 
 ### Fixed: False positives from walking toward camera
@@ -86,6 +103,7 @@ Document all algorithm changes, bugs, and findings with timestamps.
 | `max_amplitude` | 0.25 | jump.py | Max 25% of bbox height |
 | `max_x_drift` | 0.25 | jump.py | Max 25% of bbox width |
 | `max_y_drift` | 0.20 | jump.py | Max 20% of bbox height |
+| `max_y_jump` | 0.15 | jump.py | Max 15% Y change per frame (person switch protection) |
 | `confirmation_jumps` | 4 | jump.py | Oscillations before counting |
 | `rhythm_tolerance` | 0.6 | jump.py | 60% interval deviation |
 | `min_jump_gap` | 0.15 | jump.py | Min 0.15s between jumps |
