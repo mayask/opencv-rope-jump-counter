@@ -164,6 +164,9 @@ class VideoProcessor:
         """Check for session timeout."""
         event = self.session_manager.check_timeout()
         if event is not None:
+            # Reset jump detector to clear pending oscillations - prevents false 4-jump trigger on next session
+            self.jump_detector.reset_session()
+            self.reset_counters()
             self._handle_session_event(event)
 
     def _handle_session_event(self, event: SessionEvent) -> None:

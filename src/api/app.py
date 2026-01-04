@@ -165,6 +165,9 @@ async def stop_session():
         )
 
     event = processor.session_manager.force_stop()
+    # Reset jump detector to clear pending oscillations - prevents false 4-jump trigger on next session
+    processor.jump_detector.reset_session()
+    processor.reset_counters()
     return SessionActionResponse(
         status="stopped",
         message="Session stopped",

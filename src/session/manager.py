@@ -118,9 +118,9 @@ class SessionManager:
             self.session_jumps += count
             self.daily_total += count
 
-            # Check milestone
+            # Check milestone (based on daily total, not session)
             current_milestone = (
-                self.session_jumps // self.milestone_interval
+                self.daily_total // self.milestone_interval
             ) * self.milestone_interval
 
             if current_milestone > self.last_milestone and current_milestone > 0:
